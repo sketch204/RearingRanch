@@ -20,7 +20,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     protected Animal [] animals;
     protected JTextField inputBar = new JTextField(1);
     protected JButton [] buttons = new JButton[4];
-    protected SpringLayout layout = new SpringLayout();
+    protected static SpringLayout layout = new SpringLayout();
     private final Container panel;
     private final int difficulty;
 
@@ -30,12 +30,14 @@ public abstract class GameStage extends JPanel implements ActionListener {
      *
      */
     public GameStage (int difficulty, Container panel) {
-        super(new SpringLayout());
+        super();
         this.panel = panel;
         this.difficulty = difficulty;
 
+        this.setLayout(layout);
         this.setSize(1280, 720);
         this.setBackground(Color.yellow);
+        this.setVisible(true);
         generateAnimals();
         prepareGUI ();
 //        drawAnimal(0, 0, 0);
@@ -60,14 +62,19 @@ public abstract class GameStage extends JPanel implements ActionListener {
             buttons[h].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         }
 
-        layout.putConstraint(SpringLayout.WEST, buttons [0], 0, SpringLayout.WEST, this);
-        layout.putConstraint(SpringLayout.SOUTH, buttons [0], 0, SpringLayout.SOUTH, this);
-        add(buttons [0]);
-        for (int h = 1; h < 4; h ++) {
-            layout.putConstraint(SpringLayout.WEST, buttons [h], 1, SpringLayout.EAST, buttons [h-1]);
-            layout.putConstraint(SpringLayout.SOUTH, buttons [h], 0, SpringLayout.SOUTH, this);
-            add (buttons [h]);
-        }
+        layout.putConstraint(SpringLayout.WEST, buttons [0], 100, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.NORTH, buttons [0], panel.getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, panel);
+
+        this.add(buttons [0]);
+
+//        buttons [0].repaint();
+//        buttons[0].revalidate();
+
+//        for (int h = 1; h < 4; h ++) {
+//            layout.putConstraint(SpringLayout.WEST, buttons [h], 1, SpringLayout.EAST, buttons [h-1]);
+//            layout.putConstraint(SpringLayout.SOUTH, buttons [h], 0, SpringLayout.SOUTH, panel);
+//            add (buttons [h]);
+//        }
     }
 
     private void writeInput (String input) {
@@ -158,4 +165,8 @@ public abstract class GameStage extends JPanel implements ActionListener {
                 writeInput(ae.getActionCommand());
         }
     }
+}
+
+class ColorChooser {
+    public int max = 0;
 }

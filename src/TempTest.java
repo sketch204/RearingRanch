@@ -11,6 +11,14 @@ import java.io.IOException;
  * Created by sketch204 on 2016-05-10.
  */
 public class TempTest {
+    JFrame frame = new JFrame ("I'm testing!");
+    public void setUpFrame () {
+        frame.setSize(1280, 720);
+        frame.setLayout(new SpringLayout());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
     public TempTest () {
         testing1 ();
     }
@@ -27,10 +35,7 @@ public class TempTest {
             img = ImageIO.read(new File ("src/pictures/Chicken-Brown.png.png"));
         } catch (IOException e) {}
 
-        JFrame frame = new JFrame ("I'm testing!");
-        frame.setSize(1280, 720);
-        frame.setLayout(new FlowLayout());
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setUpFrame();
 
 //        frame.add (new JButton ("This is text", new ImageIcon("src/pictures/Chicken-Brown.png")));
         JButton button = new JButton("I'm a button");
@@ -40,7 +45,12 @@ public class TempTest {
         button.setBorderPainted(false);
 
         frame.add(button);
-        frame.setVisible(true);
+    }
+
+    public void testing3 () {
+        setUpFrame();
+        JButton button = new JButton("I'm a button");
+
     }
 
     public static void main(String[] args) {
