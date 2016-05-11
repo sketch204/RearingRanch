@@ -17,10 +17,10 @@ import java.awt.event.*;
  * This class should probably handle all of the Game UI.
  */
 public abstract class GameStage extends JPanel implements ActionListener {
-    protected Animal [] animals;
-    protected JTextField inputBar = new JTextField(1);
-    protected JButton [] buttons = new JButton[4];
-    protected SpringLayout layout = new SpringLayout();
+    private Animal [] animals;
+    private JTextField inputBar = new JTextField(1);
+    private JButton [] buttons = new JButton[4];
+    private SpringLayout layout = new SpringLayout();
     private final Container panel;
     private final int difficulty;
 
@@ -41,10 +41,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
 //        drawAnimal(0, 0, 0);
     }
 
-    protected void prepareGUI () {
+    private void prepareGUI() {
         final int BUTTON_HEIGHT = 140, BUTTON_WIDTH = 320;
 
-        Color [] colors = {Color.BLACK, Color.GRAY, new Color (196, 152, 65), Color.WHITE};
+        Color [] colors = {Color.BLACK, Color.GRAY, new Color (180, 126, 81), Color.WHITE};
         String [] labels = {"Black", "Gray", "Brown", "White"};
 
         generateBackground();
@@ -60,8 +60,8 @@ public abstract class GameStage extends JPanel implements ActionListener {
             buttons [h].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         }
 
-        layout.putConstraint(SpringLayout.WEST, buttons [0], 0, SpringLayout.WEST, this);
-        layout.putConstraint(SpringLayout.SOUTH, buttons [0], 0, SpringLayout.SOUTH, this);
+        layout.putConstraint(SpringLayout.WEST, buttons [0], 100, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.SOUTH, buttons [0], 100, SpringLayout.SOUTH, this);
         add(buttons [0]);
         for (int h = 1; h < 4; h ++) {
             layout.putConstraint(SpringLayout.WEST, buttons [h], 1, SpringLayout.EAST, buttons [h-1]);
