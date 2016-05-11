@@ -41,7 +41,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
 //        drawAnimal(0, 0, 0);
     }
 
-    protected void prepareGUI () {
+    private void prepareGUI () {
         final int BUTTON_HEIGHT = 140, BUTTON_WIDTH = 320;
 
         Color [] colors = {Color.BLACK, Color.GRAY, new Color (196, 152, 65), Color.WHITE};
@@ -50,14 +50,14 @@ public abstract class GameStage extends JPanel implements ActionListener {
         generateBackground();
 
         for (int h = 0; h < 4; h ++) {
-            buttons [h] = new JButton (labels [h]);
+            buttons[h] = new JButton(labels[h]);
             if (h != 3)
                 buttons[h].setForeground(Color.WHITE);
-            buttons [h].setBackground(colors [h]);
-            buttons [h].setOpaque(true);
-            buttons [h].setBorderPainted(false);
-            buttons [h].addActionListener(this);
-            buttons [h].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+            buttons[h].setBackground(colors[h]);
+            buttons[h].setOpaque(true);
+            buttons[h].setBorderPainted(false);
+            buttons[h].addActionListener(this);
+            buttons[h].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         }
 
         layout.putConstraint(SpringLayout.WEST, buttons [0], 0, SpringLayout.WEST, this);

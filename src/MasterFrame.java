@@ -27,8 +27,4 @@ public class MasterFrame extends JFrame {
         add(gm);
         repaint();
     }
-
-    public static void main(String[] args) {
-        new MasterFrame();
-    }
 }

@@ -6,10 +6,10 @@ import javax.swing.*;
  */
 public class RearingRanchDriver {
     public RearingRanchDriver () {
-
+        new MasterFrame();
     }
 
     public static void main (String [] args) {
-
+        new RearingRanchDriver();
     }
 }
