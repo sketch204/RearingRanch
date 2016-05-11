@@ -20,6 +20,8 @@ public abstract class GameStage extends JPanel implements ActionListener {
     protected Animal [] animals;
     protected JTextField inputBar = new JTextField(1);
     protected JButton [] buttons = new JButton[4];
+    protected SpringLayout layout = new SpringLayout();
+    private final Container panel;
     private final int difficulty;
 
     /**
@@ -27,26 +29,44 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * generated instance of animal classes and draws them in their proper positions.
      *
      */
-    public GameStage (int difficulty) {
+    public GameStage (int difficulty, Container panel) {
         super(new SpringLayout());
+        this.panel = panel;
         this.difficulty = difficulty;
+
+        this.setSize(1280, 720);
+        this.setBackground(Color.yellow);
         generateAnimals();
         prepareGUI ();
 //        drawAnimal(0, 0, 0);
     }
 
     protected void prepareGUI () {
+        final int BUTTON_HEIGHT = 140, BUTTON_WIDTH = 320;
+
         Color [] colors = {Color.BLACK, Color.GRAY, new Color (196, 152, 65), Color.WHITE};
         String [] labels = {"Black", "Gray", "Brown", "White"};
 
         generateBackground();
 
         for (int h = 0; h < 4; h ++) {
-            buttons [h].setText(labels [h]);
+            buttons [h] = new JButton (labels [h]);
+            if (h != 3)
+                buttons[h].setForeground(Color.WHITE);
             buttons [h].setBackground(colors [h]);
             buttons [h].setOpaque(true);
             buttons [h].setBorderPainted(false);
             buttons [h].addActionListener(this);
+            buttons [h].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        }
+
+        layout.putConstraint(SpringLayout.WEST, buttons [0], 0, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.SOUTH, buttons [0], 0, SpringLayout.SOUTH, this);
+        add(buttons [0]);
+        for (int h = 1; h < 4; h ++) {
+            layout.putConstraint(SpringLayout.WEST, buttons [h], 1, SpringLayout.EAST, buttons [h-1]);
+            layout.putConstraint(SpringLayout.SOUTH, buttons [h], 0, SpringLayout.SOUTH, this);
+            add (buttons [h]);
         }
     }
 
@@ -64,11 +84,13 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * @param x Holds the value for the x coordinate of the top-left corner of the image.
      * @param y Holds the value for the x coordinate of the top-left corner of the image.
      * @param id Holds the value for the id number of the animal to be drawn.
+     *
+     *           Not working atm. (NullPointerException, line 4, 4th parameter, it technically should be null either way so idk).
      */
     protected void drawAnimal (int x, int y, int id) {
         Graphics g = this.getGraphics();
         System.out.println(animals[id].getPicture().getHeight());
-        g.drawImage(animals[id].getPicture(), x, y, null);
+        g.drawImage(animals[id].getPicture(), x, y, this);
         this.repaint(x-1, y-1, animals[id].getPicture().getWidth()+1, animals [id].getPicture().getHeight()+1);
     }
 

@@ -13,9 +13,9 @@ public class MasterFrame extends JFrame {
         setLayout(new FlowLayout());
         setVisible(true);
 
-        GameStage gm = new GameStage(0) {
+        GameStage gm = new GameStage(0, getContentPane()) {
             @Override
-            protected void generateAnimals(int difficulty) {
+            protected void generateAnimals() {
 
             }
 
