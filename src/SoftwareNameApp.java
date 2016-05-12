@@ -6,7 +6,7 @@ import java.awt.event.*;
  *
  * @author tamirsway
  */
-public class SoftwareNameApp extends JFrame implements ActionListener {
+public class SoftwareNameApp extends JPanel implements ActionListener {
 
     Timer t = new Timer(125, new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
@@ -23,15 +23,15 @@ public class SoftwareNameApp extends JFrame implements ActionListener {
     private float alpha = 1f;
 
     public SoftwareNameApp() {
-        super("Goodbye Screen for now");
+        //super("Goodbye Screen for now");
         t.start();
 
-        setBackground(Color.red);
-        setSize(1280, 800);
+        //setBackground(Color.red);
+        setSize(1280, 720);
 
-        setResizable(false);
-        setLayout(new FlowLayout());
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //setResizable(false);
+        //setLayout(new FlowLayout());
+        //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         setVisible(true);
     }
@@ -63,9 +63,9 @@ public class SoftwareNameApp extends JFrame implements ActionListener {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        new SoftwareNameApp();
-    }
+//    public static void main(String[] args) {
+//        new SoftwareNameApp();
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

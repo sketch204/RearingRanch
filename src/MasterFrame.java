@@ -12,10 +12,10 @@ public class MasterFrame extends JFrame implements ActionListener {
         super ("Rearing Ranch");
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new FlowLayout());
-        setVisible(true);
+       // setLayout(new FlowLayout());
 
         MainMenu m = new MainMenu();
+        SoftwareNameApp s = new SoftwareNameApp();
         GameStage gm = new GameStage(0, getContentPane()) {
             @Override
             protected void generateAnimals() {
@@ -28,6 +28,8 @@ public class MasterFrame extends JFrame implements ActionListener {
             }
         };
         add(m);
+        setVisible(true);
+        revalidate();
         repaint();
     }
 
