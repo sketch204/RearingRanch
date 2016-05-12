@@ -7,16 +7,15 @@ import java.awt.event.ActionListener;
  * This is the master frame program, it will contain all the JPanels inside it
  * Created by sketch204 on 2016-05-10.
  */
-public class MasterFrame extends JFrame  implements ActionListener {
-    Component curPanel = null;
-
+public class MasterFrame extends JFrame implements ActionListener {
     public MasterFrame () {
         super ("Rearing Ranch");
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(GameStage.layout);
-        setVisible(true);
+       // setLayout(new FlowLayout());
 
+        MainMenu m = new MainMenu();
+        SoftwareNameApp s = new SoftwareNameApp();
         GameStage gm = new GameStage(0, getContentPane()) {
             @Override
             protected void generateAnimals() {
@@ -28,22 +27,20 @@ public class MasterFrame extends JFrame  implements ActionListener {
                 return false;
             }
         };
-
-        add(gm);
+        add(m);
+        setVisible(true);
+        revalidate();
         repaint();
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getActionCommand().equalsIgnoreCase("Highscores")) {
-            remove(curPanel);
-//            curPanel = Highscores;
-            add (curPanel);
-            setTitle("Highscores");
-            repaint();
-        } else if (ae.getActionCommand().equalsIgnoreCase("Instructions")) {
+        if (ae.getActionCommand().equals("Highscores")) {
+
+        } else if (ae.getActionCommand().equals("Instructions")) {
+
+        } else if (ae.getActionCommand().equals("")) {
 
         }
-
     }
 }
