@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 /**
  * The GameStage class acts as a parent class for ColorChooser, Animal Classifier and
@@ -19,9 +20,8 @@ import java.awt.event.*;
 public abstract class GameStage extends JPanel implements ActionListener {
     protected Animal [] animals;
     protected JTextField inputBar = new JTextField(1);
-    protected JButton [] buttons = new JButton[4];
-    protected static SpringLayout layout = new SpringLayout();
-    private final Container panel;
+    protected JButton [] buttons = {new JButton (), new JButton (), new JButton (), new JButton ()};;
+    private SpringLayout layout = new SpringLayout();
     private final int difficulty;
 
     /**
@@ -29,21 +29,31 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * generated instance of animal classes and draws them in their proper positions.
      *
      */
-    public GameStage (int difficulty, Container panel) {
+    public GameStage (int difficulty) {
         super();
-        this.panel = panel;
         this.difficulty = difficulty;
 
         this.setLayout(layout);
         this.setSize(1280, 720);
         this.setBackground(Color.yellow);
-        this.setVisible(true);
+
         generateAnimals();
         prepareGUI ();
+
+        this.setVisible(true);
+
 //        drawAnimal(0, 0, 0);
     }
 
-    private void prepareGUI () {
+    /**
+     * This is the first version of this method. It will create and handle the game screen.
+     * <b>Local Variables </b>
+     * </p>
+     * <b>BUTTON_HEIGHT </b> Holds the constant value of the height of each button.
+     * </p>
+     * <b>BUTTON_WIDTH </b> Holds the constant value of the width of each button.
+     */
+    private void prepareGUI2 () {
         final int BUTTON_HEIGHT = 140, BUTTON_WIDTH = 320;
 
         Color [] colors = {Color.BLACK, Color.GRAY, new Color (196, 152, 65), Color.WHITE};
@@ -62,21 +72,64 @@ public abstract class GameStage extends JPanel implements ActionListener {
             buttons[h].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         }
 
-        layout.putConstraint(SpringLayout.WEST, buttons [0], 100, SpringLayout.WEST, panel);
-        layout.putConstraint(SpringLayout.NORTH, buttons [0], panel.getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, panel);
+        layout.putConstraint(SpringLayout.WEST, buttons [0], 100, SpringLayout.WEST, this.getTopLevelAncestor());
+//        layout.putConstraint(SpringLayout.NORTH, buttons [0], panel.getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this.getTopLevelAncestor());
+
 
         this.add(buttons [0]);
 
 //        buttons [0].repaint();
 //        buttons[0].revalidate();
 
-//        for (int h = 1; h < 4; h ++) {
-//            layout.putConstraint(SpringLayout.WEST, buttons [h], 1, SpringLayout.EAST, buttons [h-1]);
+        for (int h = 1; h < 4; h ++) {
+            layout.putConstraint(SpringLayout.WEST, buttons [h], 1, SpringLayout.EAST, buttons [h-1]);
 //            layout.putConstraint(SpringLayout.SOUTH, buttons [h], 0, SpringLayout.SOUTH, panel);
-//            add (buttons [h]);
-//        }
+            add (buttons [h]);
+        }
     }
 
+    /**
+     * This is the second version of this method. It will create and handle the game screen.
+     * <b>Local Variables </b>
+     * </p>
+     * <b>BUTTON_HEIGHT </b> Holds the constant value of the height of each button.
+     * </p>
+     * <b>BUTTON_WIDTH </b> Holds the constant value of the width of each button.
+     */
+    private void prepareGUI () {
+        final int BUTTON_HEIGHT = 140, BUTTON_WIDTH = 320;
+        Color [] colors = {Color.BLACK, Color.GRAY, new Color (196, 152, 65), Color.WHITE};
+        ImageIcon [] icons = {new ImageIcon ("src/pictures/Button-Icon/Icon-Black.png"), new ImageIcon ("src/pictures/Button-Icon/Icon-Gray.png"),
+                              new ImageIcon ("src/pictures/Button-Icon/Icon-Brown.png"), new ImageIcon ("src/pictures/Button-Icon/Icon-Brown.png")};
+
+        generateBackground();
+
+        for (int h = 0; h < 4; h ++) {
+            buttons[h].addActionListener(this);
+            buttons[h].setIcon(new ImageIcon ("src/pictures/Button-Icon/Icon-Brown.png"));
+//            buttons[h].setBackground(colors[h]);
+//            buttons[h].setOpaque(true);
+//            buttons[h].setBorderPainted(false);
+            buttons[h].setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+            buttons[h].setPreferredSize(new Dimension (BUTTON_WIDTH, BUTTON_HEIGHT));
+        }
+
+        layout.putConstraint(SpringLayout.WEST, buttons [0], 0, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.NORTH, buttons [0], this.getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
+        add (buttons[0]);
+
+        for (int h = 1; h < 4; h ++) {
+            layout.putConstraint(SpringLayout.WEST, buttons [h], 0, SpringLayout.EAST, buttons [h-1]);
+            layout.putConstraint(SpringLayout.NORTH, buttons [h], this.getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
+            add (buttons [h]);
+        }
+    }
+
+    /**
+     * Will read iniput from the parameters and print it into the inputBar.
+     *
+     * @param input Holds the values of the button pressed.
+     */
     private void writeInput (String input) {
         String tempHolder = inputBar.getText();
         inputBar.setText(tempHolder + " " + input);
@@ -149,6 +202,11 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected abstract boolean inputLegal();
 
+    /**
+     * Handles button clicks for this JPanel
+     *
+     * @param ae Holds the value of the button that was clicked.
+     */
     @Override
     public void actionPerformed (ActionEvent ae) {
         if (difficulty == 1) {
@@ -165,8 +223,4 @@ public abstract class GameStage extends JPanel implements ActionListener {
                 writeInput(ae.getActionCommand());
         }
     }
-}
-
-class ColorChooser {
-    public int max = 0;
 }

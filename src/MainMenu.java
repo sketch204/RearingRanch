@@ -11,10 +11,26 @@
 import java.awt.*;
 import javax.swing.*;
 
+/** The MainMenu class creates the Panel that comes after the SplashScreen. Here, the user selects what they want to
+ * do through buttons. They may play game, view instructions or highscores, or quit the game.
+ *
+ * <b>Global Variables: </b>
+ * <br>
+ * <b> layout </b> A SpringLayout reference that is used to organize the GUI components onto the screen.
+ *
+ * @author Tamir Arnesty.
+ * @version 1, 2016-05-09.
+ */
+
 public class MainMenu extends JPanel {
 
 
     SpringLayout layout = new SpringLayout();
+
+    /** The MainMenu constructor creates the panel with the layout manager, a size of 1280 by 720 and sets the
+     * background color to blue. prepareGUI () is also called.
+     *
+     */
     public MainMenu () {
         super();
         setLayout(layout);
@@ -25,6 +41,13 @@ public class MainMenu extends JPanel {
 
     }
 
+    /** prepareGUI method adds the play game, instructions, highscores and quit buttons to the panel. It also adds a
+     * brief intro label.
+     *
+     * <b>Local Variables: </b>
+     * </p>
+     * <b> playGame </b> Creates an instance of JButton with the value "Play Game".
+     */
     private void prepareGUI () {
         //setLayout(layout);
         JButton highscores = new JButton ("Highscores");

@@ -6,21 +6,22 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * This method is used for whatever testing you may need to perform :)
+ * This class is used for whatever testing we may need to perform :)
  *
  * Created by sketch204 on 2016-05-10.
  */
 public class TempTest {
     JFrame frame = new JFrame ("I'm testing!");
+    SpringLayout layout = new SpringLayout();
+
     public void setUpFrame () {
         frame.setSize(1280, 720);
-        frame.setLayout(new SpringLayout());
+        frame.setLayout(layout);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
     }
 
     public TempTest () {
-        testing1 ();
+        testing3 ();
     }
 
     public void testing2 () {
@@ -51,6 +52,10 @@ public class TempTest {
         setUpFrame();
         JButton button = new JButton("I'm a button");
 
+        layout.putConstraint(SpringLayout.WEST, button, 100, SpringLayout.WEST, frame);
+        layout.putConstraint(SpringLayout.NORTH, button, 100, SpringLayout.NORTH, frame);
+        frame.add(button);
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {

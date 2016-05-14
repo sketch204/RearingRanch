@@ -1,13 +1,18 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
  * This is the master frame program, it will contain all the JPanels inside it
- * Created by sketch204 on 2016-05-10.
+ *
+ * @author Inal Gotov, modified by Tamir Arnesty.
+ * @version 1.2, 2016-05-10.
  */
 public class MasterFrame extends JFrame implements ActionListener {
+
+    /**
+     * Creates an instance of a JFrame starting with a SplashScreen.
+     */
     public MasterFrame () {
         super ("Rearing Ranch");
         setSize(1280, 720);
@@ -15,8 +20,8 @@ public class MasterFrame extends JFrame implements ActionListener {
        // setLayout(new FlowLayout());
 
         MainMenu m = new MainMenu();
-        SoftwareNameApp s = new SoftwareNameApp();
-        GameStage gm = new GameStage(0, getContentPane()) {
+        GoodByeScreen s = new GoodByeScreen();
+        GameStage gm = new GameStage(0) {
             @Override
             protected void generateAnimals() {
 
@@ -27,12 +32,16 @@ public class MasterFrame extends JFrame implements ActionListener {
                 return false;
             }
         };
-        add(m);
+        add(s);
         setVisible(true);
         revalidate();
         repaint();
     }
 
+    /**
+     * Handles all the button clicks and ques each JPanel change.
+     * @param ae Holds the value of the button that was clicked.
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getActionCommand().equals("Highscores")) {

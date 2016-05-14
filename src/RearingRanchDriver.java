@@ -1,8 +1,11 @@
 import javax.swing.*;
 
 /**
- * This is the driver class of this program
- * Created by sketch204 on 2016-05-10.
+ * This is the driver class of this program.
+ *
+ * @author Inal Gotov.
+ * @version 1, 2016-05-10.
+ *
  */
 public class RearingRanchDriver {
     public RearingRanchDriver () {

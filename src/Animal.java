@@ -15,7 +15,8 @@ import java.io.*;
  * </p>
  * <b>picture </b> This holds an instance of a File class which leads to this animal's associated picture file.
  *
- * Created by sketch204 on 2016-05-09.
+ * @author Inal Gotov.
+ * @version 1.1, 2016-05-09.
  */
 public class Animal {
     private final String type, color;
@@ -53,7 +54,7 @@ public class Animal {
 
     /**
      * Retruns the picture file that is associated with this animal.
-     * @return The File that is associated with this animal.
+     * @return The BufferedImage that is associated with this animal.
      */
     public BufferedImage getPicture () {
         return picture;

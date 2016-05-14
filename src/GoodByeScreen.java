@@ -2,11 +2,12 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-/**
+/** The GoodByeScreen class creates a company logo and displays it across the screen.
  *
- * @author tamirsway
+ * @author Tamir Arnesty.
+ * @version 1.1, 2016-05-06.
  */
-public class SoftwareNameApp extends JPanel implements ActionListener {
+public class GoodByeScreen extends JPanel implements ActionListener {
 
     Timer t = new Timer(125, new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
@@ -22,7 +23,7 @@ public class SoftwareNameApp extends JPanel implements ActionListener {
 
     private float alpha = 1f;
 
-    public SoftwareNameApp() {
+    public GoodByeScreen() {
         //super("Goodbye Screen for now");
         t.start();
 
@@ -36,6 +37,11 @@ public class SoftwareNameApp extends JPanel implements ActionListener {
         setVisible(true);
     }
 
+
+    /** The paint method draws the EarlyEd Inc. company logo
+     *
+     * @param g A reference to the Graphics super class
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -64,7 +70,7 @@ public class SoftwareNameApp extends JPanel implements ActionListener {
      * @param args the command line arguments
      */
 //    public static void main(String[] args) {
-//        new SoftwareNameApp();
+//        new GoodByeScreen();
 //    }
 
     @Override
