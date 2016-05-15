@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class TempTest {
     public void testing3 () {
         setUpFrame();
         JButton button = new JButton("I'm a button");
-
+        button.addActionListener((ActionListener) RearingRanchDriver.getWindow());
         layout.putConstraint(SpringLayout.WEST, button, 100, SpringLayout.WEST, frame);
         layout.putConstraint(SpringLayout.NORTH, button, 100, SpringLayout.NORTH, frame);
         frame.add(button);

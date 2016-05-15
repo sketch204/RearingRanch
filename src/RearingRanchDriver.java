@@ -1,5 +1,3 @@
-import javax.swing.*;
-
 /**
  * This is the driver class of this program.
  *
@@ -8,11 +6,21 @@ import javax.swing.*;
  *
  */
 public class RearingRanchDriver {
+    private static MasterFrame window = null;
+
     public RearingRanchDriver () {
-        new MasterFrame();
+        setWindow(new MasterFrame());
     }
 
     public static void main (String [] args) {
         new RearingRanchDriver();
+    }
+
+    public static MasterFrame getWindow() {
+        return window;
+    }
+
+    public static void setWindow(MasterFrame window) {
+        RearingRanchDriver.window = window;
     }
 }

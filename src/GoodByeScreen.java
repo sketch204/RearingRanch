@@ -7,9 +7,9 @@ import java.awt.event.*;
  * @author Tamir Arnesty.
  * @version 1.1, 2016-05-06.
  */
-public class GoodByeScreen extends JPanel implements ActionListener {
+public class GoodByeScreen extends JPanel {
 
-    Timer t = new Timer(125, new ActionListener() {
+    private Timer t = new Timer(125, new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
             alpha -= 0.05f; // decrements the fade
             if (alpha <= 0) {
@@ -65,17 +65,4 @@ public class GoodByeScreen extends JPanel implements ActionListener {
         } catch (Exception e) {
         }
     }
-
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String[] args) {
-//        new GoodByeScreen();
-//    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
