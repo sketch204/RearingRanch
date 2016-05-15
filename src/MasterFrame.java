@@ -62,5 +62,7 @@ public class MasterFrame extends JFrame implements ActionListener {
         } else if (ae.getActionCommand().equals("Quit Game")) {
             System.exit(0);
         }
+        revalidate();
+        repaint();
     }
 }
