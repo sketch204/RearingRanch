@@ -1,10 +1,10 @@
+import java.awt.*;
+import javax.swing.*;
+
 /**
  * The MainMenu class creates the main control panel for the program, otherwise called the main menu. In here, users may choose to play the game, view instructions
  * or high scores, and also quit the game. Handling is done via GUI components such as buttons.
  *
- *
- *
- * <Variables or descriptions>
  *
  * @author Tamir Arnesty
  * @version 2 2016-05-11.
@@ -14,31 +14,28 @@
  *       Tamir: 6
  *       Inal:
  */
-
-import java.awt.*;
-import javax.swing.*;
-
 class MainMenu extends JPanel {
 
+    /** <br> <b> BUTTON_HEIGHT </b> Final Integer that holds the standard height for the buttons in the MainMenu and Instructions classes.*/
     final int BUTTON_HEIGHT =  (new ImageIcon("src/pictures/PlayButtonSmall.png")).getIconHeight();
+    /** <br> <b> BUTTON_WIDTH </b> Final Integer that holds the standard width for the buttons in the MainMenu and Instructions classes.*/
     final int BUTTON_WIDTH = (new ImageIcon("src/pictures/PlayButtonSmall.png")).getIconWidth();
-
+    /** <br> <b> playGame </b> Instance of JButton class with the Play Button image. The button is used to start the game. */
     private JButton playGame = new JButton (new ImageIcon ("src/pictures/PlayButtonSmall.png"));
+    /** <br> <b> instructions </b> Instance of JButton class with the value 'Instructions'. The button is used to view the instructions for the game. */
     private JButton instructions = new JButton("Instructions");
-    private JButton highscores = new JButton ("Highscores", new ImageIcon("src/pictures/Highscores.jpg"));
+    /** <br> <b> highscores </b> Instance of JButton class with the value 'High Scores'. The button is used to view the high scores for the game. */
+    private JButton highscores = new JButton ("High Scores", new ImageIcon("src/pictures/Highscores.jpg"));
+    /** <br> <b> quit </b> Instance of JButton class with the value 'Quit'. The button is used to exit the game. */
     private JButton quit = new JButton ("Quit Game", new ImageIcon ("src/pictures/red x.png"));
-
+    /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
 
-    /** The MainMenu constructor creates the panel with the layout manager, a size of 1280 by 720 and sets the
-     * background color to blue. prepareGUI () is also called.
-     *
-     */
+    /** The MainMenu constructor sets the layout manager to SpringLayout, sets the size to 1280x720, and references prepareGUI method. */
     MainMenu() {
         super();
         setLayout(layout);
         setSize(1280, 720);
-        //setBackground(Color.BLUE);
         prepareGUI();
 
 
@@ -52,6 +49,8 @@ class MainMenu extends JPanel {
      * <b> playGame </b> Creates an instance of JButton with the value "Play Game".
      */
     private void prepareGUI () {
+        //---- set size of buttons to BUTTON_WIDTH and BUTTON_HEIGHT
+        //---- set font of buttons to OCR A Std size 14.
         // play game
         playGame.setBorder(BorderFactory.createEmptyBorder());
         playGame.setContentAreaFilled(true);
@@ -67,6 +66,7 @@ class MainMenu extends JPanel {
         quit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         quit.setFont (new Font ("OCR A Std", Font.PLAIN, 14));
 
+        /** <br> <b> intro </b> Instance of JLabel class that stores an introduction message to the user. */
         JLabel intro = new JLabel("<html> Welcome to Rearing Ranch! Press any of the following buttons to continue." +
                 "<br>Press Play Game to start! If you need help, press Instructions. Press the Highscores button to view previous highscores!" +
                 "<br>If you want to leave, press Quit! </html>");
@@ -100,6 +100,7 @@ class MainMenu extends JPanel {
 
 }
 
+
 class Instructions extends JPanel {
 
     private SpringLayout layout = new SpringLayout();
@@ -110,8 +111,6 @@ class Instructions extends JPanel {
         setLayout(layout);
         setSize(1280, 720);
         prepareGUI();
-        revalidate();
-        repaint();
     }
 
     private void prepareGUI() {
