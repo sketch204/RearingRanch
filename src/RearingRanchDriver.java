@@ -9,7 +9,7 @@ public class RearingRanchDriver {
     private static MasterFrame window = null;
 
     public RearingRanchDriver () {
-        setWindow(new MasterFrame());
+        window = new MasterFrame();
     }
 
     public static void main (String [] args) {
@@ -18,9 +18,5 @@ public class RearingRanchDriver {
 
     public static MasterFrame getWindow() {
         return window;
-    }
-
-    public static void setWindow(MasterFrame window) {
-        RearingRanchDriver.window = window;
     }
 }
