@@ -11,13 +11,13 @@ public class Highscores extends JPanel {
 
     private int recorded;
 
-    ArrayList <Players> players = new ArrayList<Players>();
+    ArrayList <Player> players = new ArrayList<Player>();
 
     public Highscores () {
         this.recorded++;
     }
 
-    public Highscores (String name, String difficulty, int time, int score) {
+    public Highscores (String name, int difficulty, int time, int score) {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getScore() < score) {
                 players.add(i, new Player (name, difficulty, time, score));

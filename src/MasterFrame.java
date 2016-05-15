@@ -8,14 +8,16 @@ import java.awt.*;
  * @version 1.2, 2016-05-10.
  */
 public class MasterFrame extends JFrame implements ActionListener {
-
+    static MainMenu m = new MainMenu();
+    static DifficultyChooser d = new DifficultyChooser();
+    static Instructions i = new Instructions();
+    static Highscores h = new Highscores();
+    static GoodByeScreen g = new GoodByeScreen();
+    private Container current = new Panel();
 
     /**
      * Creates an instance of a JFrame starting with a SplashScreen.
      */
-    Container current = new Panel();
-    //MainMenu m = new MainMenu();
-
     public MasterFrame () {
         super ("Rearing Ranch");
         setSize(1280, 720);
@@ -111,6 +113,15 @@ public class MasterFrame extends JFrame implements ActionListener {
         } else if (ae.getActionCommand().equals("Quit Game") || ae.getActionCommand().equals("Quit")) {
             System.exit(0);
         }
+        revalidate();
+        repaint();
+    }
+
+    public void setPanel (JPanel panel, String title) {
+        setTitle(title);
+        remove(current);
+        current = panel;
+        add(current);
         revalidate();
         repaint();
     }
