@@ -9,5 +9,8 @@ import java.awt.*;
  * @version 1 2016-05-15
  */
 public class DifficultyChooser extends JPanel {
+    public DifficultyChooser () {
+        System.out.println("Difficulty Chooser: Knock Knock, I'm not working yet");
 
+    }
 }

@@ -111,13 +111,19 @@ class MainMenu extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(playGame))
+        if (e.getActionCommand().equals("Return to Main Menu"))
+            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+        else if (e.getSource().equals(playGame)) {
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().d, "Difficulty Chooser");
-        else if (e.getSource().equals((instructions)))
+            // Temporary
+            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+        } else if (e.getSource().equals((instructions)))
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().i, "Instructions");
-        else if (e.getSource().equals(highscores))
+        else if (e.getSource().equals(highscores)) {
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().h, "Highscores");
-        else if (e.getSource().equals(quit)) {
+            // Temporary
+            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+        } else if (e.getSource().equals(quit)) {
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().g, "Good Bye!");
             System.exit(0);
         }
@@ -195,6 +201,7 @@ class Instructions extends JPanel {
         JButton mainMenu = new JButton("Return to Main Menu");
         mainMenu.setFont (new Font ("OCR A Std", Font.PLAIN, 14));
         mainMenu.setPreferredSize(new Dimension(new MainMenu().BUTTON_WIDTH, new MainMenu().BUTTON_HEIGHT));
+        mainMenu.addActionListener(RearingRanchDriver.getWindow().m);
 
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.WEST, mainMenu, 500, SpringLayout.WEST, this);
