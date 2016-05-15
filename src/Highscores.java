@@ -1,7 +1,29 @@
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
- * Created by sketch204 on 2016-05-15.
+ * The Highscores class
+ *
+ * @author Tamir Arnesty
+ * @version 1 2016-05-15
  */
 public class Highscores extends JPanel {
+
+    private int recorded;
+
+    ArrayList <Players> players = new ArrayList<Players>();
+
+    public Highscores () {
+        this.recorded++;
+    }
+
+    public Highscores (String name, String difficulty, int time, int score) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getScore() < score) {
+                players.add(i, new Player (name, difficulty, time, score));
+                break;
+            }
+        }
+        this.recorded++;
+    }
 }
