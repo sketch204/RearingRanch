@@ -1,7 +1,6 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.event.*;
+import java.awt.*;
 /**
  * This is the master frame program, it will contain all the JPanels inside it
  *
@@ -10,18 +9,23 @@ import java.awt.event.ActionListener;
  */
 public class MasterFrame extends JFrame implements ActionListener {
 
+
     /**
      * Creates an instance of a JFrame starting with a SplashScreen.
      */
+    Container current = new Panel();
+    //MainMenu m = new MainMenu();
+
     public MasterFrame () {
         super ("Rearing Ranch");
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-       // setLayout(new FlowLayout());
 
         MainMenu m = new MainMenu();
         GoodByeScreen s = new GoodByeScreen();
-        GameStage gm = new GameStage(0) {
+        /*GameStage gm = new GameStage(0) {
+
+        GameStage gm = new GameStage(0, getContentPane()) {
             @Override
             protected void generateAnimals() {
 
@@ -31,8 +35,14 @@ public class MasterFrame extends JFrame implements ActionListener {
             protected boolean inputLegal() {
                 return false;
             }
-        };
-        add(s);
+        };*/
+
+        current = new MainMenu();
+        /*new MainMenu().playGame.addActionListener(this);
+        new MainMenu().instructions.addActionListener(this);
+        new MainMenu().highscores.addActionListener(this);
+        new MainMenu().quit.addActionListener(this);*/
+        add(current);
         setVisible(true);
         revalidate();
         repaint();
@@ -47,9 +57,10 @@ public class MasterFrame extends JFrame implements ActionListener {
         if (ae.getActionCommand().equals("Highscores")) {
 
         } else if (ae.getActionCommand().equals("Instructions")) {
-
-        } else if (ae.getActionCommand().equals("")) {
-
+            remove(current);
+            add(new Instructions());
+        } else if (ae.getActionCommand().equals("Quit Game")) {
+            System.exit(0);
         }
     }
 }
