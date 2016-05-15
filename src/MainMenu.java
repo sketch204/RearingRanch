@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -14,7 +16,7 @@ import javax.swing.*;
  *       Tamir: 6
  *       Inal:
  */
-class MainMenu extends JPanel {
+class MainMenu extends JPanel implements ActionListener {
 
     /** <br> <b> BUTTON_HEIGHT </b> Final Integer that holds the standard height for the buttons in the MainMenu and Instructions classes.*/
     final int BUTTON_HEIGHT =  (new ImageIcon("src/pictures/PlayButtonSmall.png")).getIconHeight();
@@ -45,6 +47,13 @@ class MainMenu extends JPanel {
      * brief intro label.
      */
     private void prepareGUI () {
+
+        // action listener
+        playGame.addActionListener(this);
+        instructions.addActionListener(this);
+        quit.addActionListener(this);
+        highscores.addActionListener(this);
+
         //---- set size of buttons to BUTTON_WIDTH and BUTTON_HEIGHT
         //---- set font of buttons to OCR A Std size 14.
         // play game
@@ -94,6 +103,10 @@ class MainMenu extends JPanel {
     }
 
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }
 
 /** Instructions class creates a new panel that will replace main menu. The panel includes three labels that include instructions and

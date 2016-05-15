@@ -21,6 +21,55 @@ public class MasterFrame extends JFrame implements ActionListener {
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        JMenu file = new JMenu("File");
+        JMenu help = new JMenu ("Help");
+        JMenuItem aboutItem = new JMenuItem ("About");
+        JMenuItem quit = new JMenuItem("Quit");
+        JMenuBar menu = new JMenuBar();
+        file.add(quit);
+        help.add(aboutItem);
+        menu.add(file);
+        menu.add(help);
+        setJMenuBar(menu);
+
+        quit.addActionListener(this);
+        aboutItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog about = new JDialog();
+                JButton pressOkay = new JButton("Okay");
+                pressOkay.setPreferredSize(new Dimension(50, 10));
+                JButton references = new JButton ("Graphics References");
+                references.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JOptionPane.showMessageDialog(null, "REFERENCES!!!!!!", "Graphics", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
+
+                pressOkay.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        about.dispose();
+                    }
+                });
+                about.setLocationRelativeTo(current);
+                about.setResizable(false);
+                about.setSize(640, 480);
+
+                about.add(new JLabel ("<html> Welcome to Rearing Ranch!" +
+                        "<br> This program was created by EarlyEd Inc. members Tamir Arnesty" +
+                        "<br> and Inal Gotov. This program is created in partnership with Dyke Enterprises" +
+                        "<br> for educational purposes amongst pre-school and kindergarten children." +
+                        "<br> <br> This is version 1 of Rearing Ranch, which may have potential upgrades." +
+                        "<br> For help, select the help option in the Help menu. Make sure you are connected" +
+                        "<br> to the internet."));
+                about.setTitle("About Us");
+                about.add(pressOkay);
+                about.add(references);
+                about.setVisible(true);
+        }});
+
         MainMenu m = new MainMenu();
         GoodByeScreen s = new GoodByeScreen();
         /*GameStage gm = new GameStage(0) {
@@ -59,7 +108,7 @@ public class MasterFrame extends JFrame implements ActionListener {
         } else if (ae.getActionCommand().equals("Instructions")) {
             remove(current);
             add(new Instructions());
-        } else if (ae.getActionCommand().equals("Quit Game")) {
+        } else if (ae.getActionCommand().equals("Quit Game") || ae.getActionCommand().equals("Quit")) {
             System.exit(0);
         }
         revalidate();
