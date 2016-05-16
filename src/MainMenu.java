@@ -14,7 +14,7 @@ import javax.swing.*;
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
  *       Tamir: 6
- *       Inal:
+ *       Inal: 1.5
  */
 class MainMenu extends JPanel implements ActionListener{
 
