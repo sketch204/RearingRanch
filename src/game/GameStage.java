@@ -36,6 +36,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     public GameStage (int difficulty) {
         super();
+
         this.difficulty = difficulty;
 
         this.setLayout(layout);
