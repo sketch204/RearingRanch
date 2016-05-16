@@ -11,8 +11,8 @@ import java.awt.*;
  * @version 1 2016-05-15
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 0
- *       Inal: 0
+ *       Tamir: 0.5
+ *       Inal: 0.5
  */
 public class DifficultyChooser extends JPanel implements ActionListener {
     private JButton button = new JButton ("I'm a button");
@@ -43,6 +43,7 @@ public class DifficultyChooser extends JPanel implements ActionListener {
                 break;
         }
         // I'm thinking show highscores?
+        // i think we should discuss this class
     }
 
     @Override

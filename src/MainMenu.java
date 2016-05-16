@@ -24,7 +24,10 @@ class MainMenu extends JPanel implements ActionListener{
     /** <br> <b> BUTTON_WIDTH </b> Final Integer that holds the standard width for the buttons in the MainMenu and Instructions classes.*/
     final int BUTTON_WIDTH = (new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconWidth();
 
-
+    /** <br> <b> buttonSize </b> Instance of Dimension with the width and size of the Play Game Button. This Dimension is used to
+     * set the default size of all the buttons on the screen.*/
+    static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconWidth(),
+            (new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconHeight());
 
     /** <br> <b> playGame </b> Instance of JButton class with the Play Button image. The button is used to start the game. */
     private JButton playGame = new JButton (new ImageIcon ("src/pictures/Button-Icon/PlayButtonSmall.png"));
@@ -51,8 +54,7 @@ class MainMenu extends JPanel implements ActionListener{
      * brief intro label.
      */
     private void prepareGUI () {
-        Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconWidth(),
-                                             (new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconHeight());
+
 
         Font buttonFont = new Font ("OCR A Std", Font.PLAIN, 14);
 
@@ -200,8 +202,8 @@ class Instructions extends JPanel {
         /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
         JButton mainMenu = new JButton("Return to Main Menu");
         mainMenu.setFont (new Font ("OCR A Std", Font.PLAIN, 14));
-        mainMenu.setPreferredSize(new Dimension(new MainMenu().BUTTON_WIDTH, new MainMenu().BUTTON_HEIGHT));
-        mainMenu.addActionListener(RearingRanchDriver.getWindow().m);
+        mainMenu.setPreferredSize(MainMenu.buttonSize);
+        mainMenu.addActionListener(MasterFrame.m);
 
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.WEST, mainMenu, 500, SpringLayout.WEST, this);

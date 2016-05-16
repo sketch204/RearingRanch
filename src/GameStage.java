@@ -15,7 +15,7 @@ import java.awt.event.*;
  * @version 1.3, 2016-05-09.
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir:
+ *       Tamir: 0
  *       Inal: 8.5
  */
 public abstract class GameStage extends JPanel implements ActionListener {

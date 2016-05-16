@@ -1,17 +1,23 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
 import java.util.ArrayList;
 
 /**
- * The Highscores class
+ * The Highscores class sorts an ArrayList of Players in descending order by their score, and displays the top 10
+ * players with their name, difficulty level, time, and score onto the screen. The high scores may also be printed
+ * with the EarlyEd Inc. logo. 
  *
  * @author Tamir Arnesty
  * @version 1 2016-05-15
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir:
+ *       Tamir: 0.5
  *       Inal: 0
  */
-public class Highscores extends JPanel {
+public class Highscores extends JPanel implements Printable {
 
     private int recorded;
 
@@ -29,5 +35,10 @@ public class Highscores extends JPanel {
             }
         }
         this.recorded++;
+    }
+
+    @Override
+    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+        return 0;
     }
 }

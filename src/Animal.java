@@ -73,7 +73,7 @@ class Player {
         this.difficulty = difficulty;
         this.time = time;
         this.score = score;
-        this.name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length()-1).toLowerCase();
+        this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
     }
 
     private String getMinuteSecondTime() {

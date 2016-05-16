@@ -9,7 +9,7 @@ import java.awt.*;
  *
  * Last Edited: 2016-05-15
  * Hours since 2016-05-10:
- *       Tamir:
+ *       Tamir: 1.5
  *       Inal: 3
  */
 public class MasterFrame extends JFrame implements ActionListener {
@@ -29,7 +29,7 @@ public class MasterFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setJMenuBar(createMenuBar());
 
-        current = d;
+        current = m;
         add(current);
         setVisible(true);
         revalidate();
