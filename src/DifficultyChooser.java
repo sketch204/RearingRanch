@@ -1,7 +1,7 @@
+import game.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
 
 /**
  * DifficultyChooser class will display the user with three difficulty levels: easy, medium, and hard, that they must choose
@@ -28,13 +28,13 @@ public class DifficultyChooser extends JPanel implements ActionListener {
 
     public void initiatePlay (int difficulty) {
         int currentStage = 0;
-        GameStage [] stages = {new ColorChooser(difficulty), new AnimalClassifier(difficulty), new Arithmetics(difficulty)};
+        GameStage[] stages = {new ColorChooser(difficulty), new AnimalClassifier(difficulty), new Arithmetics(difficulty)};
         System.out.println(stages[0].getHeight());
         System.out.println(RearingRanchDriver.getWindow().getHeight());
         RearingRanchDriver.getWindow().setPanel(stages[0], "Choose the Colour!");
         while (true) {
             if (!stages[0].isActive() && currentStage == 0) {
-                RearingRanchDriver.getWindow().setPanel(stages[1], "What's the Animal?");
+                RearingRanchDriver.getWindow().setPanel(stages[1], "What's the dataclass.Animal?");
                 currentStage ++;
             } else if (!stages[1].isActive() && currentStage == 1) {
                 RearingRanchDriver.getWindow().setPanel(stages[2], "Count them up!");

@@ -4,6 +4,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.util.ArrayList;
+import dataclass.Player;
 
 /**
  * The Highscores class sorts an ArrayList of Players in descending order by their score, and displays the top 10
