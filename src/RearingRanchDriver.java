@@ -6,8 +6,8 @@
  *
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 0
- *       Inal: 0.5
+ *       Tamir: -
+ *       Inal: 0:30
  */
 public class RearingRanchDriver {
     private static MasterFrame window = null;

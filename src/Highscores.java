@@ -15,8 +15,8 @@ import dataclass.Player;
  * @version 1 2016-05-15
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 0.5
- *       Inal: 0
+ *       Tamir: 0:30
+ *       Inal: -
  */
 public class Highscores extends JPanel implements Printable {
 

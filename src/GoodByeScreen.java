@@ -8,8 +8,8 @@ import java.awt.event.*;
  * @version 1.1, 2016-05-06.
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 3
- *       Inal: 0
+ *       Tamir: 3:00
+ *       Inal: -
  */
 public class GoodByeScreen extends JPanel {
 

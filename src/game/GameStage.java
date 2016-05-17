@@ -4,11 +4,14 @@ import dataclass.Animal;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
- * The game.GameStage class acts as a parent class for ColorChooser, dataclass.Animal Classifier and
- * Arithmetic classes. It handles all of animal drawing, reading the input from the
- * input bar as well as declaring the means for checking whether that input is legal or not.
+ * The GameStage class acts as a parent class for ColorChooser, Animal Classifier and
+ * Arithmetics classes. It handles most of the user interface components such as; buttons
+ * user input, label, animal drawing etc...
+ *
+ * It is also responsible for handling all button clicks as well as keeping track of game activity.
  *
  * <b>Global Variables: </b>
  * </p>
@@ -18,21 +21,51 @@ import java.awt.event.*;
  * @version 1.3, 2016-05-09.
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 0
- *       Inal: 8.5
+ *       Tamir: -
+ *       Inal: 9:45
  */
 public abstract class GameStage extends JPanel implements ActionListener {
+    /**
+     * The array that holds all the animals currently on screen.
+     * This is the array that is used to check for a legal input.
+     */
     protected Animal [] animals;
-    protected JTextField inputBar = new JTextField(1);
-    protected JButton [] buttons;;
+    /**
+     * The array that holds all the game buttons currently on screen.
+     */
+    protected JButton [] buttons;
+    /**
+     * The layout of this panel.
+     */
     protected SpringLayout layout = new SpringLayout();
+    /**
+     * The string that holds the input currently entered in the inputBar.
+     * This is the value, legality of which determines the outcome of the game.
+     */
+    private String inputBar = "";
+    /**
+     * The @see java.util.ArrayList that holds all JLabel currently in the inputBar.
+     */
+    private ArrayList <JLabel> inputTexts = new ArrayList<JLabel>();
+    /**
+     * The @see javax.swing.JButton on the inputBar that is responsible for initiating the legality check.
+     */
+    private JButton submitButton = new JButton(new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png"));
+    /**
+     * The @see javax.swing.JButton on the inputBar that is responsible for erasing the last element on the inputBar.
+     */
+    private JButton eraseButton = new JButton(new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Erase.png"));
+    /**
+     * Holds the difficulty of the current stage
+     */
     private final int difficulty;
+    /**
+     * States whether the game is currently active.
+     */
     private boolean gameActive = true;
 
     /**
-     * Initiates the playing process by filling the array with random
-     * generated instance of animal classes and draws them in their proper positions.
-     *
+     * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
      */
     public GameStage (int difficulty) {
         super();
@@ -41,46 +74,102 @@ public abstract class GameStage extends JPanel implements ActionListener {
 
         this.setLayout(layout);
         this.setSize(1280, 720);
-        this.setBackground(Color.yellow);
+        this.setBackground(new Color (203, 203, 203));
 
         generateAnimals();
-        prepareGUI ();
+        try {
+            prepareGUI();
+        } catch (NullPointerException e) {}
 
         this.setVisible(true);
-
-//        drawAnimal(0, 0, 0);
     }
 
     /**
-     * This is the second version of this method. It will create and handle the game screen.
+     * Draws the background for this stage, as well as all the needed game and inputBar buttons.
+     *
      * <b>Local Variables </b>
      * </p>
-     * <b>BUTTON_HEIGHT </b> Holds the constant value of the height of each button.
+     * <b>x </b> Holds the width of inputBar buttons.
      * </p>
-     * <b>BUTTON_WIDTH </b> Holds the constant value of the width of each button.
+     * <b>y </b> Holds the height of inputBar buttons.
      */
-    private void prepareGUI () {
+    private void prepareGUI () throws NullPointerException{
         generateBackground();
-        createButtons();
+        createGameButtons();
+
+        int x = new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png").getIconWidth(),
+            y = new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png").getIconHeight();;
+        submitButton.setSize (x, y);
+        submitButton.setPreferredSize(new Dimension(x, y));
+        submitButton.addActionListener(this);
+        submitButton.setBorder(BorderFactory.createLineBorder(new Color (34, 34,34), 1, true));
+
+        layout.putConstraint(SpringLayout.WEST, submitButton, this.getWidth() - submitButton.getWidth() - 1, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.NORTH, submitButton, -submitButton.getHeight(), SpringLayout.NORTH, buttons[0]);
+
+        eraseButton.setSize(x, y);
+        eraseButton.setPreferredSize(new Dimension(x, y));
+        eraseButton.addActionListener(this);
+        eraseButton.setBorder(BorderFactory.createLineBorder(new Color (34, 34,34), 1, true));
+
+        layout.putConstraint(SpringLayout.EAST, eraseButton, 1 ,SpringLayout.WEST, submitButton);
+        layout.putConstraint(SpringLayout.NORTH, eraseButton, -eraseButton.getHeight(), SpringLayout.NORTH, buttons[0]);
+
+        add (submitButton);
+        add (eraseButton);
     }
 
+    /**
+     * States whether the current stage is active.
+     * @return returns true if, and only if a legal input has not been submitted yet.
+     */
     public boolean isActive() {
         return gameActive;
     }
 
-    protected void setIsActive (boolean status) {
+    /**
+     * Sets the state of activity for the current stage.
+     * Used only by sub-classes.
+     * @param status The new state of activity for the current stage.
+     */
+    protected void setIsActive(boolean status) {
         gameActive = status;
     }
 
     /**
-     * Will read iniput from the parameters and print it into the inputBar.
-     *
-     * @param input Holds the values of the button pressed.
+     * Inssert the appropriate input, based on which button was presed, into the inputBar.
+     * @param input Holds the text of the game button.
      */
     private void writeInput (String input) {
-        String tempHolder = inputBar.getText();
-        inputBar.setText(tempHolder + " " + input);
-        inputBar.repaint();
+        if (inputBar.contains(input))
+            return;
+        inputBar += input + " ";
+        JLabel label = createJLabel (input);
+
+        if (inputTexts.size() == 0)
+            layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.WEST, this);
+        else
+            layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.EAST, inputTexts.get(inputTexts.size()-1));
+
+        layout.putConstraint(SpringLayout.SOUTH, label, -5, SpringLayout.NORTH, buttons[0]);
+
+        inputTexts.add(label);
+        add (label);
+        revalidate();
+        repaint();
+    }
+
+    /**
+     * Removes that last entered element from the inputBar.
+     */
+    private void removeInputElement () {
+        if (inputTexts.size() == 0)
+            return;
+        JLabel label = inputTexts.remove(inputTexts.size()-1);
+        remove (label);
+        inputBar = inputBar.replace(label.getText() + " ", "");
+        revalidate();
+        repaint();
     }
 
     /**
@@ -126,13 +215,31 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * @return The input that is entered into the input bar.
      */
     protected String readInput () {
-        return inputBar.getText();
+        return inputBar;
     }
 
     /**
      * Randomly chooses a background from the resources and draws it on the scene.
      */
     private void generateBackground () {
+
+    }
+
+    // The y-axis is in Turing style, 0 at the top
+    // I used fillRects instead of drawLines for a thick line
+    // The x2, y2 work the same way as they did in Ready
+    // You have to state the size of the shape, not where it ends.
+
+    /**
+     * Draws the borderlines for the inputBar.
+     * @param g Graphics used by the current Component.
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.fillRect(0, 580, 1280, 2);
+        g.fillRect(0, 535, 1280, 2);
 
     }
 
@@ -149,19 +256,30 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected abstract boolean inputLegal();
 
-    protected abstract void createButtons ();
+    /**
+     * Creates and inserts the game buttons used for the current stage.
+     */
+    protected abstract void createGameButtons();
 
     /**
-     * Handles button clicks for this JPanel
+     * Creates the @see javax.swing.JLabel the is to be inserted into the inputBar.
+     * @param text The text that the JLabel will contain.
+     * @return The created JLabel.
+     */
+    protected abstract JLabel createJLabel (String text);
+
+    /**
+     * Handles button clicks for this GameStage.
      *
-     * @param ae Holds the value of the button that was clicked.
+     * @param ae Holds the event that was initiated.
      */
     @Override
     public void actionPerformed (ActionEvent ae) {
-        writeInput(ae.getActionCommand());
+        if (ae.getSource().equals(submitButton))
+            inputLegal();
+        else if (ae.getSource().equals(eraseButton))
+            removeInputElement();
+        else
+            writeInput(ae.getActionCommand());
     }
 }
-
-//            buttons[h].setBackground(colors[h]);
-//            buttons[h].setOpaque(true);
-//            buttons[h].setBorderPainted(false);

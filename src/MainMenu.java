@@ -13,10 +13,10 @@ import javax.swing.*;
  *
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 6
- *       Inal: 1.5
+ *       Tamir: 6:00
+ *       Inal: 1:30
  */
-class MainMenu extends JPanel implements ActionListener{
+public class MainMenu extends JPanel implements ActionListener{
 
     // Sorry but these two are useless now
     /** <br> <b> BUTTON_HEIGHT </b> Final Integer that holds the standard height for the buttons in the MainMenu and Instructions classes.*/

@@ -9,11 +9,11 @@ import java.awt.*;
  *
  * Last Edited: 2016-05-16
  * Hours since 2016-05-14:
- *       Tamir: 3
- *       Inal: 0
+ *       Tamir: 3:00
+ *       Inal: -
  *
  */
-class Instructions extends JPanel {
+public class Instructions extends JPanel {
 
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();

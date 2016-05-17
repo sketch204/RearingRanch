@@ -9,8 +9,8 @@ import java.awt.*;
  *
  * Last Edited: 2016-05-15
  * Hours since 2016-05-10:
- *       Tamir: 1.5
- *       Inal: 3
+ *       Tamir: 1:30
+ *       Inal: 3:00
  */
 public class MasterFrame extends JFrame implements ActionListener {
     static MainMenu m = new MainMenu();
@@ -25,7 +25,7 @@ public class MasterFrame extends JFrame implements ActionListener {
      */
     public MasterFrame () {
         super ("Rearing Ranch");
-        setSize(1280, 720);
+        setSize(1280, 764);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setJMenuBar(createMenuBar());
 
