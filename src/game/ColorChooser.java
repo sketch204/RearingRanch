@@ -65,7 +65,7 @@ public class ColorChooser extends GameStage {
         buttons = new JButton[4];
         Dimension size = new Dimension(new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Black.png").getIconWidth(), new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Black.png").getIconHeight());
         ImageIcon [] icons = {new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Black.png"), new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Gray.png"),
-                new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Brown.png"), new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-White.png")};
+                              new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Brown.png"), new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-White.png")};
 
         i1 = icons[0].getDescription().lastIndexOf('-') +1;
         for (int h = 0; h < buttons.length; h ++) {

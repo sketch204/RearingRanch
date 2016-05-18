@@ -51,9 +51,6 @@ public class AnimalClassifier extends GameStage {
         i1 = icons[0].getDescription().lastIndexOf('-') +1;
         for (int h = 0; h < buttons.length; h ++) {
             // Goose button is not taking its icon, cuz its a pussy!
-
-//            if (h == 3)
-//                buttons[h].setText("Goose is a acting like a hoe");
             buttons[h] = new JButton (icons[h]);
             buttons[h].addActionListener(this);
             buttons[h].setSize(size);
