@@ -255,6 +255,39 @@ public abstract class GameStage extends JPanel implements ActionListener {
     }
 
     /**
+     * Creates and inserts the game buttons used for the current stage.
+     */
+    protected void createGameButtons() {
+        int i1, i2;
+        ImageIcon [] icons = generateButtons();
+        Dimension size = new Dimension(icons[0].getIconHeight(), icons[0].getIconWidth());
+
+        i1 = icons[0].getDescription().lastIndexOf('-') +1;
+        for (int h = 0; h < buttons.length; h ++) {
+            buttons[h] = new JButton (icons[h]);
+            buttons[h].addActionListener(this);
+            buttons[h].setSize(size);
+            buttons[h].setPreferredSize(size);
+            i2 = icons[h].getDescription().lastIndexOf('.');
+            buttons[h].setText(icons[h].getDescription().substring(i1, i2));
+            buttons[h].setBorder(BorderFactory.createEmptyBorder());
+            buttons[h].setContentAreaFilled(true);
+        }
+
+        layout.putConstraint(SpringLayout.WEST, buttons [0], 0, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.NORTH, buttons [0], getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
+        add (buttons[0]);
+
+        for (int h = 1; h < buttons.length; h ++) {
+            layout.putConstraint(SpringLayout.WEST, buttons [h], 0, SpringLayout.EAST, buttons [h-1]);
+            layout.putConstraint(SpringLayout.NORTH, buttons [h], getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
+            add (buttons [h]);
+        }
+    }
+
+    protected abstract ImageIcon[] generateButtons ();
+
+    /**
      * Randomly generates the stock according to the difficulty parameter,
      * numbers them from 0 to n and draws them on the screen accordingly from top to bottom, left to right.
      */
@@ -267,10 +300,6 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected abstract boolean inputLegal();
 
-    /**
-     * Creates and inserts the game buttons used for the current stage.
-     */
-    protected abstract void createGameButtons();
 
     /**
      * Handles button clicks for this GameStage.

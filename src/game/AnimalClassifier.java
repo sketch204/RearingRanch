@@ -1,8 +1,7 @@
 package game;
 
-import javax.swing.*;
 import java.awt.*;
-import java.io.File;
+import javax.swing.*;
 
 /**
  * The game.GameStage class acts as a parent class for ColorChooser, dataclass.Animal Classifier and
@@ -33,42 +32,17 @@ public class AnimalClassifier extends GameStage {
 
     @Override
     protected boolean inputLegal() {
+        setIsActive(false);
+        System.out.println("Knock Knock, Color Chooser: Legality is not a thing yet :(");
         return false;
     }
 
     @Override
-    protected void createGameButtons() {
-        int i1, i2;
+    protected ImageIcon[] generateButtons() {
         buttons = new JButton[6];
-        Dimension size = new Dimension(220, 140);
         ImageIcon [] icons = {new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Chicken.png"), new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Cow.png"),
-                              new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Goat.png"), new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Goose.png"),
-                              new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Horse.png"), new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Sheep.png")};
-
-        File file = new File ("src/pictures/Button-Icon/stage2/Icon-Goose.png");
-        System.out.println(file.exists());
-
-        i1 = icons[0].getDescription().lastIndexOf('-') +1;
-        for (int h = 0; h < buttons.length; h ++) {
-            // Goose button is not taking its icon, cuz its a pussy!
-            buttons[h] = new JButton (icons[h]);
-            buttons[h].addActionListener(this);
-            buttons[h].setSize(size);
-            buttons[h].setPreferredSize(size);
-            i2 = icons[h].getDescription().lastIndexOf('.');
-            buttons[h].setText(icons[h].getDescription().substring(i1, i2));
-            buttons[h].setBorder(BorderFactory.createEmptyBorder());
-            buttons[h].setContentAreaFilled(true);
-        }
-
-        layout.putConstraint(SpringLayout.WEST, buttons [0], 0, SpringLayout.WEST, this);
-        layout.putConstraint(SpringLayout.NORTH, buttons [0], getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
-        add (buttons[0]);
-
-        for (int h = 1; h < buttons.length; h ++) {
-            layout.putConstraint(SpringLayout.WEST, buttons [h], 0, SpringLayout.EAST, buttons [h-1]);
-            layout.putConstraint(SpringLayout.NORTH, buttons [h], getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
-            add (buttons [h]);
-        }
+                new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Goat.png"), new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Goose.png"),
+                new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Horse.png"), new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Sheep.png")};
+        return icons;
     }
 }
