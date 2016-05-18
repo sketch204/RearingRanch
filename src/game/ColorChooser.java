@@ -27,7 +27,29 @@ public class ColorChooser extends GameStage {
 
     @Override
     protected void generateAnimals() {
+        int [] animalsChoosen = new int [0];
 
+        // {Chicken, goose, sheep, horse, cow, goat
+        String [] [] animalColors = {{"Brown", "White"}, {"Black", "Brown", "White"}, {"Brown", "White"}, {"White", "Brown"},
+                              {"BlackOn-Brown", "BlackOn-White", "BrownOn-White", "WhiteOn-Black", "WhiteOnBrown"}, {"Brown", "White", "Black"}};
+
+        if (difficulty == 1){ // Animals used: 1-2; chicken, goose
+            animalsChoosen = new int [(int)(Math.random()*2)];
+        } else if (difficulty == 2) { // Animals used: 2-3; chicken, goose, sheep, horse
+            animalsChoosen = new int [(int)(Math.random()*2) + 1];
+        } else if (difficulty == 3) { // Animals used: 3-4; chicken, goose, sheep, horse, cow, goat
+            animalsChoosen = new int [(int)(Math.random()*2) + 2];
+        }
+
+        for (int h = 0; h < animalsChoosen.length; h++) {
+            animalsChoosen[h] = (int)(Math.random()*2);
+        }
+
+        /*
+        Generate for the amount of stables there are.
+        Random Color
+        Generate an ArrayList of Colors generated, for quicker input checks.
+        */
     }
 
     @Override
@@ -46,7 +68,7 @@ public class ColorChooser extends GameStage {
                 new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Brown.png"), new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-White.png")};
 
         i1 = icons[0].getDescription().lastIndexOf('-') +1;
-        for (int h = 0; h < 4; h ++) {
+        for (int h = 0; h < buttons.length; h ++) {
             buttons[h] = new JButton (icons[h]);
             buttons[h].addActionListener(this);
             buttons[h].setSize(size);
@@ -61,22 +83,10 @@ public class ColorChooser extends GameStage {
         layout.putConstraint(SpringLayout.NORTH, buttons [0], getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
         add (buttons[0]);
 
-        for (int h = 1; h < 4; h ++) {
+        for (int h = 1; h < buttons.length; h ++) {
             layout.putConstraint(SpringLayout.WEST, buttons [h], 0, SpringLayout.EAST, buttons [h-1]);
             layout.putConstraint(SpringLayout.NORTH, buttons [h], getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
             add (buttons [h]);
         }
-    }
-
-    @Override
-    protected JLabel createJLabel(String text) {
-        JLabel label = new JLabel (text);
-        Color color = new Color (34, 34, 34);
-
-        label.setForeground(color);
-        label.setFont(new Font ("Chalkboard SE", 0, 20));
-        label.setToolTipText(text);
-        label.setBorder(BorderFactory.createLineBorder(color, 3, true));
-        return label;
     }
 }

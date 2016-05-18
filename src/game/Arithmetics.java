@@ -20,10 +20,8 @@ import javax.swing.*;
 public class Arithmetics extends GameStage {
 
     /**
-     * Initiates the playing process by filling the array with random
-     * generated instance of animal classes and draws them in their proper positions.
-     *
-     * @param difficulty
+     * Creates an instance of the Arithmetics game stage. Creates a new GameStage panel that is fit for the Arithemtics stage of the game.
+     * @param difficulty The difficulty on which this stage will be played on.
      */
     public Arithmetics(int difficulty) {
         super(difficulty);
@@ -43,10 +41,5 @@ public class Arithmetics extends GameStage {
     @Override
     protected void createGameButtons() {
 
-    }
-
-    @Override
-    protected JLabel createJLabel(String text) {
-        return null;
     }
 }

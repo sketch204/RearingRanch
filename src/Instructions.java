@@ -34,7 +34,7 @@ public class Instructions extends JPanel {
     private void prepareGUI() {
 
         /** <br> <b> greeting </b> Instance of JLabel class displays a greeting to the users when they open the Instructions window. */
-        JLabel greeting = new JLabel ("<html> Welcome to Rearing Ranch! In this game you will learn to identify colours, animals, and do math!" +
+        JLabel greeting = new JLabel ("<html> Welcome to Rearing Ranch! In this game you will learn to identify colours, stock, and do math!" +
                 "<br> To play the game, go back to Main Menu by pressing the button below and then choose the Play Game button. " +
                 "<br> In Main Menu, you may also choose to view highs cores of old games! Go challenge yourself and beat your last score! " +
                 "<br> In Main Menu, you can also choose to quit the game if you get bored or don't want to learn anymore, which we " +

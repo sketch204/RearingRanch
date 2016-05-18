@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * <b>Global Variables: </b>
  * </p>
- * <b>animals </b> Contains the instance of all the animals in the current barn.
+ * <b>stock </b> Contains the instance of all the stock in the current barn.
  *
  * @author Inal Gotov, Modified by: Tamir Arnesty
  * @version 1.3, 2016-05-09.
@@ -26,10 +26,10 @@ import java.util.ArrayList;
  */
 public abstract class GameStage extends JPanel implements ActionListener {
     /**
-     * The array that holds all the animals currently on screen.
+     * The array that holds all the stock currently on screen.
      * This is the array that is used to check for a legal input.
      */
-    protected Animal [] animals;
+    protected Animal [] stock;
     /**
      * The array that holds all the game buttons currently on screen.
      */
@@ -39,10 +39,9 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected SpringLayout layout = new SpringLayout();
     /**
-     * The string that holds the input currently entered in the inputBar.
-     * This is the value, legality of which determines the outcome of the game.
+     * Holds the difficulty of the current stage
      */
-    private String inputBar = "";
+    protected final int difficulty;
     /**
      * The @see java.util.ArrayList that holds all JLabel currently in the inputBar.
      */
@@ -56,9 +55,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     private JButton eraseButton = new JButton(new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Erase.png"));
     /**
-     * Holds the difficulty of the current stage
+     * The string that holds the input currently entered in the inputBar.
+     * This is the value, legality of which determines the outcome of the game.
      */
-    private final int difficulty;
+    private String inputBar = "";
     /**
      * States whether the game is currently active.
      */
@@ -185,9 +185,9 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected void drawAnimal (int x, int y, int id) {
         Graphics g = this.getGraphics();
-        System.out.println(animals[id].getPicture().getHeight());
-        g.drawImage(animals[id].getPicture(), x, y, this);
-        this.repaint(x-1, y-1, animals[id].getPicture().getWidth()+1, animals [id].getPicture().getHeight()+1);
+        System.out.println(stock[id].getPicture().getHeight());
+        g.drawImage(stock[id].getPicture(), x, y, this);
+        this.repaint(x-1, y-1, stock[id].getPicture().getWidth()+1, stock[id].getPicture().getHeight()+1);
     }
 
     /**
@@ -206,7 +206,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * @return The animal under the passed id number.
      */
     protected Animal getAnimal (int id) {
-        return animals [id];
+        return stock[id];
     }
 
     /**
@@ -225,10 +225,21 @@ public abstract class GameStage extends JPanel implements ActionListener {
 
     }
 
-    // The y-axis is in Turing style, 0 at the top
-    // I used fillRects instead of drawLines for a thick line
-    // The x2, y2 work the same way as they did in Ready
-    // You have to state the size of the shape, not where it ends.
+    /**
+     * Creates the @see javax.swing.JLabel the is to be inserted into the inputBar.
+     * @param text The text that the JLabel will contain.
+     * @return The created JLabel.
+     */
+    protected JLabel createJLabel (String text) {
+        JLabel label = new JLabel (text);
+        Color color = new Color (113, 75, 47);
+
+        label.setForeground(color);
+        label.setFont(new Font ("Chalkboard SE", 0, 20));
+        label.setToolTipText(text);
+        label.setBorder(BorderFactory.createLineBorder(color, 3, true));
+        return label;
+    }
 
     /**
      * Draws the borderlines for the inputBar.
@@ -244,7 +255,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     }
 
     /**
-     * Randomly generates the animals according to the difficulty parameter,
+     * Randomly generates the stock according to the difficulty parameter,
      * numbers them from 0 to n and draws them on the screen accordingly from top to bottom, left to right.
      */
     protected abstract void generateAnimals ();
@@ -260,13 +271,6 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * Creates and inserts the game buttons used for the current stage.
      */
     protected abstract void createGameButtons();
-
-    /**
-     * Creates the @see javax.swing.JLabel the is to be inserted into the inputBar.
-     * @param text The text that the JLabel will contain.
-     * @return The created JLabel.
-     */
-    protected abstract JLabel createJLabel (String text);
 
     /**
      * Handles button clicks for this GameStage.

@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
- * The dataclass.Animal class contains information on a single instance of an animals. The information
+ * The dataclass.Animal class contains information on a single instance of an stock. The information
  * includes things such as the type of animal, its color as well as its associated picture file.
  *
  * <b>Global Variables </b>
