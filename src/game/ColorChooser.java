@@ -53,6 +53,8 @@ public class ColorChooser extends GameStage {
             buttons[h].setPreferredSize(size);
             i2 = icons[h].getDescription().lastIndexOf('.');
             buttons[h].setText(icons[h].getDescription().substring(i1, i2));
+            buttons[h].setBorder(BorderFactory.createEmptyBorder());
+            buttons[h].setContentAreaFilled(true);
         }
 
         layout.putConstraint(SpringLayout.WEST, buttons [0], 0, SpringLayout.WEST, this);

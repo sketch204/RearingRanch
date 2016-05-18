@@ -17,7 +17,8 @@ public class Instructions extends JPanel {
 
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
-
+    /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
+    static JButton mainMenu = new JButton("Return to Main Menu");
     /** Instructions constructor sets the layout manager to SpringLayout, sets the size to 1280x720, and references prepareGUI method. */
     Instructions() {
         super();

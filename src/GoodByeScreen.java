@@ -11,7 +11,7 @@ import java.awt.event.*;
  *       Tamir: 3:00
  *       Inal: -
  */
-public class GoodByeScreen extends JPanel {
+public class GoodByeScreen extends JPanel{
 
     private Timer t = new Timer(125, new ActionListener() {
         public void actionPerformed(ActionEvent ae) {

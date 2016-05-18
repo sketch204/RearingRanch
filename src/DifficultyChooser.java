@@ -1,5 +1,8 @@
+import com.sun.corba.se.impl.protocol.INSServerRequestDispatcher;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import game.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,19 +14,52 @@ import java.awt.event.ActionListener;
  * @version 1 2016-05-15
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 0:30
+ *       Tamir: 1:30
  *       Inal: 0:30
  */
 public class DifficultyChooser extends JPanel implements ActionListener {
-    private JButton button = new JButton ("I'm a button");
 
+    private JButton easy = new JButton ("Easy");
+    private JButton medium = new JButton ("Medium");
+    private JButton hard = new JButton ("Hard");
+ //   private JButton button = new JButton ("I'm a button");
+    /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
+    private SpringLayout layout = new SpringLayout();
     public DifficultyChooser () {
-        prepareGUI ();
+        super();
+        setLayout(layout);
+        setSize(1280, 720);
+        prepareGUI();
     }
 
     private void prepareGUI () {
-        button.addActionListener(this);
-        add (button);
+        easy.addActionListener(this);
+        medium.addActionListener(this);
+        hard.addActionListener(this);
+
+        easy.setPreferredSize(MainMenu.buttonSize);
+        medium.setPreferredSize(MainMenu.buttonSize);
+        hard.setPreferredSize(MainMenu.buttonSize);
+
+
+        layout.putConstraint(SpringLayout.NORTH, easy, 200, SpringLayout.NORTH, this);
+        layout.putConstraint(SpringLayout.WEST, easy, 130, SpringLayout.WEST, this);
+        add (easy);
+
+        layout.putConstraint(SpringLayout.NORTH, medium, 0, SpringLayout.NORTH, easy);
+        layout.putConstraint(SpringLayout.WEST, medium, 20, SpringLayout.EAST, easy);
+        add (medium);
+
+        layout.putConstraint(SpringLayout.NORTH, hard, 0, SpringLayout.NORTH, medium);
+        layout.putConstraint(SpringLayout.WEST, hard, 20, SpringLayout.EAST, medium);
+        add (hard);
+
+        Instructions.mainMenu.setPreferredSize(new Dimension(320, 80));
+
+        layout.putConstraint(SpringLayout.SOUTH, Instructions.mainMenu, -200, SpringLayout.SOUTH, this);
+        layout.putConstraint(SpringLayout.WEST,  Instructions.mainMenu, 400, SpringLayout.WEST, this);
+        add(Instructions.mainMenu);
+
     }
 
     public void initiatePlay (int difficulty) {
@@ -55,7 +91,7 @@ public class DifficultyChooser extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(button))
+        if (e.getSource().equals(easy))
             initiatePlay(0);
     }
 }

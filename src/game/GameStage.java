@@ -238,7 +238,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.fillRect(0, 580, 1280, 2);
+        g.fillRect(0, 580, 1280, 200);
         g.fillRect(0, 535, 1280, 2);
 
     }

@@ -25,19 +25,19 @@ public class MainMenu extends JPanel implements ActionListener{
     final int BUTTON_WIDTH = (new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconWidth();
     /** <br> <b> buttonSize </b> Instance of Dimension with the width and size of the Play Game Button. This Dimension is used to
      * set the default size of all the buttons on the screen.*/
-    static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconWidth(),
-            (new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconHeight());
+    static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png")).getIconWidth(),
+            (new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png")).getIconHeight());
 
-    static Font buttonFont = new Font ("OCR A Std", Font.PLAIN, 14);
+//    static Font buttonFont = new Font ("OCR A Std", Font.PLAIN, 14);
 
     /** <br> <b> playGame </b> Instance of JButton class with the Play Button image. The button is used to start the game. */
-    private JButton playGame = new JButton (new ImageIcon ("src/pictures/Button-Icon/PlayButtonSmall.png"));
+    private JButton playGame = new JButton (new ImageIcon ("src/pictures/Button-Icon/Main Menu/PlayButton.png"));
     /** <br> <b> instructions </b> Instance of JButton class with the value 'Instructions'. The button is used to view the instructions for the game. */
-    private JButton instructions = new JButton("Instructions");
+    private JButton instructions = new JButton(new ImageIcon("src/pictures/Button-Icon/Main Menu/InstructionsButton.png"));
     /** <br> <b> highscores </b> Instance of JButton class with the value 'High Scores'. The button is used to view the high scores for the game. */
-    private JButton highscores = new JButton ("High Scores", new ImageIcon("src/pictures/Button-Icon/Highscores.jpg"));
+    private JButton highscores = new JButton (new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png"));
     /** <br> <b> quit </b> Instance of JButton class with the value 'Quit'. The button is used to exit the game. */
-    private JButton quit = new JButton ("Quit Game", new ImageIcon ("src/pictures/Button-Icon/red x.png"));
+    private JButton quit = new JButton (new ImageIcon ("src/pictures/Button-Icon/Main Menu/QuitButton.png"));
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
 
@@ -68,16 +68,19 @@ public class MainMenu extends JPanel implements ActionListener{
         playGame.setBorder(BorderFactory.createEmptyBorder());
         playGame.setContentAreaFilled(true);
         // instructions
-        instructions.setPreferredSize(buttonSize);
-        instructions.setFont (buttonFont);
+//        instructions.setPreferredSize(buttonSize);
+        instructions.setBorder(BorderFactory.createEmptyBorder());
+        instructions.setContentAreaFilled(true);
 
         // highscores
-        highscores.setPreferredSize(buttonSize);
-        highscores.setFont (buttonFont);
+//        highscores.setPreferredSize(buttonSize);
+        highscores.setBorder(BorderFactory.createEmptyBorder());
+        highscores.setContentAreaFilled(true);
 
         // quit game
-        quit.setPreferredSize(buttonSize);
-        quit.setFont (buttonFont);
+//        quit.setPreferredSize(buttonSize);
+        quit.setBorder(BorderFactory.createEmptyBorder());
+        quit.setContentAreaFilled(true);
 
         /** <br> <b> intro </b> Instance of JLabel class that stores an introduction message to the user. */
         JLabel intro = new JLabel("<html> Welcome to Rearing Ranch! Press any of the following buttons to continue." +
@@ -111,12 +114,10 @@ public class MainMenu extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("Return to Main Menu"))
+        if (e.getSource().equals(Instructions.mainMenu))
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
         else if (e.getSource().equals(playGame)) {
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().d, "Difficulty Chooser");
-            // Temporary
-            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
         } else if (e.getSource().equals((instructions)))
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().i, "Instructions");
         else if (e.getSource().equals(highscores)) {
@@ -124,7 +125,7 @@ public class MainMenu extends JPanel implements ActionListener{
             // Temporary
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
         } else if (e.getSource().equals(quit)) {
-            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().g, "Good Bye!");
+            //RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().g, "Good Bye!");
             System.exit(0);
         }
     }

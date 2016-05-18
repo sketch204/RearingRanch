@@ -1,3 +1,5 @@
+import game.GameStage;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -18,6 +20,7 @@ public class MasterFrame extends JFrame implements ActionListener {
     static Instructions i = new Instructions();
     static Highscores h = new Highscores();
     static GoodByeScreen g = new GoodByeScreen();
+
     private Container current = new Panel();
 
     /**
@@ -54,8 +57,9 @@ public class MasterFrame extends JFrame implements ActionListener {
             JButton pressOkay = new JButton("Okay");
             pressOkay.setPreferredSize(new Dimension(50, 10));
             JButton references = new JButton ("Graphics References");
+            references.setPreferredSize(new Dimension(100, 200));
             references.addActionListener(e1 -> JOptionPane.showMessageDialog(null, "REFERENCES!!!!!!", "Graphics", JOptionPane.INFORMATION_MESSAGE));
-
+            references.setPreferredSize(new Dimension (100, 20));
             pressOkay.addActionListener(e1 -> about.dispose());
             about.setLocationRelativeTo(current);
             about.setResizable(false);
@@ -92,7 +96,9 @@ public class MasterFrame extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getActionCommand().equals("Highscores")) {
+        if (ae.getActionCommand().equals("Play Game")) {
+            remove(current);
+        }else if (ae.getActionCommand().equals("Highscores")) {
 
         } else if (ae.getActionCommand().equals("Instructions")) {
             remove(current);
