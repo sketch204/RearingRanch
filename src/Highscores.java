@@ -28,10 +28,10 @@ public class Highscores extends JPanel implements Printable {
         this.recorded++;
     }
 
-    public Highscores (String name, int difficulty, int time, int score) {
+    public Highscores (String name, int difficulty, int time) {
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getScore() < score) {
-                players.add(i, new Player (name, difficulty, time, score));
+            if (players.get(i).getTime() < time) {
+                players.add(i, new Player (name, difficulty, time));
                 break;
             }
         }

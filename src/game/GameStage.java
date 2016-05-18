@@ -147,7 +147,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         JLabel label = createJLabel (input);
 
         if (inputTexts.size() == 0)
-            layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.WEST, this);
+            layout.putConstraint(SpringLayout.WEST, label, 0, SpringLayout.WEST, this);
         else
             layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.EAST, inputTexts.get(inputTexts.size()-1));
 
@@ -260,7 +260,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     protected void createGameButtons() {
         int i1, i2;
         ImageIcon [] icons = generateButtons();
-        Dimension size = new Dimension(icons[0].getIconHeight(), icons[0].getIconWidth());
+        Dimension size = new Dimension(icons[0].getIconWidth(), icons[0].getIconHeight());
 
         i1 = icons[0].getDescription().lastIndexOf('-') +1;
         for (int h = 0; h < buttons.length; h ++) {
@@ -274,13 +274,15 @@ public abstract class GameStage extends JPanel implements ActionListener {
             buttons[h].setContentAreaFilled(true);
         }
 
-        layout.putConstraint(SpringLayout.WEST, buttons [0], 0, SpringLayout.WEST, this);
-        layout.putConstraint(SpringLayout.NORTH, buttons [0], getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
+        System.out.println(buttons[0].getHeight() + " " + buttons[0].getWidth());
+
+        layout.putConstraint(SpringLayout.WEST, buttons [0], 2, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.SOUTH, buttons [0], 0, SpringLayout.SOUTH, this);
         add (buttons[0]);
 
         for (int h = 1; h < buttons.length; h ++) {
             layout.putConstraint(SpringLayout.WEST, buttons [h], 0, SpringLayout.EAST, buttons [h-1]);
-            layout.putConstraint(SpringLayout.NORTH, buttons [h], getHeight() - buttons[0].getHeight(), SpringLayout.NORTH, this);
+            layout.putConstraint(SpringLayout.SOUTH, buttons [h], 0, SpringLayout.SOUTH, this);
             add (buttons [h]);
         }
     }

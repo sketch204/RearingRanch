@@ -32,7 +32,7 @@ public class MasterFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setJMenuBar(createMenuBar());
 
-        current = m;
+        current = d;
         add(current);
         setVisible(true);
         revalidate();

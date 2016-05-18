@@ -1,13 +1,12 @@
 package dataclass;
 
 public class Player {
-    private final int difficulty, time, score;
+    private final int difficulty, time;
     private final String name;
 
-    public Player (String name, int difficulty, int time, int score) {
+    public Player (String name, int difficulty, int time) {
         this.difficulty = difficulty;
         this.time = time;
-        this.score = score;
         this.name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length()-1).toLowerCase();
     }
 
@@ -15,10 +14,6 @@ public class Player {
         int minutes = time/60;
         int seconds = (minutes > 0) ? time - (60 * minutes) : time ;
         return "" + minutes + ":" + seconds;
-    }
-
-    public int getScore() {
-        return score;
     }
 
     public int getTime() {
@@ -34,6 +29,6 @@ public class Player {
     }
 
     public String toString () {
-        return name + "scored " + score + " points on " + difficulty + " difficulty in " + getMinuteSecondTime();
+        return name + " finished the game on " + difficulty + " difficulty in " + getMinuteSecondTime();
     }
 }
