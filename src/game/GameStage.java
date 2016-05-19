@@ -151,7 +151,8 @@ public abstract class GameStage extends JPanel implements ActionListener {
         else
             layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.EAST, inputTexts.get(inputTexts.size()-1));
 
-        layout.putConstraint(SpringLayout.SOUTH, label, -5, SpringLayout.NORTH, buttons[0]);
+        layout.putConstraint(SpringLayout.SOUTH, label, -145, SpringLayout.SOUTH, this);
+
 
         inputTexts.add(label);
         add (label);
@@ -249,7 +250,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.fillRect(0, 580, 1280, 200);
+        g.fillRect(0, 580, 1280, 2);
         g.fillRect(0, 535, 1280, 2);
 
     }
