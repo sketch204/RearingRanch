@@ -3,6 +3,9 @@ import game.GameStage;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+
+import static sun.misc.PerformanceLogger.getStartTime;
+
 /**
  * This is the master frame program, it will contain all the JPanels inside it
  *
@@ -90,20 +93,56 @@ public class MasterFrame extends JFrame implements ActionListener {
         repaint();
     }
 
+    private Thread timer = new Thread() {
+        private long endTime;
+        private long timePausedAt;
+        private long startTime;
+        private long elapsedTime;
+
+        public long getStartTime() {
+            return startTime;
+        }
+
+        public long getEndTime() {
+            return endTime;
+        }
+
+        public long getTimePausedAt() {
+            return timePausedAt;
+        }
+
+        public long getElapsedTime() {
+            return elapsedTime;
+        }
+
+        public void startTimer() {
+            startTime = System.nanoTime();
+            countTimer();
+        }
+
+        public void countTimer () {
+            elapsedTime = System.nanoTime() - getStartTime();
+        }
+
+        public void pause() {
+            timePausedAt = System.nanoTime();
+        }
+
+        public void stopTimer () {
+            endTime = System.nanoTime();
+        }
+
+
+    };
+
+
     /**
      * Handles all the button clicks and ques each JPanel change.
      * @param ae Holds the value of the button that was clicked.
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getActionCommand().equals("Play Game")) {
-            remove(current);
-        }else if (ae.getActionCommand().equals("Highscores")) {
-
-        } else if (ae.getActionCommand().equals("Instructions")) {
-            remove(current);
-            add(new Instructions());
-        } else if (ae.getActionCommand().equals("Quit Game") || ae.getActionCommand().equals("Quit")) {
+        if (ae.getActionCommand().equals("Quit")) {
             System.exit(0);
         }
         revalidate();

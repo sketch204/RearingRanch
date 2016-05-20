@@ -62,17 +62,14 @@ public class MainMenu extends JPanel implements ActionListener{
         playGame.setBorder(BorderFactory.createEmptyBorder());
         playGame.setContentAreaFilled(true);
         // instructions
-//        instructions.setPreferredSize(buttonSize);
         instructions.setBorder(BorderFactory.createEmptyBorder());
         instructions.setContentAreaFilled(true);
 
         // highscores
-//        highscores.setPreferredSize(buttonSize);
         highscores.setBorder(BorderFactory.createEmptyBorder());
         highscores.setContentAreaFilled(true);
 
         // quit game
-//        quit.setPreferredSize(buttonSize);
         quit.setBorder(BorderFactory.createEmptyBorder());
         quit.setContentAreaFilled(true);
 
