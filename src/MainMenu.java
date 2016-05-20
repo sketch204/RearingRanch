@@ -17,15 +17,9 @@ import javax.swing.*;
  *       Inal: 1:30
  */
 public class MainMenu extends JPanel implements ActionListener{
-
-    // Sorry but these two are useless now
-    /** <br> <b> BUTTON_HEIGHT </b> Final Integer that holds the standard height for the buttons in the MainMenu and Instructions classes.*/
-    final int BUTTON_HEIGHT =  (new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconHeight();
-    /** <br> <b> BUTTON_WIDTH </b> Final Integer that holds the standard width for the buttons in the MainMenu and Instructions classes.*/
-    final int BUTTON_WIDTH = (new ImageIcon("src/pictures/Button-Icon/PlayButtonSmall.png")).getIconWidth();
     /** <br> <b> buttonSize </b> Instance of Dimension with the width and size of the Play Game Button. This Dimension is used to
      * set the default size of all the buttons on the screen.*/
-    static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png")).getIconWidth(),
+    public static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png")).getIconWidth(),
             (new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png")).getIconHeight());
 
 //    static Font buttonFont = new Font ("OCR A Std", Font.PLAIN, 14);
