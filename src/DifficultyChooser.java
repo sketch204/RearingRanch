@@ -67,6 +67,7 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         GameStage[] stages = {new ColorChooser(difficulty), new AnimalClassifier(difficulty), new Arithmetics(difficulty)};
         RearingRanchDriver.getWindow().setPanel(stages[1], "Choose the Colour!");
 
+
         // This loop is the reason that nothing showed up when you initiated play
         // The program focused on the loop and waited until it would finish with the loop
         // before displaying and handling the window.
