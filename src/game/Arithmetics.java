@@ -14,7 +14,7 @@ import javax.swing.*;
  * Last Edited: 2016-05-16
  * Hours since 2016-05-15:
  *       Tamir: 0
- *       Inal: 0
+ *       Inal: 2:00
  */
 
 public class Arithmetics extends GameStage {
@@ -38,6 +38,11 @@ public class Arithmetics extends GameStage {
         setIsActive(false);
         System.out.println("Knock Knock, Color Chooser: Legality is not a thing yet :(");
         return false;
+    }
+
+    @Override
+    protected void createAnimals(Graphics g) {
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -16,6 +17,11 @@ import javax.swing.*;
  *       Inal: 2:45
  */
 public class ColorChooser extends GameStage {
+    /**
+     * Contains the colors that are currently on screen.
+     * Used for checking legality of input.
+     */
+    private ArrayList<String> colors = new ArrayList<String>();
 
     /**
      * Creates an instance of the ColorChooser game stage. Creates a new GameStage panel that is fit for the Color Chooser stage of the game.
@@ -57,6 +63,11 @@ public class ColorChooser extends GameStage {
         setIsActive(false);
         System.out.println("Knock Knock, Color Chooser: Legality is not a thing yet :(");
         return false;
+    }
+
+    @Override
+    protected void createAnimals(Graphics g) {
+        g.drawImage(stock[0].getPicture(), 0, 0, null);
     }
 
     @Override

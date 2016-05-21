@@ -81,7 +81,7 @@ public class Instructions extends JPanel {
         JButton mainMenu = new JButton("Return to Main Menu");
         mainMenu.setFont (new Font ("OCR A Std", Font.PLAIN, 14));
         mainMenu.setPreferredSize(MainMenu.buttonSize);
-        mainMenu.addActionListener(MasterFrame.m);
+        mainMenu.addActionListener(RearingRanchDriver.getWindow().m);
 
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.WEST, mainMenu, 500, SpringLayout.WEST, this);

@@ -38,6 +38,11 @@ public class AnimalClassifier extends GameStage {
     }
 
     @Override
+    protected void createAnimals(Graphics g) {
+
+    }
+
+    @Override
     protected ImageIcon[] generateButtons() {
         buttons = new JButton[6];
         ImageIcon [] icons = {new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Chicken.png"), new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Cow.png"),
