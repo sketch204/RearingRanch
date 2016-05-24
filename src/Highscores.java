@@ -14,7 +14,7 @@ import java.io.*;
  * @version 1 2016-05-15
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 0:30
+ *       Tamir: 1:15
  *       Inal: -
  */
 public class Highscores extends JPanel implements Printable {
@@ -52,7 +52,8 @@ public class Highscores extends JPanel implements Printable {
                     }
                 }
             }
-            if (sorted(players))
+            if (!sorted(players))
+                sort (players);
             r.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -68,24 +69,23 @@ public class Highscores extends JPanel implements Printable {
         return true;
     }
 
-//    // ryan or alice's sort
-//    public void sort() {
-//        int temp, y;
-//
-//        for (int x = 1 ; x < players.size() ; x++)
-//        {
-//            temp = players.get(x).getTime();
-//            for (y = x - 1 ; y >= 0 ; y--)
-//            {
-//                if (temp >= players.get(y).getTime())
-//                {
-//                    break;
-//                }
-//                players.get(y+1).getTime() = players.get(y).getTime();
-//            }
-//            players.get(y + 1).getTime() = temp;
-//        }
-//    }
+    public void sort(ArrayList <Player> tempList) {
+        int temp, y;
+
+        for (int x = 1 ; x < tempList.size() ; x++)
+        {
+            temp = tempList.get(x).getTime();
+            for (y = x - 1 ; y >= 0 ; y--)
+            {
+                if (temp >= tempList.get(y).getTime())
+                {
+                    break;
+                }
+                players.set(y+1, players.get(y));
+            }
+            players.get(y + 1).setTime(temp);
+        }
+    }
 
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {

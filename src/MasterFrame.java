@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-import static sun.misc.PerformanceLogger.getStartTime;
-
 /**
  * This is the master frame program, it will contain all the JPanels inside it
  *
@@ -14,7 +12,7 @@ import static sun.misc.PerformanceLogger.getStartTime;
  *
  * Last Edited: 2016-05-15
  * Hours since 2016-05-10:
- *       Tamir: 1:30
+ *       Tamir: 2:00
  *       Inal: 3:00
  */
 public class MasterFrame extends JFrame implements ActionListener {

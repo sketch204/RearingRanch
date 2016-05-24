@@ -1,7 +1,8 @@
 package dataclass;
 
 public class Player {
-    private final int difficulty, time;
+    private final int difficulty;
+    private int time;
     private final String name;
 
     public Player (String name, int difficulty, int time) {
@@ -30,5 +31,9 @@ public class Player {
 
     public String toString () {
         return name + " finished the game on " + difficulty + " difficulty in " + getMinuteSecondTime();
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }
