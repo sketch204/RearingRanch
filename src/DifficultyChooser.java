@@ -12,7 +12,7 @@ import java.awt.event.*;
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
  *       Tamir: 1:30
- *       Inal: 0:30
+ *       Inal: 0:40
  */
 public class DifficultyChooser extends JPanel implements ActionListener {
 

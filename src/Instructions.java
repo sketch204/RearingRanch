@@ -12,7 +12,7 @@ import java.awt.*;
  * Last Edited: 2016-05-16
  * Hours since 2016-05-14:
  *       Tamir: 3:00
- *       Inal: -
+ *       Inal: 0:10
  *
  */
 public class Instructions extends JPanel {
