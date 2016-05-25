@@ -38,7 +38,7 @@ public class Animal {
         this.color = color;
         this.type = type;
         try {
-            picture = ImageIO.read(new File("src/pictures/" + type + "-" + color + ".png"));
+            picture = ImageIO.read(new File("src/pictures/animals/" + type + "-" + color + ".png"));
         } catch (IOException e) {}
     }
 

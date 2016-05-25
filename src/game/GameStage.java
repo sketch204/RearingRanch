@@ -23,9 +23,13 @@ import java.util.ArrayList;
  *          Last Edited: 2016-05-15
  *          Hours since 2016-05-11:
  *          Tamir: -
- *          Inal: 9:45
+ *          Inal: 11:15
  */
 public abstract class GameStage extends JPanel implements ActionListener {
+    /**
+     * Holds the amount of the total stables available in this stage.
+     */
+    private final int TOTAL_STABLES;
     /**
      * The @see javax.swing.JButton on the inputBar that is responsible for erasing the last element on the inputBar.
      */
@@ -45,7 +49,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     /**
      * An arrays of (x,y) positions of each stable on the current background.
      */
-    private int [][] stablePositions;
+    private Point [] stablePositions;
     /**
      * The @see javax.swing.JButton on the inputBar that is responsible for initiating the legality check.
      */
@@ -80,7 +84,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         this.setSize(1280, 720);
         this.setBackground(new Color(203, 203, 203));
 
-        generateAnimals();
+        TOTAL_STABLES = generateBackground();
         prepareGUI();
 
         this.setVisible(true);
@@ -99,10 +103,19 @@ public abstract class GameStage extends JPanel implements ActionListener {
         this.setSize(1280, 720);
         this.setBackground(new Color(203, 203, 203));
 
+        TOTAL_STABLES = generateBackground();
         generateAnimals();
         prepareGUI();
 
         this.setVisible(true);
+    }
+
+    /**
+     * The accessor method for amount of available stables.
+     * @return the amount of available stables.
+     */
+    public int getStablesAvailable () {
+        return stablesAvailable;
     }
 
     /**
@@ -117,17 +130,20 @@ public abstract class GameStage extends JPanel implements ActionListener {
     /**
      * Randomly chooses a background from the resources and draws it on the scene.
      */
-    private void generateBackground() {
+    private int generateBackground() {
         // Testing
         stablesAvailable = 3;
-        stablePositions = new int [stablesAvailable][2];
+        stablePositions = new Point [stablesAvailable];
 
         if (true) {
-            // Set the values.
+            for (int h = 0; h < stablePositions.length; h++) {
+                stablePositions[h] = new Point (h*200, 0);
+            }
         }
         // Will draw the background
         // Will set the amount of stables available, based on background
         // Will set the positions for each stable, based on background
+        return stablesAvailable;
     }
 
     /**
@@ -150,6 +166,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         submitButton.setPreferredSize(new Dimension(x, y));
         submitButton.addActionListener(this);
         submitButton.setBorder(BorderFactory.createLineBorder(new Color(34, 34, 34), 1, true));
+        submitButton.setIgnoreRepaint(true);
 
         layout.putConstraint(SpringLayout.WEST, submitButton, this.getWidth() - submitButton.getWidth() - 1, SpringLayout.WEST, this);
         layout.putConstraint(SpringLayout.NORTH, submitButton, -submitButton.getHeight(), SpringLayout.NORTH, buttons[0]);
@@ -158,6 +175,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         eraseButton.setPreferredSize(new Dimension(x, y));
         eraseButton.addActionListener(this);
         eraseButton.setBorder(BorderFactory.createLineBorder(new Color(34, 34, 34), 1, true));
+        eraseButton.setIgnoreRepaint(true);
 
         layout.putConstraint(SpringLayout.EAST, eraseButton, 1, SpringLayout.WEST, submitButton);
         layout.putConstraint(SpringLayout.NORTH, eraseButton, -eraseButton.getHeight(), SpringLayout.NORTH, buttons[0]);
@@ -221,9 +239,8 @@ public abstract class GameStage extends JPanel implements ActionListener {
             buttons[h].setText(icons[h].getDescription().substring(i1, i2));
             buttons[h].setBorder(BorderFactory.createEmptyBorder());
             buttons[h].setContentAreaFilled(true);
+            buttons[h].setIgnoreRepaint(true);
         }
-
-        System.out.println(buttons[0].getHeight() + " " + buttons[0].getWidth());
 
         layout.putConstraint(SpringLayout.WEST, buttons[0], 2, SpringLayout.WEST, this);
         layout.putConstraint(SpringLayout.SOUTH, buttons[0], 0, SpringLayout.SOUTH, this);
@@ -266,9 +283,19 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected void drawAnimal(int x, int y, int id) {
         Graphics g = this.getGraphics();
-        System.out.println(stock[id].getPicture().getHeight());
         g.drawImage(stock[id].getPicture(), x, y, this);
         this.repaint(x - 1, y - 1, stock[id].getPicture().getWidth() + 1, stock[id].getPicture().getHeight() + 1);
+    }
+
+    /**
+     * Return the first available position for the given axis.
+     * @return Return the first available position for the given axis.
+     * @throws IllegalArgumentException Thrown whenever the argument is greater than 1 or less than 0.
+     */
+    protected Point getPosition () {
+        if (stablesAvailable < 0) return null;
+        stablesAvailable--;
+        return stablePositions [stablesAvailable+1];
     }
 
     /**

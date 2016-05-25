@@ -1,5 +1,7 @@
 package game;
 
+import dataclass.Animal;
+
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -14,7 +16,7 @@ import javax.swing.*;
  * Last Edited: 2016-05-16
  * Hours since 2016-05-15:
  *       Tamir: -
- *       Inal: 2:45
+ *       Inal: 4:15
  */
 public class ColorChooser extends GameStage {
     /**
@@ -33,22 +35,30 @@ public class ColorChooser extends GameStage {
 
     @Override
     protected void generateAnimals() {
-        int [] animalsChoosen = new int [0];
+        int [] animalsChosen = new int [getStablesAvailable()];
 
-        // {Chicken, goose, sheep, horse, cow, goat
-        String [] [] animalColors = {{"Brown", "White"}, {"Black", "Brown", "White"}, {"Brown", "White"}, {"White", "Brown"},
-                              {"BlackOn-Brown", "BlackOn-White", "BrownOn-White", "WhiteOn-Black", "WhiteOnBrown"}, {"Brown", "White", "Black"}};
+        // {Chicken, goose, sheep, horse, cow, goat}
+        String [] [] animalColors = {{"Chicken", "Brown", "White"}, {"Goose", "Black", "Brown", "White"}, {"Sheep", "Brown", "White"}, {"Horse", "White", "Brown"},
+                              {"Cow", "BlackOn-Brown", "BlackOn-White", "BrownOn-White", "WhiteOn-Black", "WhiteOnBrown"}, {"Goat", "Brown", "White", "Black"}};
 
         if (difficulty == 1){ // Animals used: 1-2; chicken, goose
-            animalsChoosen = new int [(int)(Math.random()*2)];
+            animalsChosen = new int [(int)(Math.random()*2)];
         } else if (difficulty == 2) { // Animals used: 2-3; chicken, goose, sheep, horse
-            animalsChoosen = new int [(int)(Math.random()*2) + 1];
+            animalsChosen = new int [(int)(Math.random()*2) + 1];
         } else if (difficulty == 3) { // Animals used: 3-4; chicken, goose, sheep, horse, cow, goat
-            animalsChoosen = new int [(int)(Math.random()*2) + 2];
+            animalsChosen = new int [(int)(Math.random()*2) + 2];
         }
 
-        for (int h = 0; h < animalsChoosen.length; h++) {
-            animalsChoosen[h] = (int)(Math.random()*2);
+        for (int h = 0; h < animalsChosen.length; h++) {
+            animalsChosen[h] = (int)(Math.random()*2);
+        }
+
+        stock = new Animal[animalsChosen.length];
+        for (int h = 0; h < stock.length; h++) {
+            // Chooses a random color of an animal
+            String tempHold = animalColors[animalsChosen[h]][(int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1];
+            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0]);
+            colors.add(tempHold);
         }
 
         /*
@@ -60,14 +70,25 @@ public class ColorChooser extends GameStage {
 
     @Override
     protected boolean inputLegal() {
-        setIsActive(false);
-        System.out.println("Knock Knock, Color Chooser: Legality is not a thing yet :(");
-        return false;
+        ArrayList<String> tempHold = new ArrayList<String>(colors);
+        for (int h = 0; h < tempHold.size(); h++) {
+            // Have to figure out how to read input, and then check its legality
+            // You're checking legality more efficiently by remving checked component from the tempholder.
+        }
+        return true;
+//        setIsActive(false);
+//        System.out.println("Knock Knock, Color Chooser: Legality is not a thing yet :(");
+//        return false;
     }
 
     @Override
     protected void createAnimals(Graphics g) {
-        g.drawImage(stock[0].getPicture(), 0, 0, null);
+        for (int h = 0; h < stock.length; h ++) {
+            Image img = stock[h].getPicture().getScaledInstance(50, 50, 0);
+            Point p = getPosition();
+            g.drawImage(img, p.x, p.y, null);
+        }
+
     }
 
     @Override
