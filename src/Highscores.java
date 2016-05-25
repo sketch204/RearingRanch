@@ -20,6 +20,7 @@ import java.io.*;
 public class Highscores extends JPanel implements Printable {
 
     private int recorded;
+    File scores = new File ("Highscores.rrf");
 
     ArrayList <Player> players = new ArrayList<Player>();
 
@@ -40,7 +41,7 @@ public class Highscores extends JPanel implements Printable {
     public void load () {
         String line = "";
         try {
-            BufferedReader r = new BufferedReader (new FileReader ("Highscores.rrf"));
+            BufferedReader r = new BufferedReader (new FileReader(scores));
             while (line != null || !line.equals("END")) {
                 line = r.readLine();
                 if (line.equals("This is a Rearing Ranch highscores file.")) {
@@ -85,6 +86,19 @@ public class Highscores extends JPanel implements Printable {
             }
             players.get(y + 1).setTime(temp);
         }
+    }
+
+    public void save () {
+
+    }
+
+    public void create () {
+        if (!scores.exists())
+            scores = new File ("Highscores.rrf");
+    }
+
+    public void delete () {
+        scores.delete();
     }
 
     @Override

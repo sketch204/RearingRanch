@@ -145,7 +145,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
 
         int x = new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png").getIconWidth(),
                 y = new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png").getIconHeight();
-        ;
+
         submitButton.setSize(x, y);
         submitButton.setPreferredSize(new Dimension(x, y));
         submitButton.addActionListener(this);

@@ -19,6 +19,9 @@ public class Instructions extends JPanel {
     private SpringLayout layout = new SpringLayout();
     /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
     static JButton mainMenu = new JButton("Return to Main Menu");
+    /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
+     * finishes reading the instructions above.*/
+    static JLabel goBack = new JLabel ("<html> Press the button to return to Main Menu.");
     /** Instructions constructor sets the layout manager to SpringLayout, sets the size to 1280x720, and references prepareGUI method. */
     Instructions() {
         super();
@@ -68,9 +71,6 @@ public class Instructions extends JPanel {
         layout.putConstraint(SpringLayout.WEST, highscores, 100, SpringLayout.WEST, this);
         add(highscores);
 
-        /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
-         * finishes reading the instructions above.*/
-        JLabel goBack = new JLabel ("<html> Press the button to return to Main Menu.");
         goBack.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
 
         layout.putConstraint(SpringLayout.NORTH, goBack, 30, SpringLayout.SOUTH, highscores);

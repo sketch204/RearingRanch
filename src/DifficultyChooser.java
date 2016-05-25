@@ -3,8 +3,7 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import game.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * DifficultyChooser class will display the user with three difficulty levels: easy, medium, and hard, that they must choose
@@ -22,7 +21,8 @@ public class DifficultyChooser extends JPanel implements ActionListener {
     private JButton easy = new JButton ("Easy");
     private JButton medium = new JButton ("Medium");
     private JButton hard = new JButton ("Hard");
- //   private JButton button = new JButton ("I'm a button");
+    private JLabel back = new JLabel(Instructions.goBack.getText());
+
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
     public DifficultyChooser () {
@@ -36,11 +36,14 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         easy.addActionListener(this);
         medium.addActionListener(this);
         hard.addActionListener(this);
+        Instructions.mainMenu.addActionListener(this);
+        Instructions.mainMenu.addKeyListener(enter);
+        Instructions.mainMenu.requestFocus();
 
         easy.setPreferredSize(MainMenu.buttonSize);
         medium.setPreferredSize(MainMenu.buttonSize);
         hard.setPreferredSize(MainMenu.buttonSize);
-
+        Instructions.mainMenu.setPreferredSize(MainMenu.buttonSize);
 
         layout.putConstraint(SpringLayout.NORTH, easy, 200, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.WEST, easy, 130, SpringLayout.WEST, this);
@@ -54,14 +57,25 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         layout.putConstraint(SpringLayout.WEST, hard, 20, SpringLayout.EAST, medium);
         add (hard);
 
-        Instructions.mainMenu.setPreferredSize(new Dimension(320, 80));
 
-        layout.putConstraint(SpringLayout.SOUTH, Instructions.mainMenu, -200, SpringLayout.SOUTH, this);
-        layout.putConstraint(SpringLayout.WEST,  Instructions.mainMenu, 400, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.SOUTH, Instructions.mainMenu, -120, SpringLayout.SOUTH, this);
+        layout.putConstraint(SpringLayout.WEST, Instructions.mainMenu, 500, SpringLayout.WEST, this);
         add(Instructions.mainMenu);
 
+        layout.putConstraint(SpringLayout.SOUTH, back, -10, SpringLayout.NORTH, Instructions.mainMenu);
+        layout.putConstraint(SpringLayout.WEST, back, 470, SpringLayout.WEST, this);
+        back.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
+        add(back);
     }
 
+    private KeyListener enter = new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent ke) {
+            if (ke.getKeyChar() == KeyEvent.VK_ENTER) {
+                ((JButton) ke.getComponent()).doClick();
+            }
+        }
+    };
     public void initiatePlay (int difficulty) {
         int currentStage = 0;
         GameStage[] stages = {new ColorChooser(difficulty), new AnimalClassifier(difficulty), new Arithmetics(difficulty)};
@@ -94,5 +108,11 @@ public class DifficultyChooser extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(easy))
             initiatePlay(0);
+        else if (e.getSource().equals(medium))
+            initiatePlay(1);
+        else if (e.getSource().equals(hard))
+            initiatePlay(2);
+        else if (e.getSource().equals(back))
+            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
     }
 }
