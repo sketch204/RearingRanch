@@ -32,6 +32,11 @@ public class MainMenu extends JPanel implements ActionListener{
     private JButton highscores = new JButton (new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png"));
     /** <br> <b> quit </b> Instance of JButton class with the value 'Quit'. The button is used to exit the game. */
     private JButton quit = new JButton (new ImageIcon ("src/pictures/Button-Icon/Main Menu/QuitButton.png"));
+    /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
+    private JButton mainMenu = new JButton("Return to Main Menu");
+    /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
+     * finishes reading the instructions above.*/
+    private JLabel goBack = new JLabel ("<html> Press the button to return to Main Menu.");
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
 
@@ -41,20 +46,18 @@ public class MainMenu extends JPanel implements ActionListener{
         setLayout(layout);
         setSize(1280, 720);
         prepareGUI();
-
-
     }
 
     /** prepareGUI method adds the play game, instructions, highscores and quit buttons to the panel, as well as adds a
      * brief intro label.
      */
     private void prepareGUI () {
-
         // action listener
         playGame.addActionListener(this);
         instructions.addActionListener(this);
         quit.addActionListener(this);
         highscores.addActionListener(this);
+        mainMenu.addActionListener(this);
 
         //---- set size of buttons to BUTTON_WIDTH and BUTTON_HEIGHT
         //---- set font of buttons to OCR A Std size 14.
@@ -72,6 +75,10 @@ public class MainMenu extends JPanel implements ActionListener{
         // quit game
         quit.setBorder(BorderFactory.createEmptyBorder());
         quit.setContentAreaFilled(true);
+
+        // main menu
+        mainMenu.setFont (new Font ("OCR A Std", Font.PLAIN, 14));
+        mainMenu.setPreferredSize(MainMenu.buttonSize);
 
         /** <br> <b> intro </b> Instance of JLabel class that stores an introduction message to the user. */
         JLabel intro = new JLabel("<html> Welcome to Rearing Ranch! Press any of the following buttons to continue." +
@@ -103,9 +110,17 @@ public class MainMenu extends JPanel implements ActionListener{
         repaint();
     }
 
+    public JButton getMainMenu() {
+        return mainMenu;
+    }
+
+    public JLabel getGoBack () {
+        return goBack;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(Instructions.mainMenu))
+        if (e.getSource().equals(mainMenu))
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
         else if (e.getSource().equals(playGame)) {
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().d, "Difficulty Chooser");

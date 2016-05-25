@@ -1,5 +1,3 @@
-import com.sun.corba.se.impl.protocol.INSServerRequestDispatcher;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import game.*;
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +19,8 @@ public class DifficultyChooser extends JPanel implements ActionListener {
     private JButton easy = new JButton ("Easy");
     private JButton medium = new JButton ("Medium");
     private JButton hard = new JButton ("Hard");
-    private JLabel back = new JLabel(Instructions.goBack.getText());
+    private JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenu();
+    private JLabel back = RearingRanchDriver.getWindow().m.getGoBack();
 
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
@@ -36,14 +35,14 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         easy.addActionListener(this);
         medium.addActionListener(this);
         hard.addActionListener(this);
-        Instructions.mainMenu.addActionListener(this);
-        Instructions.mainMenu.addKeyListener(enter);
-        Instructions.mainMenu.requestFocus();
+        mainMenu.addActionListener(this);
+        mainMenu.addKeyListener(enter);
+        mainMenu.requestFocus();
 
         easy.setPreferredSize(MainMenu.buttonSize);
         medium.setPreferredSize(MainMenu.buttonSize);
         hard.setPreferredSize(MainMenu.buttonSize);
-        Instructions.mainMenu.setPreferredSize(MainMenu.buttonSize);
+        mainMenu.setPreferredSize(MainMenu.buttonSize);
 
         layout.putConstraint(SpringLayout.NORTH, easy, 200, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.WEST, easy, 130, SpringLayout.WEST, this);
@@ -58,11 +57,11 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         add (hard);
 
 
-        layout.putConstraint(SpringLayout.SOUTH, Instructions.mainMenu, -120, SpringLayout.SOUTH, this);
-        layout.putConstraint(SpringLayout.WEST, Instructions.mainMenu, 500, SpringLayout.WEST, this);
-        add(Instructions.mainMenu);
+        layout.putConstraint(SpringLayout.SOUTH, mainMenu, -120, SpringLayout.SOUTH, this);
+        layout.putConstraint(SpringLayout.WEST, mainMenu, 500, SpringLayout.WEST, this);
+        add(mainMenu);
 
-        layout.putConstraint(SpringLayout.SOUTH, back, -10, SpringLayout.NORTH, Instructions.mainMenu);
+        layout.putConstraint(SpringLayout.SOUTH, back, -10, SpringLayout.NORTH, mainMenu);
         layout.putConstraint(SpringLayout.WEST, back, 470, SpringLayout.WEST, this);
         back.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
         add(back);

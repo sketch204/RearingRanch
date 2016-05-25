@@ -31,7 +31,7 @@ public class MasterFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setJMenuBar(createMenuBar());
 
-        current = d;
+        current = m;
         add(current);
         setVisible(true);
         revalidate();
@@ -140,8 +140,6 @@ public class MasterFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getActionCommand().equals("Quit"))
             System.exit(0);
-         else if (ae.getSource().equals(Instructions.mainMenu))
-            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
         revalidate();
         repaint();
     }

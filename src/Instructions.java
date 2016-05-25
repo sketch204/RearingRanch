@@ -1,3 +1,5 @@
+import com.sun.tools.hat.internal.model.ReachableExcludes;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -65,9 +67,8 @@ public class Instructions extends JPanel {
         layout.putConstraint(SpringLayout.WEST, highscores, 100, SpringLayout.WEST, this);
         add(highscores);
 
-        /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
-         * finishes reading the instructions above.*/
-        JLabel goBack = new JLabel ("<html> Press the button to return to Main Menu.");
+        /** <br> <b> goBack </b> Clone of a JLabel class from MainMenu that displays a prompt message to return to main menu. */
+        JLabel goBack = RearingRanchDriver.getWindow().m.getGoBack();
         goBack.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
 
         layout.putConstraint(SpringLayout.NORTH, goBack, 30, SpringLayout.SOUTH, highscores);
@@ -75,7 +76,7 @@ public class Instructions extends JPanel {
         add(goBack);
 
         /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/
-        JButton mainMenu = RearingRanchDriver.getWindow().m.mainMenuButton();
+        JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenu();
 
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.WEST, mainMenu, 500, SpringLayout.WEST, this);
