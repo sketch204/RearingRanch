@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * Created by sketch204 on 2016-05-10.
  */
-class TempTest {
+class TempTest extends JFrame {
     JFrame frame = new JFrame ("I'm testing!");
     SpringLayout layout = new SpringLayout();
 

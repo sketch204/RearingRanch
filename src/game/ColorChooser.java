@@ -42,20 +42,19 @@ public class ColorChooser extends GameStage {
      * Contains the colors that are currently on screen.
      * Used for checking legality of input.
      */
-    private ArrayList<String> colors = null;
-
+    private static ArrayList<String> colors = new ArrayList<String>();
     /**
      * Creates an instance of the ColorChooser game stage. Creates a new GameStage panel that is fit for the Color Chooser stage of the game.
      * @param difficulty The difficulty on which this stage will be played on.
      */
     public ColorChooser(int difficulty) {
         super(difficulty);
+//        colors = new ArrayList<>();
         System.out.println(colors.toString());
     }
 
     @Override
     protected void generateAnimals() {
-        initializeColors();
         int [] animalsChosen = new int [getStablesAvailable()];
 
         // {Chicken, goose, sheep, horse, cow, goat}
@@ -80,7 +79,8 @@ public class ColorChooser extends GameStage {
             int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1;
             String tempHold = animalColors[animalsChosen[h]][index];
             stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0]);
-            colors.add(tempHold);
+            if (!colors.contains(tempHold))
+                colors.add(tempHold);
         }
 
         /*
@@ -90,9 +90,6 @@ public class ColorChooser extends GameStage {
         */
     }
 
-    private void initializeColors () {
-        colors = new ArrayList<String>();
-    }
 
     @Override
     protected boolean inputLegal() {

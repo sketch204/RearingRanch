@@ -57,7 +57,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     /**
      * Holds the difficulty of the current stage
      */
-    protected final int difficulty;
+    protected int difficulty;
     /**
      * The @see java.util.ArrayList that holds all JLabel currently in the input.
      */
@@ -71,6 +71,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * This is the array that is used to check for a legal input.
      */
     protected Animal[] stock;
+
 
     /**
      * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
@@ -95,20 +96,20 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
      * @param difficulty Sets the difficulty of this stage.
      */
-    public GameStage(int difficulty) {
+    public GameStage(int diff) {
         super();
 
-        this.difficulty = difficulty;
+        difficulty = diff;
 
-        this.setLayout(layout);
-        this.setSize(1280, 720);
-        this.setBackground(new Color(203, 203, 203));
+        setLayout(layout);
+        setSize(1280, 720);
+        setBackground(new Color(203, 203, 203));
 
         TOTAL_STABLES = generateBackground();
         generateAnimals();
         prepareGUI();
 
-        this.setVisible(true);
+        setVisible(true);
     }
 
     /**
