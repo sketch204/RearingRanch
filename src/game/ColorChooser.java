@@ -12,20 +12,29 @@ import javax.swing.*;
  * checking. If they are corrent, the user may proceed to the next stage.
  *
  * @author Inal Gotov
- * @version 1.3, 2016-05-15.
+ * @version 1.3, 2016-05-15
  * Last Edited: 2016-05-16
  * Hours since 2016-05-15:
  *       Tamir: -
- *       Inal: 4:15
+ *       Inal: 5:15
  */
 
 /*
  * So the problem is that the ArrayList 'colors' which i use to store the color currently on the screen is difficult to initialize.
- * The problem is that when you call super (in the constructor) none of the instance variables are initialized (idk why, thats just how it works), but
+ * The problem is that when you call super (in the constructor) none of the instance variables are initialized (idk why, that's just how it works), but
  * inside the super a call to generateAnimals is made. generateAnimals uses the colors arrayList for its purposes. If the arrayList is initialized at
  * declaration, then once you reach to generateAnimals, it just sees a null and throws an exception. Easy you say, just initialize it inside
  * generateAnimals, and here's the mystery: after i initialize it inside the method, once the call to super has completed, the value that i assigned to
  * colors is gone, so after the 'super' line, colors is still null. JVM Mysteries...
+ *
+ * In case you though of initializing colors inside the constructor, call to super must be the first line of the constructor.
+ *
+ * I thought it is because the stack trace leads to initialization inside parent class, not child (GameStage, not ColorChooser), therefore the value gets lost when you reach child
+ * but i've tried making a method that initializes it inside child and not parent. It no work.
+ *
+ * Honestly I'm lost, the braindead solution is to simply declare colors in GameStage but something in my subconsciousness tells me that i shouldn't do that, tell me if you think of anything.
+ *
+ * Oh and also... ROSTER!
  */
 
 public class ColorChooser extends GameStage {
@@ -46,7 +55,7 @@ public class ColorChooser extends GameStage {
 
     @Override
     protected void generateAnimals() {
-        colors = new ArrayList<String>();
+        initializeColors();
         int [] animalsChosen = new int [getStablesAvailable()];
 
         // {Chicken, goose, sheep, horse, cow, goat}
@@ -79,6 +88,10 @@ public class ColorChooser extends GameStage {
         Random Color
         Generate an ArrayList of Colors generated, for quicker input checks.
         */
+    }
+
+    private void initializeColors () {
+        colors = new ArrayList<String>();
     }
 
     @Override
