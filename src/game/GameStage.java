@@ -31,17 +31,13 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     private final int TOTAL_STABLES;
     /**
-     * The @see javax.swing.JButton on the inputBar that is responsible for erasing the last element on the inputBar.
+     * The @see javax.swing.JButton on the input that is responsible for erasing the last element on the input.
      */
     private JButton eraseButton = new JButton(new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Erase.png"));
     /**
      * States whether the game is currently active.
      */
     private boolean gameActive = true;
-    /**
-     * The @see java.util.ArrayList that holds all JLabel currently in the inputBar.
-     */
-    private ArrayList<JLabel> inputBar = new ArrayList<JLabel>();
     /**
      * The amount of stables available for the current background.
      */
@@ -51,7 +47,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     private Point [] stablePositions;
     /**
-     * The @see javax.swing.JButton on the inputBar that is responsible for initiating the legality check.
+     * The @see javax.swing.JButton on the input that is responsible for initiating the legality check.
      */
     private JButton submitButton = new JButton(new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png"));
     /**
@@ -62,6 +58,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * Holds the difficulty of the current stage
      */
     protected final int difficulty;
+    /**
+     * The @see java.util.ArrayList that holds all JLabel currently in the input.
+     */
+    protected ArrayList<JLabel> input = new ArrayList<JLabel>();
     /**
      * The layout of this panel.
      */
@@ -75,7 +75,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     /**
      * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
      */
-    public GameStage () {
+    public GameStage() {
         super();
 
         this.difficulty = 0;
@@ -85,6 +85,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         this.setBackground(new Color(203, 203, 203));
 
         TOTAL_STABLES = generateBackground();
+        generateAnimals();
         prepareGUI();
 
         this.setVisible(true);
@@ -114,7 +115,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * The accessor method for amount of available stables.
      * @return the amount of available stables.
      */
-    public int getStablesAvailable () {
+    public int getStablesAvailable() {
         return stablesAvailable;
     }
 
@@ -147,16 +148,16 @@ public abstract class GameStage extends JPanel implements ActionListener {
     }
 
     /**
-     * Draws the background for this stage, as well as all the needed game and inputBar buttons.
+     * Draws the background for this stage, as well as all the needed game and input buttons.
      * <p>
      * <b>Local Variables </b>
      * </p>
-     * <b>x </b> Holds the width of inputBar buttons.
+     * <b>x </b> Holds the width of input buttons.
      * </p>
-     * <b>y </b> Holds the height of inputBar buttons.
+     * <b>y </b> Holds the height of input buttons.
      */
     private void prepareGUI() {
-        generateBackground();
+//        generateBackground();
         createGameButtons();
 
         int x = new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png").getIconWidth(),
@@ -166,7 +167,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         submitButton.setPreferredSize(new Dimension(x, y));
         submitButton.addActionListener(this);
         submitButton.setBorder(BorderFactory.createLineBorder(new Color(34, 34, 34), 1, true));
-        submitButton.setIgnoreRepaint(true);
+//        submitButton.setIgnoreRepaint(true);
 
         layout.putConstraint(SpringLayout.WEST, submitButton, this.getWidth() - submitButton.getWidth() - 1, SpringLayout.WEST, this);
         layout.putConstraint(SpringLayout.NORTH, submitButton, -submitButton.getHeight(), SpringLayout.NORTH, buttons[0]);
@@ -175,7 +176,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         eraseButton.setPreferredSize(new Dimension(x, y));
         eraseButton.addActionListener(this);
         eraseButton.setBorder(BorderFactory.createLineBorder(new Color(34, 34, 34), 1, true));
-        eraseButton.setIgnoreRepaint(true);
+//        eraseButton.setIgnoreRepaint(true);
 
         layout.putConstraint(SpringLayout.EAST, eraseButton, 1, SpringLayout.WEST, submitButton);
         layout.putConstraint(SpringLayout.NORTH, eraseButton, -eraseButton.getHeight(), SpringLayout.NORTH, buttons[0]);
@@ -185,37 +186,37 @@ public abstract class GameStage extends JPanel implements ActionListener {
     }
 
     /**
-     * Removes that last entered element from the inputBar.
+     * Removes that last entered element from the input.
      */
     private void removeInputElement() {
-        if (inputBar.size() == 0)
+        if (input.size() == 0)
             return;
-        JLabel label = inputBar.remove(inputBar.size() - 1);
+        JLabel label = input.remove(input.size() - 1);
         remove(label);
         revalidate();
         repaint();
     }
 
     /**
-     * Insert the appropriate input, based on which button was presed, into the inputBar.
+     * Insert the appropriate input, based on which button was presed, into the input.
      *
      * @param input Holds the text of the game button.
      */
     private void writeInput(String input) {
-        for (int h = 0; h < inputBar.size(); h++)
-            if (inputBar.get(h).getText().equals(input))
+        for (int h = 0; h < this.input.size(); h++)
+            if (this.input.get(h).getText().equals(input))
                 return;
 
         JLabel label = createJLabel(input);
 
-        if (inputBar.size() == 0)
+        if (this.input.size() == 0)
             layout.putConstraint(SpringLayout.WEST, label, 0, SpringLayout.WEST, this);
         else
-            layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.EAST, inputBar.get(inputBar.size() - 1));
+            layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.EAST, this.input.get(this.input.size() - 1));
 
         layout.putConstraint(SpringLayout.SOUTH, label, -145, SpringLayout.SOUTH, this);
 
-        inputBar.add(label);
+        this.input.add(label);
         add(label);
         revalidate();
         repaint();
@@ -239,7 +240,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
             buttons[h].setText(icons[h].getDescription().substring(i1, i2));
             buttons[h].setBorder(BorderFactory.createEmptyBorder());
             buttons[h].setContentAreaFilled(true);
-            buttons[h].setIgnoreRepaint(true);
+//            buttons[h].setIgnoreRepaint(true);
         }
 
         layout.putConstraint(SpringLayout.WEST, buttons[0], 2, SpringLayout.WEST, this);
@@ -254,7 +255,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     }
 
     /**
-     * Creates the @see javax.swing.JLabel the is to be inserted into the inputBar.
+     * Creates the @see javax.swing.JLabel the is to be inserted into the input.
      *
      * @param text The text that the JLabel will contain.
      * @return The created JLabel.
@@ -292,10 +293,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * @return Return the first available position for the given axis.
      * @throws IllegalArgumentException Thrown whenever the argument is greater than 1 or less than 0.
      */
-    protected Point getPosition () {
-        if (stablesAvailable < 0) return null;
+    protected Point getPosition() {
+        if (stablesAvailable < 1) return null;
         stablesAvailable--;
-        return stablePositions [stablesAvailable+1];
+        return stablePositions [stablesAvailable];
     }
 
     /**
@@ -350,7 +351,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     }
 
     /**
-     * Draws the borderlines for the inputBar.
+     * Draws the borderlines for the input.
      *
      * @param g Graphics used by the current Component.
      */
@@ -358,10 +359,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.fillRect(0, 580, 1280, 2);
+        g.fillRect(0, 580, 1280, 200);
         g.fillRect(0, 535, 1280, 2);
 
         // Draw whatever each stage needs to be drawn.
-        createAnimals(g);
+//        createAnimals(g);
     }
 }

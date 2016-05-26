@@ -18,12 +18,22 @@ import javax.swing.*;
  *       Tamir: -
  *       Inal: 4:15
  */
+
+/*
+ * So the problem is that the ArrayList 'colors' which i use to store the color currently on the screen is difficult to initialize.
+ * The problem is that when you call super (in the constructor) none of the instance variables are initialized (idk why, thats just how it works), but
+ * inside the super a call to generateAnimals is made. generateAnimals uses the colors arrayList for its purposes. If the arrayList is initialized at
+ * declaration, then once you reach to generateAnimals, it just sees a null and throws an exception. Easy you say, just initialize it inside
+ * generateAnimals, and here's the mystery: after i initialize it inside the method, once the call to super has completed, the value that i assigned to
+ * colors is gone, so after the 'super' line, colors is still null. JVM Mysteries...
+ */
+
 public class ColorChooser extends GameStage {
     /**
      * Contains the colors that are currently on screen.
      * Used for checking legality of input.
      */
-    private ArrayList<String> colors = new ArrayList<String>();
+    private ArrayList<String> colors = null;
 
     /**
      * Creates an instance of the ColorChooser game stage. Creates a new GameStage panel that is fit for the Color Chooser stage of the game.
@@ -31,10 +41,12 @@ public class ColorChooser extends GameStage {
      */
     public ColorChooser(int difficulty) {
         super(difficulty);
+        System.out.println(colors.toString());
     }
 
     @Override
     protected void generateAnimals() {
+        colors = new ArrayList<String>();
         int [] animalsChosen = new int [getStablesAvailable()];
 
         // {Chicken, goose, sheep, horse, cow, goat}
@@ -56,7 +68,8 @@ public class ColorChooser extends GameStage {
         stock = new Animal[animalsChosen.length];
         for (int h = 0; h < stock.length; h++) {
             // Chooses a random color of an animal
-            String tempHold = animalColors[animalsChosen[h]][(int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1];
+            int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1;
+            String tempHold = animalColors[animalsChosen[h]][index];
             stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0]);
             colors.add(tempHold);
         }
@@ -71,14 +84,22 @@ public class ColorChooser extends GameStage {
     @Override
     protected boolean inputLegal() {
         ArrayList<String> tempHold = new ArrayList<String>(colors);
-        for (int h = 0; h < tempHold.size(); h++) {
-            // Have to figure out how to read input, and then check its legality
-            // You're checking legality more efficiently by remving checked component from the tempholder.
+        int matchesFound = 0;
+        for (int h = 0; h < input.size(); h++) {
+            for (int j = 0; j < tempHold.size(); j++) {
+                if (input.get(h).getText().equals(tempHold.get(j))){
+                    tempHold.remove(j);
+                    matchesFound ++;
+                    break;
+                }
+            }
         }
-        return true;
-//        setIsActive(false);
-//        System.out.println("Knock Knock, Color Chooser: Legality is not a thing yet :(");
-//        return false;
+        if (matchesFound == colors.size()) {
+            System.out.println("You guessed it!");
+            return true;
+        }
+        System.out.println("Nope");
+        return false;
     }
 
     @Override
