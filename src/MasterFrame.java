@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.io.File;
 
 /**
  * This is the master frame program, it will contain all the JPanels inside it
@@ -31,8 +32,15 @@ public class MasterFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setJMenuBar(createMenuBar());
 
-        current = m;
-        add(current);
+        File file = new File("src/pictures/InalGotov-Season.gif");
+        System.out.println(file.exists());
+
+        ImageIcon ii = new ImageIcon (("src/pictures/InalGotov-Season.gif"));
+        JLabel label = new JLabel();
+        label.setIcon(ii);
+        add(label);
+//        current = m;
+//        add(current);
         setVisible(true);
         revalidate();
         repaint();
