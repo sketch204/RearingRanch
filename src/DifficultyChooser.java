@@ -11,7 +11,7 @@ import java.awt.event.*;
  * @version 1 2016-05-15
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 1:30
+ *       Tamir: 2:00
  *       Inal: 0:40
  */
 public class DifficultyChooser extends JPanel implements ActionListener {
@@ -56,15 +56,14 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         layout.putConstraint(SpringLayout.WEST, hard, 20, SpringLayout.EAST, medium);
         add (hard);
 
-
         layout.putConstraint(SpringLayout.SOUTH, mainMenu, -120, SpringLayout.SOUTH, this);
         layout.putConstraint(SpringLayout.WEST, mainMenu, 500, SpringLayout.WEST, this);
         add(mainMenu);
 
-        layout.putConstraint(SpringLayout.SOUTH, back, -10, SpringLayout.NORTH, mainMenu);
-        layout.putConstraint(SpringLayout.WEST, back, 470, SpringLayout.WEST, this);
-        back.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
-        add(back);
+//        layout.putConstraint(SpringLayout.SOUTH, back, -10, SpringLayout.NORTH, mainMenu);
+//        layout.putConstraint(SpringLayout.WEST, back, 470, SpringLayout.WEST, this);
+//        back.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
+//        add(back);
     }
 
     private KeyListener enter = new KeyAdapter() {

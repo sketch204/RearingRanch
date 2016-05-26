@@ -2,6 +2,8 @@ import com.sun.tools.hat.internal.model.ReachableExcludes;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /** Instructions class creates a new panel that will replace main menu. The panel includes three labels that include instructions and
  * explanations of how to use the program and play the game.
@@ -77,9 +79,16 @@ public class Instructions extends JPanel {
 
         /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/
         JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenu();
-
+        mainMenu.requestFocus();
+        mainMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+            }
+        });
+        mainMenu.addKeyListener(MainMenu.enter);
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
-        layout.putConstraint(SpringLayout.WEST, mainMenu, 500, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(mainMenu);
     }
 
