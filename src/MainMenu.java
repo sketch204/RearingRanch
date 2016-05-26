@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
+import javax.imageio.*;
 import javax.swing.*;
 
 /**
@@ -17,13 +17,17 @@ import javax.swing.*;
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
  *       Tamir: 6:00
- *       Inal: 1:40
+ *       Inal: 2:00
  */
 public class MainMenu extends JPanel implements ActionListener{
     /** <br> <b> buttonSize </b> Instance of Dimension with the width and size of the Play Game Button. This Dimension is used to
      * set the default size of all the buttons on the screen.*/
-    public static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png")).getIconWidth(),
-            (new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png")).getIconHeight());
+    public static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/mainMenu/PlayButton.png")).getIconWidth(),
+                                                       (new ImageIcon("src/pictures/buttons/mainMenu/PlayButton.png")).getIconHeight());
+    /**
+     * Holds the file that will act as background through out the whole run of the program.
+     */
+    static File background = new File("src/pictures/backgrounds/background" + ((int) (Math.random() * 4) + 1) + ".png");
 
 //    static Font buttonFont = new Font ("OCR A Std", Font.PLAIN, 14);
 
@@ -43,10 +47,10 @@ public class MainMenu extends JPanel implements ActionListener{
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
 
-    private JButton [] mainChoices = {new JButton (new ImageIcon ("src/pictures/Button-Icon/Main Menu/PlayButton.png")),
-            new JButton(new ImageIcon("src/pictures/Button-Icon/Main Menu/InstructionsButton.png")),
-            new JButton(new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png")),
-            new JButton(new ImageIcon ("src/pictures/Button-Icon/Main Menu/QuitButton.png"))};
+    private JButton [] mainChoices = {new JButton (new ImageIcon ("src/pictures/buttons/mainMenu/PlayButton.png")),
+            new JButton(new ImageIcon("src/pictures/buttons/mainMenu/InstructionsButton.png")),
+            new JButton(new ImageIcon("src/pictures/buttons/mainMenu/HighscoresButton.png")),
+            new JButton(new ImageIcon ("src/pictures/buttons/mainMenu/QuitButton.png"))};
 
     /** The MainMenu constructor sets the layout manager to SpringLayout, sets the size to 1280x720, and references prepareGUI method. */
     MainMenu() {
@@ -54,8 +58,6 @@ public class MainMenu extends JPanel implements ActionListener{
         setLayout(layout);
         setSize(1280, 720);
         prepareGUI();
-
-
     }
 
     static KeyListener enter = new KeyAdapter() {
@@ -71,9 +73,6 @@ public class MainMenu extends JPanel implements ActionListener{
      * brief intro label.
      */
     private void prepareGUI () {
-
-
-
         /** <br> <b> intro </b> Instance of JLabel class that stores an introduction message to the user. */
         JLabel intro = new JLabel("<html> Welcome to Rearing Ranch! Press any of the following buttons to continue." +
                 "<br>Press Play Game to start! If you need help, press Instructions. Press the Highscores button to view previous highscores!" +
@@ -146,6 +145,14 @@ public class MainMenu extends JPanel implements ActionListener{
         return goBack;
     }
 
+    private BufferedImage generateBG () {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(background);
+        } catch (IOException e) {}
+        return img;
+    }
+
     private BufferedImage getImage (String name) {
         try {
             BufferedImage pic = ImageIO.read (new File("src/pictures/" + name + ".png"));
@@ -155,9 +162,12 @@ public class MainMenu extends JPanel implements ActionListener{
         }
         return null;
     }
-    public void paintComponent (Graphics g) {
 
+    @Override
+    protected void paintComponent (Graphics g) {
+        g.drawImage(generateBG(), 0, 0, null);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(mainMenu))

@@ -45,9 +45,9 @@ public class AnimalClassifier extends GameStage {
     @Override
     protected ImageIcon[] generateButtons() {
         buttons = new JButton[6];
-        ImageIcon [] icons = {new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Chicken.png"), new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Cow.png"),
-                new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Goat.png"), new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Goose.png"),
-                new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Horse.png"), new ImageIcon ("src/pictures/Button-Icon/stage2/Icon-Sheep.png")};
+        ImageIcon [] icons = {new ImageIcon ("src/pictures/buttons/stage2/Icon-Chicken.png"), new ImageIcon ("src/pictures/buttons/stage2/Icon-Cow.png"),
+                new ImageIcon ("src/pictures/buttons/stage2/Icon-Goat.png"), new ImageIcon ("src/pictures/buttons/stage2/Icon-Goose.png"),
+                new ImageIcon ("src/pictures/buttons/stage2/Icon-Horse.png"), new ImageIcon ("src/pictures/buttons/stage2/Icon-Sheep.png")};
         return icons;
     }
 }

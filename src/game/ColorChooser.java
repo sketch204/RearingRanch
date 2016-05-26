@@ -125,8 +125,8 @@ public class ColorChooser extends GameStage {
     @Override
     protected ImageIcon[] generateButtons () {
         buttons = new JButton[4];
-        ImageIcon [] icons = {new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Black.png"), new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Gray.png"),
-                              new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-Brown.png"), new ImageIcon ("src/pictures/Button-Icon/stage1/Icon-White.png")};
+        ImageIcon [] icons = {new ImageIcon ("src/pictures/buttons/stage1/Icon-Black.png"), new ImageIcon ("src/pictures/buttons/stage1/Icon-Gray.png"),
+                              new ImageIcon ("src/pictures/buttons/stage1/Icon-Brown.png"), new ImageIcon ("src/pictures/buttons/stage1/Icon-White.png")};
         return icons;
     }
 }

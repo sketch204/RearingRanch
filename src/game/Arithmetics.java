@@ -87,11 +87,11 @@ public class Arithmetics extends GameStage {
     @Override
     protected ImageIcon[] generateButtons() {
         buttons = new JButton[10];
-        ImageIcon[] icons = {new ImageIcon("src/pictures/Button-Icon/stage3/Icon-1.png"), new ImageIcon("src/pictures/Button-Icon/stage3/Icon-2.png"),
-                             new ImageIcon("src/pictures/Button-Icon/stage3/Icon-3.png"), new ImageIcon("src/pictures/Button-Icon/stage3/Icon-4.png"),
-                             new ImageIcon("src/pictures/Button-Icon/stage3/Icon-5.png"), new ImageIcon("src/pictures/Button-Icon/stage3/Icon-6.png"),
-                             new ImageIcon("src/pictures/Button-Icon/stage3/Icon-7.png"), new ImageIcon("src/pictures/Button-Icon/stage3/Icon-8.png"),
-                             new ImageIcon("src/pictures/Button-Icon/stage3/Icon-9.png"), new ImageIcon("src/pictures/Button-Icon/stage3/Icon-0.png")};
+        ImageIcon[] icons = {new ImageIcon("src/pictures/buttons/stage3/Icon-1.png"), new ImageIcon("src/pictures/buttons/stage3/Icon-2.png"),
+                             new ImageIcon("src/pictures/buttons/stage3/Icon-3.png"), new ImageIcon("src/pictures/buttons/stage3/Icon-4.png"),
+                             new ImageIcon("src/pictures/buttons/stage3/Icon-5.png"), new ImageIcon("src/pictures/buttons/stage3/Icon-6.png"),
+                             new ImageIcon("src/pictures/buttons/stage3/Icon-7.png"), new ImageIcon("src/pictures/buttons/stage3/Icon-8.png"),
+                             new ImageIcon("src/pictures/buttons/stage3/Icon-9.png"), new ImageIcon("src/pictures/buttons/stage3/Icon-0.png")};
         return icons;
     }
 }

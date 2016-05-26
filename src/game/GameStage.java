@@ -33,7 +33,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     /**
      * The @see javax.swing.JButton on the input that is responsible for erasing the last element on the input.
      */
-    private JButton eraseButton = new JButton(new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Erase.png"));
+    private JButton eraseButton = new JButton(new ImageIcon("src/pictures/buttons/inputBar/Icon-Erase.png"));
     /**
      * States whether the game is currently active.
      */
@@ -49,7 +49,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     /**
      * The @see javax.swing.JButton on the input that is responsible for initiating the legality check.
      */
-    private JButton submitButton = new JButton(new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png"));
+    private JButton submitButton = new JButton(new ImageIcon("src/pictures/buttons/inputBar/Icon-Submit.png"));
     /**
      * The array that holds all the game buttons currently on screen.
      */
@@ -71,7 +71,6 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * This is the array that is used to check for a legal input.
      */
     protected Animal[] stock;
-
 
     /**
      * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
@@ -161,8 +160,8 @@ public abstract class GameStage extends JPanel implements ActionListener {
 //        generateBackground();
         createGameButtons();
 
-        int x = new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png").getIconWidth(),
-                y = new ImageIcon("src/pictures/Button-Icon/inputBar/Icon-Submit.png").getIconHeight();
+        int x = new ImageIcon("src/pictures/buttons/inputBar/Icon-Submit.png").getIconWidth(),
+                y = new ImageIcon("src/pictures/buttons/inputBar/Icon-Submit.png").getIconHeight();
 
         submitButton.setSize(x, y);
         submitButton.setPreferredSize(new Dimension(x, y));

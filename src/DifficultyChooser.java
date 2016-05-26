@@ -1,7 +1,12 @@
 import game.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * DifficultyChooser class will display the user with three difficulty levels: easy, medium, and hard, that they must choose
@@ -15,15 +20,20 @@ import java.awt.event.*;
  *       Inal: 0:40
  */
 public class DifficultyChooser extends JPanel implements ActionListener {
-
-    private JButton easy = new JButton ("Easy");
-    private JButton medium = new JButton ("Medium");
-    private JButton hard = new JButton ("Hard");
+    private Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconWidth(),
+                                                 (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconHeight());
+    private JButton [] diffButtons = {new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")),
+                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/MediumButton.png")),
+                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/HardButton.png"))};
+    /**
+     * Holds the file that will act as background through out the whole run of the program.
+     */
     private JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenu();
     private JLabel back = RearingRanchDriver.getWindow().m.getGoBack();
 
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
+
     public DifficultyChooser () {
         super();
         setLayout(layout);
@@ -32,29 +42,13 @@ public class DifficultyChooser extends JPanel implements ActionListener {
     }
 
     private void prepareGUI () {
-        easy.addActionListener(this);
-        medium.addActionListener(this);
-        hard.addActionListener(this);
-        mainMenu.addActionListener(this);
-        mainMenu.addKeyListener(enter);
-        mainMenu.requestFocus();
-
-        easy.setPreferredSize(MainMenu.buttonSize);
-        medium.setPreferredSize(MainMenu.buttonSize);
-        hard.setPreferredSize(MainMenu.buttonSize);
-        mainMenu.setPreferredSize(MainMenu.buttonSize);
-
-        layout.putConstraint(SpringLayout.NORTH, easy, 200, SpringLayout.NORTH, this);
-        layout.putConstraint(SpringLayout.WEST, easy, 130, SpringLayout.WEST, this);
-        add (easy);
-
-        layout.putConstraint(SpringLayout.NORTH, medium, 0, SpringLayout.NORTH, easy);
-        layout.putConstraint(SpringLayout.WEST, medium, 20, SpringLayout.EAST, easy);
-        add (medium);
-
-        layout.putConstraint(SpringLayout.NORTH, hard, 0, SpringLayout.NORTH, medium);
-        layout.putConstraint(SpringLayout.WEST, hard, 20, SpringLayout.EAST, medium);
-        add (hard);
+        for (int h = 0; h < 3; h++) {
+            diffButtons[h].addActionListener(this);
+            diffButtons[h].setPreferredSize(buttonSize);
+            layout.putConstraint(SpringLayout.NORTH, diffButtons[h], 200, SpringLayout.NORTH, this);
+            layout.putConstraint(SpringLayout.WEST, diffButtons[h], 130 + ((int)buttonSize.getWidth() + 20)*h, SpringLayout.WEST, this);
+            add (diffButtons[h]);
+        }
 
         layout.putConstraint(SpringLayout.SOUTH, mainMenu, -120, SpringLayout.SOUTH, this);
         layout.putConstraint(SpringLayout.WEST, mainMenu, 500, SpringLayout.WEST, this);
@@ -64,6 +58,19 @@ public class DifficultyChooser extends JPanel implements ActionListener {
 //        layout.putConstraint(SpringLayout.WEST, back, 470, SpringLayout.WEST, this);
 //        back.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
 //        add(back);
+    }
+
+    private BufferedImage generateBG () {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(MainMenu.background);
+        } catch (IOException e) {}
+        return img;
+    }
+
+    @Override
+    protected void paintComponent (Graphics g) {
+        g.drawImage(generateBG(), 0, 0, null);
     }
 
     private KeyListener enter = new KeyAdapter() {
@@ -104,11 +111,11 @@ public class DifficultyChooser extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(easy))
+        if (e.getSource().equals(diffButtons[0]))
             initiatePlay(0);
-        else if (e.getSource().equals(medium))
+        else if (e.getSource().equals(diffButtons[1]))
             initiatePlay(1);
-        else if (e.getSource().equals(hard))
+        else if (e.getSource().equals(diffButtons[2]))
             initiatePlay(2);
         else if (e.getSource().equals(back))
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
