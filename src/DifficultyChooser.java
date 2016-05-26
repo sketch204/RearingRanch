@@ -17,7 +17,7 @@ import java.io.IOException;
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
  *       Tamir: 2:00
- *       Inal: 0:40
+ *       Inal: 1:00
  */
 public class DifficultyChooser extends JPanel implements ActionListener {
     private Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconWidth(),

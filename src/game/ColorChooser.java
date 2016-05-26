@@ -19,24 +19,6 @@ import javax.swing.*;
  *       Inal: 5:15
  */
 
-/*
- * So the problem is that the ArrayList 'colors' which i use to store the color currently on the screen is difficult to initialize.
- * The problem is that when you call super (in the constructor) none of the instance variables are initialized (idk why, that's just how it works), but
- * inside the super a call to generateAnimals is made. generateAnimals uses the colors arrayList for its purposes. If the arrayList is initialized at
- * declaration, then once you reach to generateAnimals, it just sees a null and throws an exception. Easy you say, just initialize it inside
- * generateAnimals, and here's the mystery: after i initialize it inside the method, once the call to super has completed, the value that i assigned to
- * colors is gone, so after the 'super' line, colors is still null. JVM Mysteries...
- *
- * In case you though of initializing colors inside the constructor, call to super must be the first line of the constructor.
- *
- * I thought it is because the stack trace leads to initialization inside parent class, not child (GameStage, not ColorChooser), therefore the value gets lost when you reach child
- * but i've tried making a method that initializes it inside child and not parent. It no work.
- *
- * Honestly I'm lost, the braindead solution is to simply declare colors in GameStage but something in my subconsciousness tells me that i shouldn't do that, tell me if you think of anything.
- *
- * Oh and also... ROSTER!
- */
-
 public class ColorChooser extends GameStage {
     /**
      * Contains the colors that are currently on screen.

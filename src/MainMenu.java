@@ -17,7 +17,7 @@ import javax.swing.*;
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
  *       Tamir: 6:00
- *       Inal: 2:00
+ *       Inal: 3:00
  */
 public class MainMenu extends JPanel implements ActionListener{
     /** <br> <b> buttonSize </b> Instance of Dimension with the width and size of the Play Game Button. This Dimension is used to
