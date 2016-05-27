@@ -35,7 +35,6 @@ public class Arithmetics extends GameStage {
 
     @Override
     protected void inputLegal() {
-        setIsActive(false);
         System.out.println("Knock Knock, Color Chooser: Legality is not a thing yet :(");
     }
 

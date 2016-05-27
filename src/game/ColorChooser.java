@@ -3,7 +3,11 @@ package root.game;
 import root.RearingRanchDriver;
 import root.dataclass.Animal;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -16,7 +20,7 @@ import javax.swing.*;
  * Last Edited: 2016-05-16
  * Hours since 2016-05-15:
  *       Tamir: -
- *       Inal: 5:15
+ *       Inal: 7:15
  */
 
 public class ColorChooser extends GameStage {
@@ -31,8 +35,8 @@ public class ColorChooser extends GameStage {
      */
     public ColorChooser(int difficulty) {
         super(difficulty);
-//        colors = new ArrayList<>();
         System.out.println(colors.toString());
+        System.out.println(stock.length);
     }
 
     /**
@@ -40,12 +44,12 @@ public class ColorChooser extends GameStage {
      */
     @Override
     protected void generateAnimals() {
-        // Holds the index within animalColors, of which animalswere chosen to be drawn.
+        // Holds the index within animalColors, of which animals were chosen to be drawn.
         int [] animalsChosen = new int [getStablesAvailable()];
 
         // {Chicken, goose, sheep, horse, cow, goat}
-        String [] [] animalColors = {{"Chicken", "Brown", "White"}, {"Goose", "Black", "Brown", "White"}, {"Sheep", "Brown", "White"}, {"Horse", "White", "Brown"},
-                              {"Cow", "BlackOn-Brown", "BlackOn-White", "BrownOn-White", "WhiteOn-Black", "WhiteOnBrown"}, {"Goat", "Brown", "White", "Black"}};
+        String [] [] animalColors = {{"Chicken", "Brown", "White"}, {"Goose", "Brown", "White"}, {"Sheep", "Brown", "White"}, {"Horse", "Black", "White", "Brown"},
+                                     {"Cow", "BlackOn-Brown", "BlackOn-White", "BrownOn-White", "WhiteOn-Black", "WhiteOn-Brown"}, {"Goat", "Brown", "White", "Gray"}};
 
         // Set amount of animals to be chosen based on difficulty
         if (difficulty == 1){ // Animals used: 1-2; chicken, goose
@@ -63,11 +67,24 @@ public class ColorChooser extends GameStage {
 
         // Generate random colors, create and fill the 'stock' array
         stock = new Animal[animalsChosen.length];
-        for (int h = 0; h < stock.length; h++) {
+        Point[] p = getPosition(stock.length);
+        int starter = 0;
+        if (p.length > stock.length) {
+            int index = (int)(Math.random()*(animalColors[animalsChosen[0]].length - 1))+1;
+            String tempHold = animalColors[animalsChosen[0]][index];
+
+            stock[0] = new Animal(tempHold, animalColors[animalsChosen[0]][0], p[0].x, p[0].y, p[p.length-1].x, p[p.length-1].y);
+            if (!colors.contains(tempHold))
+                colors.add(tempHold);
+            starter = 1;
+        }
+        for (int h = starter; h < stock.length; h++) {
             // Chooses a random color of an animal
             int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1;
             String tempHold = animalColors[animalsChosen[h]][index];
-            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0]);
+            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0], p[h].x, p[h].y);
+            if (animalsChosen[h] == 4)
+                tempHold = tempHold.substring(tempHold.indexOf('-') + 1);
             if (!colors.contains(tempHold))
                 colors.add(tempHold);
         }
@@ -99,11 +116,26 @@ public class ColorChooser extends GameStage {
     @Override
     protected void createAnimals(Graphics g) {
         for (int h = 0; h < stock.length; h ++) {
-            Image img = stock[h].getPicture().getScaledInstance(50, 50, 0);
-            Point[] p = getPosition(stock.length);
-            g.drawImage(img, p[0].x, p[0].y, null);
+            g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
+            if (stock[h].stallNeeded()) {
+                BufferedImage stall = null;
+                int x = 0, y = 0;
+                try {
+                    if (stock[h].getX() == 338) {
+                        stall = ImageIO.read(new File("src/picture/backgrounds/stall-left.png"));
+                        x = 1; y = 106;
+                    } else {
+                        stall = ImageIO.read(new File("src/picture/backgrounds/stall-right.png"));
+                        x = 894; y = 85;
+                    }
+                } catch (IOException e) {}
+                g.drawImage(stall, x, y, null);
+            }
         }
 
+        // Invert coords
+        // Check if stall needed.
+        // Draw the animal
     }
 
     @Override

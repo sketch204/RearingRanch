@@ -86,7 +86,6 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
             mainChoices[ii].addActionListener(this);
             mainChoices[ii].addKeyListener(enter);
             mainChoices[ii].addKeyListener(this);
-            mainChoices[ii].setIgnoreRepaint(true);
 //            mainChoices[i].setContentAreaFilled(true);
 //            mainChoices[i].setBorder((BorderFactory.createEmptyBorder()));
 //            mainChoices[ii].addKeyListener(new KeyAdapter() {

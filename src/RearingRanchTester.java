@@ -44,8 +44,9 @@ public class RearingRanchTester {
                 // Test if your super ingenious algorithm works
                 // Its not that stables is 0
                 // I'm sleepy
-                System.out.println(gs.testGetPosition(j));
+//                System.out.println(gs.testGetPosition(j));
             }
+            System.out.println();
         }
     }
 
