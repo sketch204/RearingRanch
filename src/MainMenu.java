@@ -1,8 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.*;
+import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
 
@@ -16,10 +15,10 @@ import javax.swing.*;
  *
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 6:00
- *       Inal: 3:00
+ *       Tamir: 8:00
+ *       Inal: 2:00
  */
-public class MainMenu extends JPanel implements ActionListener{
+public class MainMenu extends JPanel implements ActionListener, KeyListener{
     /** <br> <b> buttonSize </b> Instance of Dimension with the width and size of the Play Game Button. This Dimension is used to
      * set the default size of all the buttons on the screen.*/
     public static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/mainMenu/PlayButton.png")).getIconWidth(),
@@ -47,6 +46,8 @@ public class MainMenu extends JPanel implements ActionListener{
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
 
+    public int ii = 0;
+    public int index = 0;
     private JButton [] mainChoices = {new JButton (new ImageIcon ("src/pictures/buttons/mainMenu/PlayButton.png")),
             new JButton(new ImageIcon("src/pictures/buttons/mainMenu/InstructionsButton.png")),
             new JButton(new ImageIcon("src/pictures/buttons/mainMenu/HighscoresButton.png")),
@@ -78,31 +79,32 @@ public class MainMenu extends JPanel implements ActionListener{
                 "<br>Press Play Game to start! If you need help, press Instructions. Press the Highscores button to view previous highscores!" +
                 "<br>If you want to leave, press Quit! </html>");
 
-        for (int i = 0; i < mainChoices.length; i++) {
-            final int index = i;
-            mainChoices[i].addActionListener(this);
-            mainChoices[i].addKeyListener(enter);
+        for (ii = 0; ii < mainChoices.length; ii++) {
+//            final int index = ii;
+            mainChoices[ii].addActionListener(this);
+            mainChoices[ii].addKeyListener(enter);
+            mainChoices[ii].addKeyListener(this);
 //            mainChoices[i].setContentAreaFilled(true);
 //            mainChoices[i].setBorder((BorderFactory.createEmptyBorder()));
-            mainChoices[i].addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    switch (e.getKeyCode()) {
-                        case KeyEvent.VK_UP:
-                            if (index > 0)
-                                mainChoices[index - 1].requestFocus();
-                            else
-                                mainChoices[mainChoices.length-1].requestFocus();
-                            break;
-                        case KeyEvent.VK_DOWN:
-                            if (index  == mainChoices.length-1)
-                                mainChoices[0].requestFocus();
-                            else
-                                mainChoices[index+1].requestFocus();
-                            break;
-                        default:
-                            break;
-                    }}});
+//            mainChoices[ii].addKeyListener(new KeyAdapter() {
+//                @Override
+//                public void keyPressed(KeyEvent e) {
+//                    switch (e.getKeyCode()) {
+//                        case KeyEvent.VK_UP:
+//                            if (index > 0)
+//                                mainChoices[index - 1].requestFocus();
+//                            else
+//                                mainChoices[mainChoices.length-1].requestFocus();
+//                            break;
+//                        case KeyEvent.VK_DOWN:
+//                            if (index  == mainChoices.length-1)
+//                                mainChoices[0].requestFocus();
+//                            else
+//                                mainChoices[index+1].requestFocus();
+//                            break;
+//                        default:
+//                            break;
+//                    }}});
         }
 
         mainChoices[0].requestFocus();
@@ -137,6 +139,7 @@ public class MainMenu extends JPanel implements ActionListener{
         repaint();
     }
 
+
     public JButton getMainMenu() {
         return mainMenu;
     }
@@ -156,16 +159,19 @@ public class MainMenu extends JPanel implements ActionListener{
     private BufferedImage getImage (String name) {
         try {
             BufferedImage pic = ImageIO.read (new File("src/pictures/" + name + ".png"));
+            return pic;
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "No such file exists! Sorry mate.", "ErrorMsg", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
         return null;
     }
-
-    @Override
-    protected void paintComponent (Graphics g) {
-        g.drawImage(generateBG(), 0, 0, null);
+    public void paintComponent (Graphics g) {
+        if (g != null) {
+            int yCoord = 215 + 105*index;
+            g.drawImage(generateBG(), 0, 0, null);
+            g.drawImage(getImage("Goose-Brown small"), 400, yCoord, null); // interval is 105 pixels on y axis
+        }
     }
 
     @Override
@@ -184,6 +190,43 @@ public class MainMenu extends JPanel implements ActionListener{
             //RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().g, "Good Bye!");
             System.exit(0);
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                if (index > 0) {
+                    mainChoices[index - 1].requestFocus();
+                    index--;
+                } else {
+                    mainChoices[mainChoices.length - 1].requestFocus();
+                    index = 3;
+                }
+                break;
+            case KeyEvent.VK_DOWN:
+                if (index == mainChoices.length - 1) {
+                    mainChoices[0].requestFocus();
+                    index = 0;
+                } else {
+                    mainChoices[index + 1].requestFocus();
+                    index++;
+                }
+                break;
+            default:
+                break;
+        }
+        paintComponent(this.getGraphics());
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
 
