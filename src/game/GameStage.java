@@ -2,9 +2,13 @@ package game;
 
 import dataclass.Animal;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -30,6 +34,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * Holds the amount of the total stables available in this stage.
      */
     private final int TOTAL_STABLES;
+    /**
+     * Holds the file that will act as background through out the whole run of the program.
+     */
+    private File background = new File("src/pictures/backgrounds/background" + ((int) (Math.random() * 4) + 1) + ".png");
     /**
      * The @see javax.swing.JButton on the input that is responsible for erasing the last element on the input.
      */
@@ -85,7 +93,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         this.setBackground(new Color(203, 203, 203));
 
         TOTAL_STABLES = generateBackground();
-        generateAnimals();
+
         prepareGUI();
 
         this.setVisible(true);
@@ -95,10 +103,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
      * @param difficulty Sets the difficulty of this stage.
      */
-    public GameStage(int diff) {
+    public GameStage(int difficulty) {
         super();
 
-        difficulty = diff;
+        this.difficulty = difficulty;
 
         setLayout(layout);
         setSize(1280, 720);
@@ -130,21 +138,86 @@ public abstract class GameStage extends JPanel implements ActionListener {
 
     /**
      * Randomly chooses a background from the resources and draws it on the scene.
+     * Also initializes the stablePositions and StablesAvailable variables.
      */
     private int generateBackground() {
-        // Testing
-        stablesAvailable = 3;
-        stablePositions = new Point [stablesAvailable];
+        int bGNum = (int)(Math.random() * 4) + 1;
 
-        if (true) {
-            for (int h = 0; h < stablePositions.length; h++) {
-                stablePositions[h] = new Point (h*200, 0);
-            }
+        switch (bGNum) {
+            case 1:
+                stablesAvailable = 5;
+                stablePositions = new Point [stablesAvailable];
+                stablePositions [0] = new Point (309, 558);
+                stablePositions [1] = new Point (595, 438);
+                stablePositions [2] = new Point (676, 686);
+                stablePositions [3] = new Point (1071, 643);
+                stablePositions [4] = new Point (952, 382);
+                break;
+            case 2:
+                stablesAvailable = 8;
+                stablePositions = new Point [stablesAvailable + 2];
+                stablePositions [0] = new Point (338, 406);
+                stablePositions [1] = new Point (757, 389);
+                stablePositions [2] = new Point (1058, 436);
+                stablePositions [3] = new Point (283, 503);
+                stablePositions [4] = new Point (798, 508);
+                stablePositions [5] = new Point (1279, 478);
+                stablePositions [6] = new Point (531, 599);
+                stablePositions [7] = new Point (1058, 644);
+                stablePositions [8] = new Point (1, 106);
+                stablePositions [9] = new Point (864, 85);
+                break;
+            case 3:
+                stablesAvailable = 7;
+                stablePositions = new Point [stablesAvailable];
+                stablePositions [0] = new Point (462, 318);
+                stablePositions [1] = new Point (746, 340);
+                stablePositions [2] = new Point (1052, 286);
+                stablePositions [3] = new Point (1267, 416);
+                stablePositions [4] = new Point (405, 480);
+                stablePositions [5] = new Point (789, 525);
+                stablePositions [6] = new Point (1043, 470);
+                break;
+            case 4:
+                stablesAvailable = 7;
+                stablePositions = new Point [stablesAvailable];
+                stablePositions [0] = new Point (431, 237);
+                stablePositions [1] = new Point (714, 282);
+                stablePositions [2] = new Point (1030, 309);
+                stablePositions [3] = new Point (358, 367);
+                stablePositions [4] = new Point (606, 450);
+                stablePositions [5] = new Point (1279, 503);
+                stablePositions [6] = new Point (959, 548);
+                break;
         }
-        // Will draw the background
-        // Will set the amount of stables available, based on background
-        // Will set the positions for each stable, based on background
+
+
+
+//        // Testing
+//        stablesAvailable = 3;
+//        stablePositions = new Point [stablesAvailable];
+//
+//        if (true) {
+//            for (int h = 0; h < stablePositions.length; h++) {
+//                stablePositions[h] = new Point (h*200, 0);
+//            }
+//        }
+//        // Will draw the background
+//        // Will set the amount of stables available, based on background
+//        // Will set the positions for each stable, based on background
         return stablesAvailable;
+    }
+
+    /**
+     * Transform the background from a File type to a BufferedImage type.
+     * @return the BufferedImage version of the background.
+     */
+    private BufferedImage generateBG () {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(background);
+        } catch (IOException e) {}
+        return img;
     }
 
     /**
@@ -240,7 +313,6 @@ public abstract class GameStage extends JPanel implements ActionListener {
             buttons[h].setText(icons[h].getDescription().substring(i1, i2));
             buttons[h].setBorder(BorderFactory.createEmptyBorder());
             buttons[h].setContentAreaFilled(true);
-//            buttons[h].setIgnoreRepaint(true);
         }
 
         layout.putConstraint(SpringLayout.WEST, buttons[0], 2, SpringLayout.WEST, this);
@@ -262,7 +334,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected JLabel createJLabel(String text) {
         JLabel label = new JLabel(text);
-        Color color = new Color(113, 75, 47);
+        Color color = new Color(215, 215, 215);
 
         label.setForeground(color);
         label.setFont(new Font("Chalkboard SE", 0, 20));
@@ -272,31 +344,108 @@ public abstract class GameStage extends JPanel implements ActionListener {
     }
 
     /**
-     * Automatically checks whether the animal with the passed id has been drawn
-     * and if it was, then it will be erased. After that the method draws the animal with the passed
-     * id placing it top-left corner at the passed x, y coordinates.
-     *
-     * @param x  Holds the value for the x coordinate of the top-left corner of the image.
-     * @param y  Holds the value for the x coordinate of the top-left corner of the image.
-     * @param id Holds the value for the id number of the animal to be drawn.
-     *           <p>
-     *           Not working atm. (NullPointerException, line 4, 4th parameter, it technically should be null either way so idk).
-     */
-    protected void drawAnimal(int x, int y, int id) {
-        Graphics g = this.getGraphics();
-        g.drawImage(stock[id].getPicture(), x, y, this);
-        this.repaint(x - 1, y - 1, stock[id].getPicture().getWidth() + 1, stock[id].getPicture().getHeight() + 1);
-    }
-
-    /**
      * Return the first available position for the given axis.
      * @return Return the first available position for the given axis.
      * @throws IllegalArgumentException Thrown whenever the argument is greater than 1 or less than 0.
      */
-    protected Point getPosition() {
+    protected Point[] getPosition(int amount) {
         if (stablesAvailable < 1) return null;
-        stablesAvailable--;
-        return stablePositions [stablesAvailable];
+
+        Point [] points = new Point[amount];
+
+        if (stablePositions.length == 10) {
+            if (amount == 4) {
+                points = new Point [amount+1];
+                return null;
+                // 1 Random from 1-3, if 1 || 3, add stall position
+            }
+            // Random > 3
+        } else {
+            int index = -1, lastIndex = index, min = 0, max = stablePositions.length - 1, amountTop = 1, amountBottom = 0;
+
+            if (amount > 1) {
+                amountBottom = amount - 1; // 1 || 2
+                max = 3;
+            } else if (amount == 4) {
+                amountTop = 2;
+                amountBottom = 2;
+                max = 3;
+            }
+
+            for (int h = 0; h < amountTop; h++) {
+                do {
+                    index = (int) ((Math.random() * ((max - min) + 1)) + min);
+                } while (index == lastIndex);
+                lastIndex = index;
+                points[h] = stablePositions [index];
+            }
+//            if (amountTop == 2)
+//                assert points[0].getX() == points[1].getX() : "Number are repeating for top";
+
+            for (int h = amountTop; h < amountBottom; h++) {
+                do {
+                    index = (int) ((Math.random() * ((stablePositions.length - 4) + 1)) + 3);
+                } while (index == lastIndex);
+                lastIndex = index;
+                points[h] = stablePositions [index];
+            }
+//            if (amount == 3)
+//                assert points[1].getX() == points[2].getX() : "Number are repeating for bottom";
+//            if (amount == 4)
+//                assert points[2].getX() == points[3].getX() : "Number are repeating for bottom";
+
+            //--------------------------------------------------------------------------------
+//            if (amount == 1) { // Random
+//                index = (int)((Math.random() * stablePositions.length - 1) + 1);
+//                points[0] = stablePositions[index];
+//
+//            } else if (amount == 2) { // One from each row
+//                // One Top
+//                index = (int)((Math.random() * 3) + 1);
+//                points[0] = stablePositions[index];
+//                // One Bottom
+//                index = (int)((Math.random() * ((stablePositions.length - 4) + 1)) + 3);
+//                points[1] = stablePositions[index];
+//
+//            } else if (amount == 3) { // One from top, two from bottom
+//                // One Top
+//                index = (int)((Math.random() * 3) + 1);
+//                points[0] = stablePositions[index];
+//                // One Bottom
+//                index = (int)((Math.random() * ((stablePositions.length - 4) + 1)) + 3);
+//                points[1] = stablePositions[index];
+//                // Two Bottom
+//                index = (int)((Math.random() * ((stablePositions.length - 4) + 1)) + 3);
+//                points[2] = stablePositions[index];
+//            } else if (amount == 4) { // Two tops, two from bottom row
+//                // One Top
+//                index = (int)((Math.random() * 3) + 1);
+//                points[0] = stablePositions[index];
+//                // Two Top
+//                index = (int)((Math.random() * 3) + 1);
+//                points[1] = stablePositions[index];
+//                // One Bottom
+//                index = (int)((Math.random() * ((stablePositions.length - 4) + 1)) + 3);
+//                points[2] = stablePositions[index];
+//                // Two Bottom
+//                index = (int)((Math.random() * ((stablePositions.length - 4) + 1)) + 3);
+//                points[3] = stablePositions[index];
+//            }
+        }
+        return null;
+    }
+
+    public String testGetPosition (int amount) {
+        generateBackground();
+        String output = "";
+        Point [] p = getPosition(amount);
+        if (p == null)
+            return "null";
+
+        for (int h = 0; h <p.length; h++) {
+            output += "(" + p[h].getX() + ", " + p[h].getY() + ") ";
+        }
+        return output;
     }
 
     /**
@@ -333,7 +482,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      *
      * @return Returns true if, and only if the input from the input bar is legal.
      */
-    protected abstract boolean inputLegal();
+    protected abstract void inputLegal();
 
     /**
      * Handles button clicks for this GameStage.
@@ -358,9 +507,9 @@ public abstract class GameStage extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        g.drawImage(generateBG(), 0, 0, null);
         g.fillRect(0, 580, 1280, 200);
-        g.fillRect(0, 535, 1280, 2);
+        g.fillRect(0, 535, 1280, 47);
 
         // Draw whatever each stage needs to be drawn.
 //        createAnimals(g);

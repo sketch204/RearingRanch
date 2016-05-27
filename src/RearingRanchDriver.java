@@ -16,11 +16,18 @@ public class RearingRanchDriver {
         window = new MasterFrame();
     }
 
-    public static void main (String [] args) {
-        new RearingRanchDriver();
-    }
-
     public static MasterFrame getWindow() {
         return window;
+    }
+
+    public static void main (String [] args) {
+        new RearingRanchDriver();
+        // Never mind this, i wanted to try cheat codes, for jokes and fun :)
+        // I'll finish it sometime later
+//        if (args[0].equalsIgnoreCase("ns") || args[0].equalsIgnoreCase("nextStage"))
+//            window.d.nextStage();
+
+        // If you're interested, 'args' holds whatever you type in the output console (no Scanner required :)
+        // For some reason it gives me illogical errors that I've never gotten before.
     }
 }

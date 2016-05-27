@@ -20,6 +20,9 @@ import java.io.IOException;
  *       Inal: 1:00
  */
 public class DifficultyChooser extends JPanel implements ActionListener {
+    private int currentStage = -1;
+
+    private int difficulty;
     private Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconWidth(),
                                                  (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconHeight());
     private JButton [] diffButtons = {new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")),
@@ -82,6 +85,25 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         }
     };
 
+    public void nextStage () {
+        currentStage++;
+        switch (currentStage) {
+            case 0:
+                RearingRanchDriver.getWindow().setPanel(new ColorChooser(difficulty), "Choose the Colour!");
+                break;
+            case 1:
+                RearingRanchDriver.getWindow().setPanel(new AnimalClassifier(difficulty), "What's the animal?");
+                break;
+            case 2:
+                RearingRanchDriver.getWindow().setPanel(new Arithmetics(difficulty), "Count them up!");
+                break;
+            case 4:
+                RearingRanchDriver.getWindow().h.display(difficulty);
+                difficulty = 0;
+                currentStage = -1;
+        }
+    }
+
     public void initiatePlay (int difficulty) {
         int currentStage = 0;
         GameStage[] stages = {new ColorChooser(difficulty), new AnimalClassifier(difficulty), new Arithmetics(difficulty)};
@@ -112,12 +134,14 @@ public class DifficultyChooser extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(diffButtons[0]))
-            initiatePlay(0);
+            difficulty = 1;
         else if (e.getSource().equals(diffButtons[1]))
-            initiatePlay(1);
+            difficulty = 2;
         else if (e.getSource().equals(diffButtons[2]))
-            initiatePlay(2);
+            difficulty = 3;
         else if (e.getSource().equals(back))
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+        if (difficulty != 0)
+            nextStage();
     }
 }

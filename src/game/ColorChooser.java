@@ -1,7 +1,6 @@
 package game;
 
 import dataclass.Animal;
-
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -35,26 +34,33 @@ public class ColorChooser extends GameStage {
         System.out.println(colors.toString());
     }
 
+    /**
+     * Generates the animals based on difficulty and fills the 'stock' array with them.
+     */
     @Override
     protected void generateAnimals() {
+        // Holds the index within animalColors, of which animalswere chosen to be drawn.
         int [] animalsChosen = new int [getStablesAvailable()];
 
         // {Chicken, goose, sheep, horse, cow, goat}
         String [] [] animalColors = {{"Chicken", "Brown", "White"}, {"Goose", "Black", "Brown", "White"}, {"Sheep", "Brown", "White"}, {"Horse", "White", "Brown"},
                               {"Cow", "BlackOn-Brown", "BlackOn-White", "BrownOn-White", "WhiteOn-Black", "WhiteOnBrown"}, {"Goat", "Brown", "White", "Black"}};
 
+        // Set amount of animals to be chosen based on difficulty
         if (difficulty == 1){ // Animals used: 1-2; chicken, goose
-            animalsChosen = new int [(int)(Math.random()*2)];
+            animalsChosen = new int [(int)(Math.round(Math.random()+1))];
         } else if (difficulty == 2) { // Animals used: 2-3; chicken, goose, sheep, horse
-            animalsChosen = new int [(int)(Math.random()*2) + 1];
+            animalsChosen = new int [(int)(Math.round(Math.random()+1)) + 1];
         } else if (difficulty == 3) { // Animals used: 3-4; chicken, goose, sheep, horse, cow, goat
-            animalsChosen = new int [(int)(Math.random()*2) + 2];
+            animalsChosen = new int [(int)(Math.round(Math.random()+1)) + 2];
         }
 
+        // Fill it with a random animal based on difficulty
         for (int h = 0; h < animalsChosen.length; h++) {
-            animalsChosen[h] = (int)(Math.random()*2);
+            animalsChosen[h] = (int)(Math.random()*(2*difficulty));
         }
 
+        // Generate random colors, create and fill the 'stock' array
         stock = new Animal[animalsChosen.length];
         for (int h = 0; h < stock.length; h++) {
             // Chooses a random color of an animal
@@ -64,17 +70,13 @@ public class ColorChooser extends GameStage {
             if (!colors.contains(tempHold))
                 colors.add(tempHold);
         }
-
-        /*
-        Generate for the amount of stables there are.
-        Random Color
-        Generate an ArrayList of Colors generated, for quicker input checks.
-        */
     }
 
-
+    /**
+     * Checks whether the input is legal or, if legal then proceeds to the next stage.
+     */
     @Override
-    protected boolean inputLegal() {
+    protected void inputLegal() {
         ArrayList<String> tempHold = new ArrayList<String>(colors);
         int matchesFound = 0;
         for (int h = 0; h < input.size(); h++) {
@@ -88,18 +90,17 @@ public class ColorChooser extends GameStage {
         }
         if (matchesFound == colors.size()) {
             System.out.println("You guessed it!");
-            return true;
+
         }
         System.out.println("Nope");
-        return false;
     }
 
     @Override
     protected void createAnimals(Graphics g) {
         for (int h = 0; h < stock.length; h ++) {
             Image img = stock[h].getPicture().getScaledInstance(50, 50, 0);
-            Point p = getPosition();
-            g.drawImage(img, p.x, p.y, null);
+            Point[] p = getPosition(stock.length);
+            g.drawImage(img, p[0].x, p[0].y, null);
         }
 
     }

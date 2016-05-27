@@ -88,6 +88,10 @@ class TempTest extends JFrame {
     }
 
     public static void main(String[] args) {
-        new TempTest();
+//        new TempTest();
+        while (true) {
+            System.out.println((int) (Math.random() * 4) + 1);
+            try {Thread.sleep(100);}catch (InterruptedException e) {}
+        }
     }
 }

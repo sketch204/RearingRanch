@@ -61,6 +61,14 @@ public class Highscores extends JPanel implements Printable {
         } catch (IOException e) {}
     }
 
+    /**
+     * Set this panel as the main panel, and display highscores, for the given difficulty.
+     * @param difficulty The difficulty of the scoreboard to display.
+     */
+    public void display (int difficulty) {
+
+    }
+
     private boolean sorted (ArrayList <Player> temp) {
         for (int i = 0; i < temp.size(); i++) {
             if (temp.get(i).getTime() > temp.get(i+1).getTime()) {
