@@ -1,6 +1,6 @@
-package game;
+package root.game;
 
-import dataclass.Animal;
+import root.dataclass.Animal;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

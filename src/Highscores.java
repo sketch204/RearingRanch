@@ -1,8 +1,10 @@
+package root;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.print.*;
 import java.util.ArrayList;
-import dataclass.Player;
+import root.dataclass.Player;
 import java.io.*;
 
 /**

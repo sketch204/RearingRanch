@@ -1,3 +1,5 @@
+package root;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -15,11 +17,11 @@ import java.io.File;
  *       Inal: 3:00
  */
 public class MasterFrame extends JFrame implements ActionListener {
-    static MainMenu m = new MainMenu();
-    static DifficultyChooser d = new DifficultyChooser();
-    static Instructions i = new Instructions();
-    static Highscores h = new Highscores();
-    static GoodByeScreen g = new GoodByeScreen();
+    public static MainMenu m = new MainMenu();
+    public static DifficultyChooser d = new DifficultyChooser();
+    public static Instructions i = new Instructions();
+    public static Highscores h = new Highscores();
+    public static GoodByeScreen g = new GoodByeScreen();
 
     private Container current = new Panel();
 

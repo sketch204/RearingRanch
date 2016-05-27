@@ -1,3 +1,5 @@
+package root;
+
 import com.sun.tools.hat.internal.model.ReachableExcludes;
 
 import javax.swing.*;

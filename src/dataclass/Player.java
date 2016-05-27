@@ -1,4 +1,4 @@
-package dataclass;
+package root.dataclass;
 
 public class Player {
     private final int difficulty;

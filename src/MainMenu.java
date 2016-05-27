@@ -1,3 +1,5 @@
+package root;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -84,6 +86,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
             mainChoices[ii].addActionListener(this);
             mainChoices[ii].addKeyListener(enter);
             mainChoices[ii].addKeyListener(this);
+            mainChoices[ii].setIgnoreRepaint(true);
 //            mainChoices[i].setContentAreaFilled(true);
 //            mainChoices[i].setBorder((BorderFactory.createEmptyBorder()));
 //            mainChoices[ii].addKeyListener(new KeyAdapter() {
@@ -108,6 +111,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
         }
 
         mainChoices[0].requestFocus();
+
         layout.putConstraint(SpringLayout.NORTH,  mainChoices[0], 200, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER,  mainChoices[0], 0, SpringLayout.HORIZONTAL_CENTER, this);
         add (mainChoices[0]);

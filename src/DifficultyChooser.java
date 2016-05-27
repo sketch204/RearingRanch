@@ -1,4 +1,6 @@
-import game.*;
+package root;
+
+import root.game.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

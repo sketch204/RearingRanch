@@ -1,4 +1,4 @@
-package dataclass;
+package root.dataclass;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

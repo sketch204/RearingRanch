@@ -1,4 +1,4 @@
-package game;
+package root.game;
 
 import java.awt.*;
 import java.io.File;

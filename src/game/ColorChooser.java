@@ -1,6 +1,7 @@
-package game;
+package root.game;
 
-import dataclass.Animal;
+import root.RearingRanchDriver;
+import root.dataclass.Animal;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -90,7 +91,7 @@ public class ColorChooser extends GameStage {
         }
         if (matchesFound == colors.size()) {
             System.out.println("You guessed it!");
-
+            RearingRanchDriver.getWindow().d.nextStage();
         }
         System.out.println("Nope");
     }

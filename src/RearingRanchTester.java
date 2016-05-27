@@ -1,4 +1,6 @@
-import game.GameStage;
+package root;
+
+import root.game.GameStage;
 
 import javax.swing.*;
 import java.awt.*;
