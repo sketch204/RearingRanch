@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * This class is used for whatever testing we may need to perform :)
@@ -216,5 +217,7 @@ class TempTest extends JFrame {
 
     public static void main(String[] args) {
         new TempTest();
+//        ArrayList<Integer> list = new ArrayList<Integer>(new Integer [10]);
+//        System.out.println(list.size());
     }
 }

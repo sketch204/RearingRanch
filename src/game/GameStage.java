@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The GameStage class acts as a parent class for ColorChooser, Animal Classifier and
@@ -127,13 +128,14 @@ public abstract class GameStage extends JPanel implements ActionListener {
 
         switch (bGNum) {
             case 1:
-                stablesAvailable = 5;
+                stablesAvailable = 6;
                 stablePositions = new Point [stablesAvailable];
                 stablePositions [0] = new Point (309, 475);
                 stablePositions [1] = new Point (595, 438);
                 stablePositions [2] = new Point (961, 382);
                 stablePositions [3] = new Point (677, 520);
-                stablePositions [4] = new Point (1131, 531);
+                stablePositions [4] = new Point (1004, 535);
+                stablePositions [5] = new Point (1279, 521);
                 break;
             case 2:
                 stablesAvailable = 7;
@@ -315,55 +317,63 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected Point[] getPosition(int amount) {
         if (stablesAvailable < 1) return null;
-
-        Point [] points = new Point[amount];
-        int index = -1, lastIndex = index;
+        ArrayList <Point> points = new ArrayList<Point>();
+        int index = -1;
 
         if (stablePositions.length == 9) {
-            int starter = 0;
-            if (amount == 4) { // 1 Random from 1-3, if 1 || 3, add stall position
-                points = new Point [amount+1];
-                starter = 1;
-                index = (int) ((Math.random() * 3) + 1);
-                points[0] = new Point (stablePositions[index]);
-                points[points.length - 1] = (index == 1) ? new Point (stablePositions [stablePositions.length - 2]) : new Point (stablePositions [stablePositions.length - 1]);
-            }
+            int starter = (amount > 3) ? amount - 3 : 0;
+            points = new ArrayList<Point>(amount + starter);
+            for (int h = 0; h < amount + starter; h ++)
+                points.add (null);
             for (int h = starter; h < amount; h ++) { // Random > 3
                 do {
                     index = (int) ((Math.random() * (((stablePositions.length - 3) - 3) + 1)) + 3);
-                } while (index == lastIndex);
-                lastIndex = index;
-                points[h] = new Point (stablePositions[index]);
+                } while (points.contains(new Point (stablePositions[index])));
+                points.add (h, new Point (stablePositions[index]));
+            }
+            for (int h = 0; h < amount - 3; h++) {
+                do {
+                    index = (int) ((Math.random() * 3) + 1);
+                } while (points.contains(new Point (stablePositions[index])));
+                points.add (h, new Point(stablePositions[index]));
+                if (index == 0)
+                    points.add (new Point(stablePositions[stablePositions.length - 2]));
+                else if (index == 1)
+                    points.add (new Point (-1,-1));
+                else if (index == 2)
+                    points.add (new Point(stablePositions[stablePositions.length - 1]));
             }
         } else {
             int min = 0, max = stablePositions.length - 1, amountTop = 1, amountBottom = 0;
 
+            if (amount > 1)
+                max = 2;
             if (amount == 2 || amount == 3) {
                 amountBottom = amount - 1; // 1 || 2
-                max = 2;
-            } else if (amount == 4) {
+            } else if (amount == 4 || amount == 5) {
                 amountTop = 2;
                 amountBottom = 2;
-                max = 2;
+            } if (amount == 5) {
+                amountBottom = 3;
+            } else if (amount == 6) {
+                amountTop = 3;
+                amountBottom = 3;
             }
 
             for (int h = 0; h < amountTop; h++) {
                 do {
                     index = (int) ((Math.random() * ((max - min) + 1)) + min);
-                } while (index == lastIndex);
-                lastIndex = index;
-                points[h] = new Point (stablePositions [index]);
+                } while (points.contains(new Point (stablePositions[index])));
+                points.add (h, new Point (stablePositions [index]));
             }
-            lastIndex = -1;
             for (int h = amountTop; h < amountTop + amountBottom; h++) {
                 do {
                     index = (int) ((Math.random() * (((stablePositions.length - 1) - 3) + 1)) + 3);
-                } while (index == lastIndex);
-                lastIndex = index;
-                points[h] = new Point (stablePositions [index]);
+                } while (points.contains(new Point (stablePositions[index])));
+                points.add (h, new Point (stablePositions [index]));
             }
         }
-        return points;
+        return points.toArray(new Point [points.size()]);
     }
 
     /**

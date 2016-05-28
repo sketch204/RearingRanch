@@ -13,7 +13,7 @@ import javax.swing.*;
 /**
  * The ColorChooser class is the first stage of the game. It contains 4 buttons, each representing a colour that
  * an animal on screen can have. The user must input the colors that are currently on screen and submit them for
- * checking. If they are corrent, the user may proceed to the next stage.
+ * checking. If they are current, the user may proceed to the next stage.
  *
  * @author Inal Gotov
  * @version 1.3, 2016-05-15
