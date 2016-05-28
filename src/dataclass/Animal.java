@@ -10,12 +10,9 @@ import java.io.*;
  * includes things such as the type of animal, its color as well as its associated picture file.
  *
  * <b>Global Variables </b>
- * </p>
- * <b>type </b> This holds the value of the type of this animal.
- * </p>
- * <b>color </b> This holds the value of the color of this animal.
- * </p>
- * <b>picture </b> This holds an instance of a File class which leads to this animal's associated picture file.
+ * <br><b>type </b> This holds the value of the type of this animal.
+ * <br><b>color </b> This holds the value of the color of this animal.
+ * <br><b>picture </b> This holds an instance of a File class which leads to this animal's associated picture file.
  *
  * @author Inal Gotov.
  * @version 1.1, 2016-05-09.

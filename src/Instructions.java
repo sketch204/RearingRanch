@@ -1,7 +1,5 @@
 package root;
 
-import com.sun.tools.hat.internal.model.ReachableExcludes;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -89,9 +87,14 @@ public class Instructions extends JPanel {
             }
         });
         mainMenu.addKeyListener(MainMenu.enter);
+        mainMenu.requestFocus();
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(mainMenu);
-    }
 
+    }
+    @Override
+    public void paintComponent (Graphics g) {
+        g.drawImage(MainMenu.generateBG(), 0, 0, null);
+    }
 }

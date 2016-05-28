@@ -7,8 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * DifficultyChooser class will display the user with three difficulty levels: easy, medium, and hard, that they must choose
@@ -55,14 +54,29 @@ public class DifficultyChooser extends JPanel implements ActionListener {
             add (diffButtons[h]);
         }
 
-        layout.putConstraint(SpringLayout.SOUTH, mainMenu, -120, SpringLayout.SOUTH, this);
-        layout.putConstraint(SpringLayout.WEST, mainMenu, 500, SpringLayout.WEST, this);
+        /** <br> <b> goBack </b> Clone of a JLabel class from MainMenu that displays a prompt message to return to main menu. */
+        JLabel goBack = RearingRanchDriver.getWindow().m.getGoBack();
+        goBack.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
+
+        layout.putConstraint(SpringLayout.SOUTH, goBack, -100, SpringLayout.SOUTH, this);
+        layout.putConstraint(SpringLayout.WEST, goBack, 445, SpringLayout.WEST, this);
+        add(goBack);
+
+        /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/
+        JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenu();
+        mainMenu.requestFocus();
+        mainMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+            }
+        });
+        mainMenu.addKeyListener(MainMenu.enter);
+        mainMenu.requestFocus();
+        layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(mainMenu);
 
-//        layout.putConstraint(SpringLayout.SOUTH, back, -10, SpringLayout.NORTH, mainMenu);
-//        layout.putConstraint(SpringLayout.WEST, back, 470, SpringLayout.WEST, this);
-//        back.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
-//        add(back);
     }
 
     private BufferedImage generateBG () {
@@ -110,6 +124,9 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         int currentStage = 0;
         GameStage[] stages = {new ColorChooser(difficulty), new AnimalClassifier(difficulty), new Arithmetics(difficulty)};
         RearingRanchDriver.getWindow().setPanel(stages[0], "Choose the Colour!");
+//        RearingRanchDriver.getWindow().setPanel(stages[1], "Choose the Animal!");
+//        RearingRanchDriver.getWindow().setPanel(stages[2], "Do some Math!");
+
 
         // This loop is the reason that nothing showed up when you initiated play
         // The program focused on the loop and waited until it would finish with the loop

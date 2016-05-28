@@ -25,21 +25,9 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
      * set the default size of all the buttons on the screen.*/
     public static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/mainMenu/PlayButton.png")).getIconWidth(),
                                                        (new ImageIcon("src/pictures/buttons/mainMenu/PlayButton.png")).getIconHeight());
-    /**
-     * Holds the file that will act as background through out the whole run of the program.
+    /**Holds the file that will act as background through out the whole run of the program.
      */
     static File background = new File("src/pictures/backgrounds/background" + ((int) (Math.random() * 4) + 1) + ".png");
-
-//    static Font buttonFont = new Font ("OCR A Std", Font.PLAIN, 14);
-
-//    /** <br> <b> playGame </b> Instance of JButton class with the Play Button image. The button is used to start the game. */
-//    private JButton playGame = new JButton (new ImageIcon ("src/pictures/Button-Icon/Main Menu/PlayButton.png"));
-//    /** <br> <b> instructions </b> Instance of JButton class with the value 'Instructions'. The button is used to view the instructions for the game. */
-//    private JButton instructions = new JButton(new ImageIcon("src/pictures/Button-Icon/Main Menu/InstructionsButton.png"));
-//    /** <br> <b> highscores </b> Instance of JButton class with the value 'High Scores'. The button is used to view the high scores for the game. */
-//    private JButton highscores = new JButton (new ImageIcon("src/pictures/Button-Icon/Main Menu/HighscoresButton.png"));
-//    /** <br> <b> quit </b> Instance of JButton class with the value 'Quit'. The button is used to exit the game. */
-//    private JButton quit = new JButton (new ImageIcon ("src/pictures/Button-Icon/Main Menu/QuitButton.png"));
     /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
     private JButton mainMenu = new JButton("Return to Main Menu");
     /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
@@ -48,6 +36,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
 
+//    private boolean start = false;
     public int ii = 0;
     public int index = 0;
     private JButton [] mainChoices = {new JButton (new ImageIcon ("src/pictures/buttons/mainMenu/PlayButton.png")),
@@ -86,27 +75,24 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
             mainChoices[ii].addActionListener(this);
             mainChoices[ii].addKeyListener(enter);
             mainChoices[ii].addKeyListener(this);
-//            mainChoices[i].setContentAreaFilled(true);
-//            mainChoices[i].setBorder((BorderFactory.createEmptyBorder()));
-//            mainChoices[ii].addKeyListener(new KeyAdapter() {
+//            mainChoices[ii].addKeyListener(new KeyListener() {
+//                @Override
+//                public void keyTyped(KeyEvent e) {
+//                }
+//
 //                @Override
 //                public void keyPressed(KeyEvent e) {
-//                    switch (e.getKeyCode()) {
-//                        case KeyEvent.VK_UP:
-//                            if (index > 0)
-//                                mainChoices[index - 1].requestFocus();
-//                            else
-//                                mainChoices[mainChoices.length-1].requestFocus();
-//                            break;
-//                        case KeyEvent.VK_DOWN:
-//                            if (index  == mainChoices.length-1)
-//                                mainChoices[0].requestFocus();
-//                            else
-//                                mainChoices[index+1].requestFocus();
-//                            break;
-//                        default:
-//                            break;
-//                    }}});
+//                    =-----doesnt work. this is because the "this" refers to the KeyListener, not the main outer class.
+//                    paintComponent(this.getGraphics());
+//                }
+//
+//                @Override
+//                public void keyReleased(KeyEvent e) {
+//
+//                }
+//            });
+//            mainChoices[i].setContentAreaFilled(true);
+//            mainChoices[i].setBorder((BorderFactory.createEmptyBorder()));
         }
 
         mainChoices[0].requestFocus();
@@ -121,22 +107,12 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
             layout.putConstraint(SpringLayout.WEST, mainChoices[i], 0, SpringLayout.WEST, mainChoices[i-1]);
             add(mainChoices[i]);
         }
-//        layout.putConstraint(SpringLayout.NORTH, instructions, 10, SpringLayout.SOUTH, playGame);
-//        layout.putConstraint(SpringLayout.WEST, instructions, 0, SpringLayout.WEST, playGame);
-//        add(instructions);
-//
-//        layout.putConstraint(SpringLayout.NORTH, highscores, 10, SpringLayout.SOUTH, instructions);
-//        layout.putConstraint(SpringLayout.WEST, highscores, 0, SpringLayout.WEST, instructions);
-//        add(highscores);
-//
-//        layout.putConstraint(SpringLayout.NORTH, quit, 10, SpringLayout.SOUTH, highscores);
-//        layout.putConstraint(SpringLayout.WEST, quit, 0, SpringLayout.WEST, highscores);
-//        add(quit);
 
         layout.putConstraint(SpringLayout.NORTH, intro, 100, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.WEST, intro, 100, SpringLayout.WEST, this);
         intro.setFont(new Font ("OCR A Std", Font.PLAIN, 13));
         add(intro);
+        paintComponent(this.getGraphics());
         setVisible(true);
         revalidate();
         repaint();
@@ -151,7 +127,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
         return goBack;
     }
 
-    private BufferedImage generateBG () {
+    static BufferedImage generateBG () {
         BufferedImage img = null;
         try {
             img = ImageIO.read(background);
@@ -172,7 +148,10 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
     public void paintComponent (Graphics g) {
         if (g != null) {
             int yCoord = 215 + 105*index;
-            g.drawImage(generateBG(), 0, 0, null);
+//            if (!start) {
+                g.drawImage(generateBG(), 0, 0, null);
+//                start = true;
+//            }
             g.drawImage(getImage("Goose-Brown small"), 400, yCoord, null); // interval is 105 pixels on y axis
         }
     }
@@ -224,7 +203,8 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
             default:
                 break;
         }
-        paintComponent(this.getGraphics());
+        repaint();
+        revalidate();
     }
 
     @Override
