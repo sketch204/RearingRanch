@@ -109,8 +109,8 @@ public class ColorChooser extends GameStage {
         if (matchesFound == colors.size()) {
             System.out.println("You guessed it!");
             RearingRanchDriver.getWindow().d.nextStage();
-        }
-        System.out.println("Nope");
+        } else
+            System.out.println("Nope");
     }
 
     @Override
@@ -132,10 +132,6 @@ public class ColorChooser extends GameStage {
                 g.drawImage(stall, x, y, null);
             }
         }
-
-        // Invert coords
-        // Check if stall needed.
-        // Draw the animal
     }
 
     @Override

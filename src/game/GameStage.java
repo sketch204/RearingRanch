@@ -27,7 +27,7 @@ import java.util.Arrays;
  *          Last Edited: 2016-05-15
  *          Hours since 2016-05-11:
  *          Tamir: -
- *          Inal: 14:15
+ *          Inal: 16:15
  */
 public abstract class GameStage extends JPanel implements ActionListener {
     /**
@@ -319,58 +319,67 @@ public abstract class GameStage extends JPanel implements ActionListener {
         if (stablesAvailable < 1) return null;
         ArrayList <Point> points = new ArrayList<Point>();
         int index = -1;
-
+        // Initialize the ArrayList, for 'set' to work
+        for (int h = 0; h < amount; h ++)
+            points.add (null);
         if (stablePositions.length == 9) {
+            // Will have the starter index for the returning ArrayList.
+            // If request > 3 then allocate for the amount of top spaces there are
             int starter = (amount > 3) ? amount - 3 : 0;
+            // Contains the returning coordinates
             points = new ArrayList<Point>(amount + starter);
+            // Initialize ArrayList, for 'set' to work
             for (int h = 0; h < amount + starter; h ++)
                 points.add (null);
-            for (int h = starter; h < amount; h ++) { // Random > 3
-                do {
-                    index = (int) ((Math.random() * (((stablePositions.length - 3) - 3) + 1)) + 3);
-                } while (points.contains(new Point (stablePositions[index])));
-                points.add (h, new Point (stablePositions[index]));
+            // Randomizes points on screen
+            for (int h = starter; h < amount; h ++) { // Random > 2
+                do { // Generate position                                     - 3 here to subtract the 2 last points (they're stalls).
+                    index = (int) ((Math.random() * (((stablePositions.length - 3) - 3) + 1)) + 3); // Min = 3 | Max = 6
+                } while (points.contains(new Point (stablePositions[index]))); // Repetition checker
+                points.set (h, new Point (stablePositions[index]));
             }
+            // Generate for the allocated spaces, If none exist, then will not run.
             for (int h = 0; h < amount - 3; h++) {
-                do {
-                    index = (int) ((Math.random() * 3) + 1);
+                int counter = 0;
+                do { // Generate position
+                    index = (int) (Math.random() * 3); // Min = 0 | Max = 2
                 } while (points.contains(new Point (stablePositions[index])));
-                points.add (h, new Point(stablePositions[index]));
+                points.set (h, new Point(stablePositions[index]));
                 if (index == 0)
-                    points.add (new Point(stablePositions[stablePositions.length - 2]));
+                    points.set (h + amount, new Point(stablePositions[stablePositions.length - 2]));  // Allocate left stable
                 else if (index == 1)
-                    points.add (new Point (-1,-1));
+                    points.set (h + amount, new Point (-1,-1));  // Center position, no stable needed.
                 else if (index == 2)
-                    points.add (new Point(stablePositions[stablePositions.length - 1]));
+                    points.set (h + amount, new Point(stablePositions[stablePositions.length - 1]));  // Allocate right stable
             }
-        } else {
+        } else {  // If not second background
             int min = 0, max = stablePositions.length - 1, amountTop = 1, amountBottom = 0;
-
-            if (amount > 1)
+            // Default run (amount == 1): Random position on screen.
+            if (amount > 1) // Case (amount): 2, 3, 4, 5, 6
                 max = 2;
-            if (amount == 2 || amount == 3) {
+            if (amount == 2 || amount == 3) { // Case (amount): 2, 3
                 amountBottom = amount - 1; // 1 || 2
-            } else if (amount == 4 || amount == 5) {
+            } else if (amount == 4 || amount == 5) { // Case (amount): 4, 5
                 amountTop = 2;
                 amountBottom = 2;
-            } if (amount == 5) {
+            } if (amount > 4) { // Case (amount): 5, 6
                 amountBottom = 3;
-            } else if (amount == 6) {
+            } if (amount == 6) { // Case (amount): 6
                 amountTop = 3;
-                amountBottom = 3;
             }
-
+            // Generate for requested amount of positions from top row.
             for (int h = 0; h < amountTop; h++) {
                 do {
                     index = (int) ((Math.random() * ((max - min) + 1)) + min);
                 } while (points.contains(new Point (stablePositions[index])));
-                points.add (h, new Point (stablePositions [index]));
+                points.set (h, new Point (stablePositions [index]));
             }
+            // Generate for requested amount of positions from bottom rows.
             for (int h = amountTop; h < amountTop + amountBottom; h++) {
                 do {
                     index = (int) ((Math.random() * (((stablePositions.length - 1) - 3) + 1)) + 3);
                 } while (points.contains(new Point (stablePositions[index])));
-                points.add (h, new Point (stablePositions [index]));
+                points.set (h, new Point (stablePositions [index]));
             }
         }
         return points.toArray(new Point [points.size()]);

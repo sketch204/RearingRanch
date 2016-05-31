@@ -181,6 +181,11 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (index > 0) {
@@ -205,11 +210,6 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
         }
         repaint();
         revalidate();
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }
 

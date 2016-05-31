@@ -1,5 +1,7 @@
 package root.game;
 
+import root.dataclass.Animal;
+
 import java.awt.*;
 import java.io.File;
 import javax.swing.*;
@@ -30,7 +32,52 @@ public class Arithmetics extends GameStage {
 
     @Override
     protected void generateAnimals() {
+        double t = 1.25e2;
+        System.out.println(t);
+        // Holds the index within animalColors, of which animals were chosen to be drawn.
+        int [] animalsChosen = new int [getStablesAvailable()];
 
+        // {Chicken, goose, sheep, horse, cow, goat}
+        String [] [] animalColors = {{"Chicken", "Brown", "White"}, {"Goose", "Brown", "White"}, {"Sheep", "Brown", "White"}, {"Horse", "Black", "White", "Brown"},
+                {"Cow", "BlackOn-Brown", "BlackOn-White", "BrownOn-White", "WhiteOn-Black", "WhiteOn-Brown"}, {"Goat", "Brown", "White", "Gray"}};
+
+        // Set amount of animals to be chosen based on difficulty
+        if (difficulty == 1){ // Animals used: 1-2; chicken, goose
+            animalsChosen = new int [(int)(Math.round(Math.random()+1))];
+        } else if (difficulty == 2) { // Animals used: 2-3; chicken, goose, sheep, horse
+            animalsChosen = new int [(int)(Math.round(Math.random()+1)) + 2];
+        } else if (difficulty == 3) { // Animals used: 3-4; chicken, goose, sheep, horse, cow, goat
+            animalsChosen = new int [(int)(Math.round(Math.random()+1)) + 4];
+        }
+
+        // Fill it with a random animal based on difficulty
+        for (int h = 0; h < animalsChosen.length; h++) {
+            animalsChosen[h] = (int)(Math.random()*(2*difficulty));
+        }
+
+        // Generate random animals, create and fill the 'stock' array
+        stock = new Animal[animalsChosen.length];
+        Point[] p = getPosition(stock.length);
+        int starter = 0;
+        if (p.length > stock.length) {
+            for (int h = 0; h < p.length - stock.length; h ++) {
+                int index = (int)(Math.random()*(animalColors[animalsChosen[0]].length - 1))+1;
+                String tempHold = animalColors[animalsChosen[0]][index];
+
+                stock[0] = new Animal(tempHold, animalColors[animalsChosen[0]][0], p[0].x, p[0].y, p[stock.length-1].x, p[stock.length-1].y);
+//                if (!animals.contains(animalColors[animalsChosen[h]][0]))
+//                    animals.add(animalColors[animalsChosen[h]][0]);
+            }
+            starter = p.length - stock.length;
+        }
+        for (int h = starter; h < stock.length; h++) {
+            // Chooses a random color of an animal
+            int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1;
+            String tempHold = animalColors[animalsChosen[h]][index];
+            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0], p[h].x, p[h].y);
+//            if (!animals.contains(animalColors[animalsChosen[h]][0]))
+//                animals.add(animalColors[animalsChosen[h]][0]);
+        }
     }
 
     @Override
