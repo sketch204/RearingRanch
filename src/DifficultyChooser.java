@@ -1,6 +1,7 @@
 package root;
 
 import root.game.*;
+import sun.applet.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,13 +21,13 @@ import java.io.*;
  *       Tamir: 2:00
  *       Inal: 1:00
  */
-public class DifficultyChooser extends JPanel implements ActionListener {
+public class DifficultyChooser extends JPanel implements ActionListener, KeyListener {
     private int currentStage = -1;
 
     private int difficulty;
     private Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconWidth(),
                                                  (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconHeight());
-    private JButton [] diffButtons = {new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")),
+    static JButton [] diffButtons = {new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")),
                                       new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/MediumButton.png")),
                                       new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/HardButton.png"))};
     /**
@@ -46,33 +47,36 @@ public class DifficultyChooser extends JPanel implements ActionListener {
     }
 
     private void prepareGUI () {
-        for (int h = 0; h < 3; h++) {
+        /** Text for button ToolTip that displays shortcuts for each button. */
+        String [] shortcuts = {"Press e to play Easy.", "Press m to play Medium.", "Press h to play Hard."};
+
+        for (int h = 0; h < diffButtons.length; h++) {
             diffButtons[h].addActionListener(this);
             diffButtons[h].setPreferredSize(buttonSize);
+            diffButtons[h].setToolTipText(shortcuts[h]);
             layout.putConstraint(SpringLayout.NORTH, diffButtons[h], 200, SpringLayout.NORTH, this);
             layout.putConstraint(SpringLayout.WEST, diffButtons[h], 130 + ((int)buttonSize.getWidth() + 20)*h, SpringLayout.WEST, this);
             add (diffButtons[h]);
         }
 
-        /** <br> <b> goBack </b> Clone of a JLabel class from MainMenu that displays a prompt message to return to main menu. */
-        JLabel goBack = RearingRanchDriver.getWindow().m.getGoBack();
+        diffButtons[0].requestFocusInWindow();
+        /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
+         * finishes reading the instructions above.*/
+        JLabel goBack = new JLabel ("<html> Press the button to return to Main Menu.");
         goBack.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
 
-        layout.putConstraint(SpringLayout.SOUTH, goBack, -100, SpringLayout.SOUTH, this);
-        layout.putConstraint(SpringLayout.WEST, goBack, 445, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.SOUTH, goBack, -220, SpringLayout.SOUTH, this);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, goBack, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(goBack);
 
-        /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/
-        JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenu();
+
+        /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
+        JButton mainMenu = new JButton("Return to Main Menu");
         mainMenu.requestFocus();
-        mainMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
-            }
-        });
+        mainMenu.addActionListener(e -> RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch"));
+
         mainMenu.addKeyListener(MainMenu.enter);
-        mainMenu.requestFocus();
+        mainMenu.requestFocusInWindow();
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(mainMenu);
@@ -90,6 +94,7 @@ public class DifficultyChooser extends JPanel implements ActionListener {
     @Override
     protected void paintComponent (Graphics g) {
         g.drawImage(generateBG(), 0, 0, null);
+        g.drawImage(MainMenu.getImage("GameLogo"), 380, 0, null);
     }
 
     private KeyListener enter = new KeyAdapter() {
@@ -162,5 +167,22 @@ public class DifficultyChooser extends JPanel implements ActionListener {
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
         if (difficulty != 0)
             nextStage();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_RIGHT:
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

@@ -20,7 +20,7 @@ public class MasterFrame extends JFrame implements ActionListener {
     public static MainMenu m = new MainMenu();
     public static DifficultyChooser d = new DifficultyChooser();
     public static Instructions i = new Instructions();
-    public static Highscores h = new Highscores();
+    public static HighscoresPanel h = new HighscoresPanel();
     public static GoodByeScreen g = new GoodByeScreen();
 
     private Container current = new Panel();
@@ -39,7 +39,7 @@ public class MasterFrame extends JFrame implements ActionListener {
 //        JLabel label = new JLabel();
 //        label.setIcon(ii);
 //        add(label);
-        current = m;
+        current = h;
         add(current);
         setVisible(true);
         revalidate();

@@ -15,19 +15,19 @@ import javax.swing.*;
  * @author Tamir Arnesty
  * @version 2 2016-05-11.
  *
- * Last Edited: 2016-05-15
+ * Last Edited: 2016-05-39
  * Hours since 2016-05-11:
- *       Tamir: 8:00
+ *       Tamir: 10:00
  *       Inal: 2:00
  */
-public class MainMenu extends JPanel implements ActionListener, KeyListener{
+public class MainMenu extends JPanel implements ActionListener, KeyListener, MouseMotionListener{
     /** <br> <b> buttonSize </b> Instance of Dimension with the width and size of the Play Game Button. This Dimension is used to
      * set the default size of all the buttons on the screen.*/
     public static Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/mainMenu/PlayButton.png")).getIconWidth(),
                                                        (new ImageIcon("src/pictures/buttons/mainMenu/PlayButton.png")).getIconHeight());
     /**Holds the file that will act as background through out the whole run of the program.
      */
-    static File background = new File("src/pictures/backgrounds/background" + ((int) (Math.random() * 4) + 1) + ".png");
+    static File background = new File("src/pictures/backgrounds/background" + 4 + ".png");
     /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
     private JButton mainMenu = new JButton("Return to Main Menu");
     /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
@@ -43,6 +43,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
             new JButton(new ImageIcon("src/pictures/buttons/mainMenu/InstructionsButton.png")),
             new JButton(new ImageIcon("src/pictures/buttons/mainMenu/HighscoresButton.png")),
             new JButton(new ImageIcon ("src/pictures/buttons/mainMenu/QuitButton.png"))};
+
 
     /** The MainMenu constructor sets the layout manager to SpringLayout, sets the size to 1280x720, and references prepareGUI method. */
     MainMenu() {
@@ -65,37 +66,25 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
      * brief intro label.
      */
     private void prepareGUI () {
+        /** Text for button ToolTip that displays shortcuts for each button. */
+        String [] shortcuts = {"Press p to play game.", "Press i to open the instructions.", "Press h to view highscores", "Press q to quit"};
+
         /** <br> <b> intro </b> Instance of JLabel class that stores an introduction message to the user. */
         JLabel intro = new JLabel("<html> Welcome to Rearing Ranch! Press any of the following buttons to continue." +
                 "<br>Press Play Game to start! If you need help, press Instructions. Press the Highscores button to view previous highscores!" +
                 "<br>If you want to leave, press Quit! </html>");
 
         for (ii = 0; ii < mainChoices.length; ii++) {
-//            final int index = ii;
             mainChoices[ii].addActionListener(this);
             mainChoices[ii].addKeyListener(enter);
             mainChoices[ii].addKeyListener(this);
-//            mainChoices[ii].addKeyListener(new KeyListener() {
-//                @Override
-//                public void keyTyped(KeyEvent e) {
-//                }
-//
-//                @Override
-//                public void keyPressed(KeyEvent e) {
-//                    =-----doesnt work. this is because the "this" refers to the KeyListener, not the main outer class.
-//                    paintComponent(this.getGraphics());
-//                }
-//
-//                @Override
-//                public void keyReleased(KeyEvent e) {
-//
-//                }
-//            });
-//            mainChoices[i].setContentAreaFilled(true);
-//            mainChoices[i].setBorder((BorderFactory.createEmptyBorder()));
+            mainChoices[ii].setToolTipText(shortcuts[ii]);
+            mainChoices[ii].setContentAreaFilled(true);
+            mainChoices[ii].setBorder(BorderFactory.createEtchedBorder());
+
         }
 
-        mainChoices[0].requestFocus();
+        mainChoices[0].requestFocusInWindow();
 
         layout.putConstraint(SpringLayout.NORTH,  mainChoices[0], 200, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER,  mainChoices[0], 0, SpringLayout.HORIZONTAL_CENTER, this);
@@ -138,7 +127,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
         return img;
     }
 
-    private BufferedImage getImage (String name) {
+    static BufferedImage getImage (String name) {
         try {
             BufferedImage pic = ImageIO.read (new File("src/pictures/" + name + ".png"));
             return pic;
@@ -153,6 +142,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
             int yCoord = 215 + 105*index;
 //            if (!start) {
                 g.drawImage(generateBG(), 0, 0, null);
+            g.drawImage(getImage("GameLogo"), 380, 0, null);
 //                start = true;
 //            }
             g.drawImage(getImage("Goose-Brown small"), 400, yCoord, null); // interval is 105 pixels on y axis
@@ -170,7 +160,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
         else if (e.getSource().equals(mainChoices[2])) {
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().h, "Highscores");
             // Temporary
-            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+//            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
         } else if (e.getSource().equals(mainChoices[3])) {
             //RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().g, "Good Bye!");
             System.exit(0);
@@ -179,16 +169,13 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
+        switch (e.getKeyCode()) {
 
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (index > 0) {
@@ -208,11 +195,39 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
                     index++;
                 }
                 break;
+            case KeyEvent.VK_P:
+                mainChoices[0].doClick();
+                break;
+            case KeyEvent.VK_I:
+                mainChoices[1].doClick();
+                break;
+            case KeyEvent.VK_H:
+                mainChoices[2].doClick();
+                break;
+            case KeyEvent.VK_Q:
+                mainChoices[3].doClick();
+                break;
             default:
                 break;
         }
         repaint();
         revalidate();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        System.out.println(x);
     }
 }
 

@@ -1,6 +1,5 @@
 package root;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.print.*;
 import java.util.ArrayList;
@@ -8,9 +7,9 @@ import root.dataclass.Player;
 import java.io.*;
 
 /**
- * The Highscores class sorts an ArrayList of Players in descending order by their score, and displays the top 10
- * players with their name, difficulty level, time, and score onto the screen. The high scores may also be printed
- * with the EarlyEd Inc. logo. 
+ * The Highscores class sorts an ArrayList of Players in descending order by their score, prints the high scores,
+ * creates new .rrh files and updates old ones, or deletes them based on user choice.
+ * NOTE: If the .rrh file doesn't exist, one will be created.
  *
  * @author Tamir Arnesty
  * @version 1 2016-05-15
@@ -19,12 +18,12 @@ import java.io.*;
  *       Tamir: 1:15
  *       Inal: -
  */
-public class Highscores extends JPanel implements Printable {
+public class Highscores implements Printable {
 
     private int recorded;
     File scores = new File ("Highscores.rrf");
 
-    ArrayList <Player> players = new ArrayList<Player>();
+    static ArrayList <Player> players = new ArrayList<Player>();
 
     public Highscores () {
         this.recorded++;
@@ -38,6 +37,10 @@ public class Highscores extends JPanel implements Printable {
             }
         }
         this.recorded++;
+    }
+
+    public int getRecorded () {
+        return recorded;
     }
 
     public void load () {
@@ -63,13 +66,6 @@ public class Highscores extends JPanel implements Printable {
         } catch (IOException e) {}
     }
 
-    /**
-     * Set this panel as the main panel, and display highscores, for the given difficulty.
-     * @param difficulty The difficulty of the scoreboard to display.
-     */
-    public void display (int difficulty) {
-
-    }
 
     private boolean sorted (ArrayList <Player> temp) {
         for (int i = 0; i < temp.size(); i++) {
