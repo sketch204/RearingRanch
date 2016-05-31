@@ -101,11 +101,11 @@ public class AnimalClassifier extends GameStage {
                 }
             }
         }
-        if (matchesFound == animals.size()) {
+        if (matchesFound == animals.size() && input.size() == animals.size()) {
             System.out.println("You guessed it!");
             RearingRanchDriver.getWindow().d.nextStage();
-        }
-        System.out.println("Nope");
+        } else
+            System.out.println("Nope");
     }
 
     @Override

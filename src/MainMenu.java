@@ -111,6 +111,9 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener{
         layout.putConstraint(SpringLayout.NORTH, intro, 100, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.WEST, intro, 100, SpringLayout.WEST, this);
         intro.setFont(new Font ("OCR A Std", Font.PLAIN, 13));
+        intro.setOpaque(true);
+        intro.setForeground(new Color (34, 34, 34));
+        intro.setBackground(new Color (191, 184, 108, 220));
         add(intro);
         paintComponent(this.getGraphics());
         setVisible(true);

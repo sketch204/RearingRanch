@@ -44,6 +44,9 @@ public class Instructions extends JPanel {
 
         layout.putConstraint(SpringLayout.NORTH, greeting, 100, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.WEST, greeting, 100, SpringLayout.WEST, this);
+        greeting.setOpaque(true);
+        greeting.setForeground(new Color (34, 34, 34));
+        greeting.setBackground(new Color (191, 184, 108, 220));
         add(greeting);
 
         /** <br> <b> instructions </b> Instance of JLabel class displays an explanation of the game and how to play.*/
@@ -55,6 +58,9 @@ public class Instructions extends JPanel {
 
         layout.putConstraint(SpringLayout.NORTH, instructions, 10, SpringLayout.SOUTH, greeting);
         layout.putConstraint(SpringLayout.WEST, instructions, 100, SpringLayout.WEST, this);
+        instructions.setOpaque(true);
+        instructions.setForeground(new Color (34, 34, 34));
+        instructions.setBackground(new Color (191, 184, 108, 220));
         add(instructions);
 
         /** <br> <b> highscores </b> Instance of JLabel class displays an explanation on how to view high scores and
@@ -67,6 +73,9 @@ public class Instructions extends JPanel {
 
         layout.putConstraint(SpringLayout.NORTH, highscores, 10, SpringLayout.SOUTH, instructions);
         layout.putConstraint(SpringLayout.WEST, highscores, 100, SpringLayout.WEST, this);
+        highscores.setOpaque(true);
+        highscores.setForeground(new Color (34, 34, 34));
+        highscores.setBackground(new Color (191, 184, 108, 220));
         add(highscores);
 
         /** <br> <b> goBack </b> Clone of a JLabel class from MainMenu that displays a prompt message to return to main menu. */
@@ -75,6 +84,9 @@ public class Instructions extends JPanel {
 
         layout.putConstraint(SpringLayout.NORTH, goBack, 30, SpringLayout.SOUTH, highscores);
         layout.putConstraint(SpringLayout.WEST, goBack, 445, SpringLayout.WEST, this);
+        goBack.setOpaque(true);
+        goBack.setForeground(new Color (34, 34, 34));
+        goBack.setBackground(new Color (191, 184, 108, 220));
         add(goBack);
 
         /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/

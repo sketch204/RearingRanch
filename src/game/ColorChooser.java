@@ -106,7 +106,7 @@ public class ColorChooser extends GameStage {
                 }
             }
         }
-        if (matchesFound == colors.size()) {
+        if (matchesFound == colors.size() && input.size() == colors.size()) {
             System.out.println("You guessed it!");
             RearingRanchDriver.getWindow().d.nextStage();
         } else

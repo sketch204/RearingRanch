@@ -34,10 +34,11 @@ class TempTest extends JFrame {
     }
 
     public TempTest () {
-        for (int h = 1; h < 5; h ++) {
-            testGetPositions(h);
-            try {Thread.sleep (10);} catch (InterruptedException e) {}
-        }
+//        for (int h = 1; h < 5; h ++) {
+//            testGetPositions(h);
+//            try {Thread.sleep (10);} catch (InterruptedException e) {}
+//        }
+        testing5();
     }
 
     public void testing2 () {
@@ -99,6 +100,16 @@ class TempTest extends JFrame {
         label.setBorder(BorderFactory.createLineBorder(colorFG, 3, true));
 
         frame.add(label);
+        frame.setVisible(true);
+    }
+
+    public void testing5 () {
+        setUpFrame();
+        JButton button = null;
+        try {
+            button = new JButton(new ImageIcon((ImageIO.read(new File ("src/pictures/buttons/difficultyChooser/EasyButton.png"))).getScaledInstance(150,35,0)));
+        } catch (IOException e) {}
+        frame.add(button);
         frame.setVisible(true);
     }
 
