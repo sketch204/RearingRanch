@@ -18,10 +18,10 @@ import java.io.*;
  *       Tamir: 1:15
  *       Inal: -
  */
-public class Highscores implements Printable {
+public class Highscores  {
 
     private int recorded;
-    File scores = new File ("Highscores.rrf");
+    static File scores = new File ("Highscores.rrf");
 
     static ArrayList <Player> players = new ArrayList<Player>();
 
@@ -76,7 +76,7 @@ public class Highscores implements Printable {
         return true;
     }
 
-    public void sort(ArrayList <Player> tempList) {
+    private void sort(ArrayList <Player> tempList) {
         int temp, y;
 
         for (int x = 1 ; x < tempList.size() ; x++)
@@ -94,21 +94,21 @@ public class Highscores implements Printable {
         }
     }
 
-    public void save () {
+    static void write () {
 
     }
 
-    public void create () {
+    static void create () {
         if (!scores.exists())
-            scores = new File ("Highscores.rrf");
+            write();
     }
 
-    public void delete () {
-        scores.delete();
+    static void delete () {
+        if (scores.exists()) {
+            scores.delete();
+        System.out.println("deleted"); }
+        else
+            System.out.println("doesn't exist");
     }
 
-    @Override
-    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-        return 0;
-    }
 }

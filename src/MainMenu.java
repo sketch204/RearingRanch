@@ -29,7 +29,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
      */
     static File background = new File("src/pictures/backgrounds/background" + 4 + ".png");
     /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
-    private JButton mainMenu = new JButton("Return to Main Menu");
+    private JButton mainMenu = new JButton(new ImageIcon (getImage("buttons/MainMenuButton").getScaledInstance(150, 35, 0)));
     /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
      * finishes reading the instructions above.*/
     private JLabel goBack = new JLabel ("<html> Press the button to return to Main Menu.");
@@ -80,7 +80,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
             mainChoices[ii].addKeyListener(this);
             mainChoices[ii].setToolTipText(shortcuts[ii]);
             mainChoices[ii].setContentAreaFilled(true);
-            mainChoices[ii].setBorder(BorderFactory.createEtchedBorder());
+//            mainChoices[ii].setBorder(BorderFactory.createEtchedBorder());
 
         }
 
@@ -169,9 +169,6 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
 
     @Override
     public void keyTyped(KeyEvent e) {
-        switch (e.getKeyCode()) {
-
-        }
     }
 
     @Override

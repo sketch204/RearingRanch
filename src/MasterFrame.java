@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * This is the master frame program, it will contain all the JPanels inside it
@@ -13,7 +14,7 @@ import java.io.File;
  *
  * Last Edited: 2016-05-15
  * Hours since 2016-05-10:
- *       Tamir: 2:00
+ *       Tamir: 2:30
  *       Inal: 3:00
  */
 public class MasterFrame extends JFrame implements ActionListener {
@@ -52,9 +53,11 @@ public class MasterFrame extends JFrame implements ActionListener {
         JMenu help = new JMenu ("Help");
         JMenuItem quit = new JMenuItem("Quit");
         JMenuItem aboutItem = new JMenuItem ("About");
+        JMenuItem helpItem = new JMenuItem("Help");
 
         file.add(quit);
         help.add(aboutItem);
+        help.add(helpItem);
         menu.add(file);
         menu.add(help);
 
@@ -84,7 +87,16 @@ public class MasterFrame extends JFrame implements ActionListener {
             about.add(references);
             about.setVisible(true);
         });
-
+        helpItem.addActionListener(e -> {
+            try
+            {
+                Runtime.getRuntime().exec("src/help/help.chm");
+            }
+            catch (IOException ie)
+            {
+                JOptionPane.showMessageDialog(null,"Couldn't find Help File", "Error",JOptionPane.ERROR_MESSAGE);
+            }
+        });
         return menu;
     }
 
@@ -146,8 +158,10 @@ public class MasterFrame extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getActionCommand().equals("Quit"))
+        if (ae.getActionCommand().equals("Quit")) {
+            JOptionPane.showMessageDialog(this, "Are you sure you wish to quit?", "Confirm", JOptionPane.YES_NO_OPTION);
             System.exit(0);
+        }
         revalidate();
         repaint();
     }
