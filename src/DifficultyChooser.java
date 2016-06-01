@@ -1,7 +1,6 @@
 package root;
 
 import root.game.*;
-import sun.applet.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -33,7 +32,7 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
     /**
      * Holds the file that will act as background through out the whole run of the program.
      */
-    private JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenu();
+    private JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenuButton();
     private JLabel back = RearingRanchDriver.getWindow().m.getGoBack();
 
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
@@ -71,16 +70,22 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
 
 
         /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
-        JButton mainMenu = new JButton("Return to Main Menu");
-        mainMenu.requestFocus();
-        mainMenu.addActionListener(e -> RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch"));
-
-        mainMenu.addKeyListener(MainMenu.enter);
-        mainMenu.requestFocusInWindow();
-        layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
+        JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenuButton();
+//        mainMenu.requestFocus();
+//        mainMenu.addActionListener(e -> RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch"));
+//
+//        mainMenu.addKeyListener(MainMenu.enter);
+//        mainMenu.requestFocusInWindow();
+//        layout.putConstraint(SpringLayout.WEST, mainMenu, 1, SpringLayout.WEST, this);
+//        layout.putConstraint(SpringLayout.NORTH, mainMenu, 1, SpringLayout.NORTH, this);
+        //(this.getWidth()/2)-(mainMenu.getWidth()/2) || 0
         add(mainMenu);
-
+        mainMenu.revalidate();
+        mainMenu.repaint();
+        mainMenu.setVisible(true);
+        list();
+        System.out.println(layout.getConstraints(mainMenu).getX().getValue());
+        System.out.println(layout.getConstraints(mainMenu).getY().getValue());
     }
 
     private BufferedImage generateBG () {

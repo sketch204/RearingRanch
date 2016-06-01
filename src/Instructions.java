@@ -1,7 +1,5 @@
 package root;
 
-import sun.applet.Main;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -92,16 +90,16 @@ public class Instructions extends JPanel {
         add(goBack);
 
         /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/
-        JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenu();
-        mainMenu.requestFocus();
-        mainMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
-            }
-        });
-        mainMenu.addKeyListener(MainMenu.enter);
-        mainMenu.requestFocus();
+        JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenuButton();
+//        mainMenu.requestFocus();
+////        mainMenu.addActionListener(new ActionListener() {
+////            @Override
+////            public void actionPerformed(ActionEvent e) {
+////                RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+////            }
+////        });
+//        mainMenu.addKeyListener(MainMenu.enter);
+//        mainMenu.requestFocus();
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(mainMenu);

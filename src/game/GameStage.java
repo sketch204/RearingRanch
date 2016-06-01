@@ -32,7 +32,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     /**
      * Holds the file that will act as background through out the whole run of the program.
      */
-    protected File background;
+    private File background;
     /**
      * The @see javax.swing.JButton on the input that is responsible for erasing the last element on the input.
      */

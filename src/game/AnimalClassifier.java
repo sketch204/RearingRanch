@@ -127,7 +127,7 @@ public class AnimalClassifier extends GameStage {
     protected void createAnimals(Graphics g) {
         for (int h = 0; h < stock.length; h ++) {
             g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
-            System.out.println("Supposedly I drew it!!!!!!!!!");
+            System.out.println("Swear on my electricity I drew the " + stock[h].getType() + "!");
             if (stock[h].stallNeeded()) {
                 BufferedImage stall = null;
                 int x = 0, y = 0;

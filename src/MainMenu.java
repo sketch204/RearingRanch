@@ -74,6 +74,11 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
                 "<br>Press Play Game to start! If you need help, press Instructions. Press the Highscores button to view previous highscores!" +
                 "<br>If you want to leave, press Quit! </html>");
 
+        mainMenu.requestFocus();
+        mainMenu.addActionListener(this);
+        mainMenu.addKeyListener(MainMenu.enter);
+        mainMenu.requestFocus();
+
         for (ii = 0; ii < mainChoices.length; ii++) {
             mainChoices[ii].addActionListener(this);
             mainChoices[ii].addKeyListener(enter);
@@ -111,7 +116,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
     }
 
 
-    public JButton getMainMenu() {
+    public JButton getMainMenuButton() {
         return mainMenu;
     }
 
