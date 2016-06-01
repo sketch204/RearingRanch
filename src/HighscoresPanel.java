@@ -151,6 +151,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
             img = ImageIO.read(background);
         } catch (IOException e) {}
         return img;
+
     }
 
     // i dont think wee need this. if we pass the difficulty into the constructor, then assign it to a local here, then
