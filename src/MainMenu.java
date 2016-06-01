@@ -163,8 +163,14 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
 //            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
         } else if (e.getSource().equals(mainChoices[3])) {
             //RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().g, "Good Bye!");
-            System.exit(0);
-        }
+            int choice = JOptionPane.showConfirmDialog(this, "Are you sure you wish to quit?", "Confirm", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
+                System.exit(0); }        }
     }
 
     @Override

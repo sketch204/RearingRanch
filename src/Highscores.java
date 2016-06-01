@@ -43,7 +43,8 @@ public class Highscores  {
         return recorded;
     }
 
-    public void load () {
+    public void load (int difficulty) {
+        // look for only the certain difficulty
         String line = "";
         try {
             BufferedReader r = new BufferedReader (new FileReader(scores));

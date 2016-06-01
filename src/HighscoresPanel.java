@@ -27,9 +27,11 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
     private JButton [] levelChoices = new JButton[3];
     private JButton [] options = new JButton[3];
     private int index = 0;
+    private int difficulty;
 
-    public HighscoresPanel () {
+    public HighscoresPanel (int difficulty) {
         super ();
+        this.difficulty = difficulty;
         setLayout(layout);
         setSize(1280, 720);
         prepareGUI();
@@ -86,8 +88,6 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
             add (levelChoices[i]);
         }
 
-
-
         layout.putConstraint(SpringLayout.SOUTH, options[0], -50, SpringLayout.SOUTH, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, options[0], 200, SpringLayout.HORIZONTAL_CENTER, this);
         add(options[0]);
@@ -97,17 +97,6 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         layout.putConstraint(SpringLayout.SOUTH, options[2], -50, SpringLayout.SOUTH, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, options[2], -200, SpringLayout.HORIZONTAL_CENTER, this);
         add(options[2]);
-
-
-
-//        JLabel viewingLevel = new JLabel ("<html> You are currently viewing the leaderboard for: <br>" +
-//                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-//                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-//                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + difficulty);
-//        layout.putConstraint(SpringLayout.VERTICAL_CENTER, viewingLevel, 0, SpringLayout.VERTICAL_CENTER, this);
-//        layout.putConstraint(SpringLayout.WEST, viewingLevel, 80, SpringLayout.WEST, this);
-//        viewingLevel.setFont(new Font("Times New Roman", Font.ROMAN_BASELINE, 16));
-//        add(viewingLevel);
 
         revalidate();
         repaint();
@@ -164,6 +153,9 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         return img;
     }
 
+    // i dont think wee need this. if we pass the difficulty into the constructor, then assign it to a local here, then
+    // we can just access it as the variable through the paintComponent and display through there. I could call read, which has the parameter
+    // of the difficulty that looks for those certain scores. I'll update read (load) also and you can see.
     /**
      * Set this panel as the main panel, and display highscores, for the given difficulty.
      * @param difficulty The difficulty of the scoreboard to display.
