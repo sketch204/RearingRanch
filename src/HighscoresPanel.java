@@ -26,7 +26,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
 
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
-    JButton [] levelChoices = new JButton[5];
+    JButton [] levelChoices = new JButton[3];
 
     public HighscoresPanel () {
         super ();
@@ -70,9 +70,9 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         }
 
 
-        JButton [] options = {new JButton(new ImageIcon("src/pictures/buttons/highscores/delete")),
-                new JButton(new ImageIcon("src/pictures/buttons/highscores/printer")),
-                new JButton(new ImageIcon("src/pictures/buttons/MainMenuButton"))};
+        JButton [] options = {new JButton(new ImageIcon("src/pictures/buttons/highscores/delete.png")),
+                new JButton(new ImageIcon("src/pictures/buttons/highscores/printer.png")),
+                new JButton(new ImageIcon("src/pictures/buttons/MainMenuButton.png"))};
         layout.putConstraint(SpringLayout.SOUTH, options[0], -100, SpringLayout.SOUTH, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, options[0], 100, SpringLayout.HORIZONTAL_CENTER, this);
         add(options[0]);

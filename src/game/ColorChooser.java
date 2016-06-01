@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.SynchronousQueue;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -35,8 +36,8 @@ public class ColorChooser extends GameStage {
      */
     public ColorChooser(int difficulty) {
         super(difficulty);
-        System.out.println(colors.toString());
-        System.out.println(stock.length);
+//        System.out.println(colors.toString());
+//        System.out.println(stock.length);
     }
 
     /**
@@ -73,7 +74,9 @@ public class ColorChooser extends GameStage {
             int index = (int)(Math.random()*(animalColors[animalsChosen[0]].length - 1))+1;
             String tempHold = animalColors[animalsChosen[0]][index];
 
-            stock[0] = new Animal(tempHold, animalColors[animalsChosen[0]][0], p[0].x, p[0].y, p[p.length-1].x, p[p.length-1].y);
+            stock[0] = new Animal(tempHold, animalColors[animalsChosen[0]][0], p[0], p[p.length-1]);
+            if (animalsChosen[0] == 4)
+                tempHold = tempHold.substring(tempHold.indexOf('-') + 1);
             if (!colors.contains(tempHold))
                 colors.add(tempHold);
             starter = 1;
@@ -82,11 +85,17 @@ public class ColorChooser extends GameStage {
             // Chooses a random color of an animal
             int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1;
             String tempHold = animalColors[animalsChosen[h]][index];
-            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0], p[h].x, p[h].y);
+            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0], p[h]);
             if (animalsChosen[h] == 4)
                 tempHold = tempHold.substring(tempHold.indexOf('-') + 1);
             if (!colors.contains(tempHold))
                 colors.add(tempHold);
+        }
+        for (int h = 0; h < stock.length; h ++) {
+            System.out.println(stock[h].getColor() + " " + stock[h].getType());
+            System.out.println("(" + stock[h].getX() + ", " + stock[h].getY() + ")");
+            System.out.println(stock[h].stallNeeded());
+            System.out.println();
         }
     }
 
@@ -108,6 +117,7 @@ public class ColorChooser extends GameStage {
         }
         if (matchesFound == colors.size() && input.size() == colors.size()) {
             System.out.println("You guessed it!");
+            System.out.println("---------------------------------------------------------");
             RearingRanchDriver.getWindow().d.nextStage();
         } else
             System.out.println("Nope");
@@ -117,18 +127,21 @@ public class ColorChooser extends GameStage {
     protected void createAnimals(Graphics g) {
         for (int h = 0; h < stock.length; h ++) {
             g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
+            System.out.println("Supposedly I drew it!!!!!!!!!");
             if (stock[h].stallNeeded()) {
                 BufferedImage stall = null;
                 int x = 0, y = 0;
                 try {
-                    if (stock[h].getX() == 338) {
-                        stall = ImageIO.read(new File("src/picture/backgrounds/stall-left.png"));
+                    if (stock[h].getX() + stock[h].getPicture().getWidth() == 348) {
+                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-left.png"));
                         x = 1; y = 106;
                     } else {
-                        stall = ImageIO.read(new File("src/picture/backgrounds/stall-right.png"));
+                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-right.png"));
                         x = 894; y = 85;
                     }
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                    System.out.println("STALL NOT FOUND GODDAMMIT!!!!!");
+                }
                 g.drawImage(stall, x, y, null);
             }
         }

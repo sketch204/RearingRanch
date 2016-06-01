@@ -22,7 +22,9 @@ import java.io.*;
  *       Inal: 1:00
  */
 public class Animal {
-    private int x, y, x2 = -1, y2 = -1;
+
+    private String type, color;
+    private Point animal, stall = new Point (-1, -1);
     private BufferedImage picture;
 
     /**
@@ -31,10 +33,11 @@ public class Animal {
      * It also sets the position of the animal at which it should be drawn.
      * @param color The color to be assigned to this animal.
      * @param type The type that this animal will take.
-     * @param x The x coordinate at which the animal will be drawn.
-     * @param y The y coordinate at which the animal will be drawn.
+     * @param animal The position of the animal on screen.
      */
-    public Animal (String color, String type, int x, int y) {
+    public Animal (String color, String type, Point animal) {
+        this.color = color;
+        this.type = type;
         String filepath = "src/pictures/animals/" + type + "-" + color + ".png";
         try {
             picture = ImageIO.read(new File(filepath));
@@ -44,8 +47,7 @@ public class Animal {
             e.printStackTrace();
             System.exit(0);
         }
-        this.x = setX(x);
-        this.y = setY(y);
+        this.animal = setPosition(animal);
     }
 
     /**
@@ -55,14 +57,13 @@ public class Animal {
      * the position of stall that should be drawn on top of it.
      * @param color The color to be assigned to this animal.
      * @param type The type that this animal will take.
-     * @param x The x coordinate at which the animal will be drawn.
-     * @param y The y coordinate at which the animal will be drawn.
-     * @param x2 The x coordinate at which the stall will be drawn.
-     * @param y2 The y coordinate at which the stall will be drawn.
+     * @param animal The position of the animal on screen.
+     * @param stall The position of the stall on screen.
      */
-    public Animal (String color, String type, int x, int y, int x2, int y2) {
-        this.x2 = x2;
-        this.y2 = y2;
+    public Animal (String color, String type, Point animal, Point stall) {
+        this.color = color;
+        this.type = type;
+        this.stall = stall;
         String filepath = "src/pictures/animals/" + type + "-" + color + ".png";
         try {
             picture = ImageIO.read(new File(filepath));
@@ -72,28 +73,31 @@ public class Animal {
             e.printStackTrace();
             System.exit(0);
         }
-        this.x = setX(x);
-        this.y = setY(y);
+        this.animal = setPosition(animal);
     }
 
-    private int setX (int x) {
-        return x - picture.getWidth();
+    public String getType() {
+        return type;
     }
 
-    private int setY (int y) {
-        return y - picture.getHeight();
+    public String getColor() {
+        return color;
+    }
+
+    private Point setPosition (Point oldPosition) {
+        return new Point (oldPosition.x - picture.getWidth(), oldPosition.y - picture.getHeight());
     }
 
     public boolean stallNeeded () {
-        return x2 != -1 || y2 != -1;
+        return stall.x != -1;
     }
 
     public int getY() {
-        return y;
+        return animal.y;
     }
 
     public int getX () {
-        return x;
+        return animal.x;
     }
 
     /**
@@ -102,6 +106,11 @@ public class Animal {
      */
     public BufferedImage getPicture () {
         return picture;
+    }
+
+    @Override
+    public String toString() {
+        return "This is a " + color + " " + type;
     }
 }
 

@@ -64,7 +64,7 @@ public class Arithmetics extends GameStage {
                 int index = (int)(Math.random()*(animalColors[animalsChosen[0]].length - 1))+1;
                 String tempHold = animalColors[animalsChosen[0]][index];
 
-                stock[0] = new Animal(tempHold, animalColors[animalsChosen[0]][0], p[0].x, p[0].y, p[stock.length-1].x, p[stock.length-1].y);
+                stock[0] = new Animal(tempHold, animalColors[animalsChosen[0]][0], p[0], p[p.length-1]);
 //                if (!animals.contains(animalColors[animalsChosen[h]][0]))
 //                    animals.add(animalColors[animalsChosen[h]][0]);
             }
@@ -74,7 +74,7 @@ public class Arithmetics extends GameStage {
             // Chooses a random color of an animal
             int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1;
             String tempHold = animalColors[animalsChosen[h]][index];
-            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0], p[h].x, p[h].y);
+            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0], p[h]);
 //            if (!animals.contains(animalColors[animalsChosen[h]][0]))
 //                animals.add(animalColors[animalsChosen[h]][0]);
         }

@@ -39,7 +39,7 @@ public class MasterFrame extends JFrame implements ActionListener {
 //        JLabel label = new JLabel();
 //        label.setIcon(ii);
 //        add(label);
-        current = h;
+        current = m;
         add(current);
         setVisible(true);
         revalidate();

@@ -34,11 +34,11 @@ class TempTest extends JFrame {
     }
 
     public TempTest () {
-//        for (int h = 1; h < 5; h ++) {
-//            testGetPositions(h);
-//            try {Thread.sleep (10);} catch (InterruptedException e) {}
-//        }
-        testing5();
+        for (int h = 1; h < 5; h ++) {
+            testGetPositions(h);
+            try {Thread.sleep (10);} catch (InterruptedException e) {}
+        }
+//        testing5();
     }
 
     public void testing2 () {
@@ -231,6 +231,13 @@ class TempTest extends JFrame {
                     index = (int) ((Math.random() * (((stablePositions.length - 1) - 3) + 1)) + 3);
                 } while (points.contains(new Point (stablePositions[index])));
                 points.set (h, new Point (stablePositions [index]));
+            }
+        }
+        ArrayList<Point> tempHolder = new ArrayList<>(points);
+        for (int h = 0; h < points.size(); h ++) {
+            if (tempHolder.subList(h+1, tempHolder.size()).contains(points.get(h))) {
+                System.out.println("Fucking McFuck Fuck!!! FuckNugget");
+                System.exit (270);
             }
         }
         return points.toArray(new Point [points.size()]);

@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -36,8 +37,8 @@ public class AnimalClassifier extends GameStage {
      */
     public AnimalClassifier(int difficulty) {
         super(difficulty);
-        System.out.println(animals.toString());
-        System.out.println(stock.length);
+//        System.out.println(animals.toString());
+//        System.out.println(stock.length);
     }
 
     @Override
@@ -67,24 +68,37 @@ public class AnimalClassifier extends GameStage {
         stock = new Animal[animalsChosen.length];
         Point[] p = getPosition(stock.length);
         int starter = 0;
+        // If stalls are needed (will happen if background == 2 and amount-of-animals > 3
         if (p.length > stock.length) {
             for (int h = 0; h < p.length - stock.length; h ++) {
-                int index = (int)(Math.random()*(animalColors[animalsChosen[0]].length - 1))+1;
-                String tempHold = animalColors[animalsChosen[0]][index];
-
-                stock[0] = new Animal(tempHold, animalColors[animalsChosen[0]][0], p[0].x, p[0].y, p[stock.length-1].x, p[stock.length-1].y);
-                if (!animals.contains(animalColors[animalsChosen[h]][0]))
+                int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 2))+1; // Generate Random Color
+                try {
+                    stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], p[h], p[h + stock.length]); // Create new Animal
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Max: " + (p.length - stock.length));
+                    System.out.println("Stock: " + stock.length);
+                    System.out.println("Points: " + p.length);
+                    System.out.println("Index: " + index);
+                    System.out.println("Counter: " + h);
+                    e.printStackTrace();
+                }
+                if (!animals.contains(animalColors[animalsChosen[h]][0])) // If such an animal has not been recorded yet, then record it
                     animals.add(animalColors[animalsChosen[h]][0]);
             }
-            starter = p.length - stock.length;
+            starter = p.length - stock.length; // Set starter, so that the loop below skips what has been assigned already
         }
-        for (int h = starter; h < stock.length; h++) {
-            // Chooses a random color of an animal
-            int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1;
-            String tempHold = animalColors[animalsChosen[h]][index];
-            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0], p[h].x, p[h].y);
-            if (!animals.contains(animalColors[animalsChosen[h]][0]))
+        for (int h = starter; h < stock.length; h++) { // Generate the rest of the animals.
+            int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1; // Generate Random Color
+            stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], p[h]); // Create new Animal
+            if (!animals.contains(animalColors[animalsChosen[h]][0])) // If such an animal has not been recorded yet, then record it
                 animals.add(animalColors[animalsChosen[h]][0]);
+        }
+        for (int h = 0; h < stock.length; h ++) {
+            System.out.println(stock[h].getColor() + "-" + stock[h].getType());
+            System.out.println("(" + stock[h].getX() + ", " + stock[h].getY() + ")");
+            System.out.println("(" + p[h].getX() + ", " + p[h].getY() + ")");
+            System.out.println(stock[h].stallNeeded());
+            System.out.println();
         }
     }
 
@@ -103,6 +117,7 @@ public class AnimalClassifier extends GameStage {
         }
         if (matchesFound == animals.size() && input.size() == animals.size()) {
             System.out.println("You guessed it!");
+            System.out.println("---------------------------------------------------------");
             RearingRanchDriver.getWindow().d.nextStage();
         } else
             System.out.println("Nope");
@@ -112,18 +127,21 @@ public class AnimalClassifier extends GameStage {
     protected void createAnimals(Graphics g) {
         for (int h = 0; h < stock.length; h ++) {
             g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
+            System.out.println("Supposedly I drew it!!!!!!!!!");
             if (stock[h].stallNeeded()) {
                 BufferedImage stall = null;
                 int x = 0, y = 0;
                 try {
-                    if (stock[h].getX() == 338) {
-                        stall = ImageIO.read(new File("src/picture/backgrounds/stall-left.png"));
+                    if (stock[h].getX() + stock[h].getPicture().getWidth() == 348) {
+                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-left.png"));
                         x = 1; y = 106;
                     } else {
-                        stall = ImageIO.read(new File("src/picture/backgrounds/stall-right.png"));
+                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-right.png"));
                         x = 894; y = 85;
                     }
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                    System.out.println("STALL NOT FOUND GODDAMMIT!!!!!");
+                }
                 g.drawImage(stall, x, y, null);
             }
         }

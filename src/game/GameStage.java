@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * The GameStage class acts as a parent class for ColorChooser, Animal Classifier and
@@ -33,7 +32,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     /**
      * Holds the file that will act as background through out the whole run of the program.
      */
-    private File background;
+    protected File background;
     /**
      * The @see javax.swing.JButton on the input that is responsible for erasing the last element on the input.
      */
@@ -123,7 +122,9 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * Also initializes the stablePositions and StablesAvailable variables.
      */
     private void generateBackground() {
-        int bGNum = (int)(Math.random() * 4) + 1;
+//        int bGNum = (int)(Math.random() * 4) + 1;
+        // Testing
+        int bGNum = 2;
         background = new File("src/pictures/backgrounds/background" + bGNum + ".png");
 
         switch (bGNum) {
@@ -140,7 +141,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
             case 2:
                 stablesAvailable = 7;
                 stablePositions = new Point [stablesAvailable + 2];
-                stablePositions [0] = new Point (338, 406);
+                stablePositions [0] = new Point (348, 406);
                 stablePositions [1] = new Point (757, 389);
                 stablePositions [2] = new Point (1050, 436);
                 stablePositions [3] = new Point (283, 503);
