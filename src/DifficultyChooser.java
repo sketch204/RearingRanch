@@ -32,7 +32,7 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
     /**
      * Holds the file that will act as background through out the whole run of the program.
      */
-    private JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenuButton();
+    private JButton mainMenu = new JButton (RearingRanchDriver.getWindow().m.getMainMenuButton().getAction());
     private JLabel back = RearingRanchDriver.getWindow().m.getGoBack();
 
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
@@ -70,7 +70,7 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
 
 
         /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
-        JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenuButton();
+//        JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenuButton();
 //        mainMenu.requestFocus();
 //        mainMenu.addActionListener(e -> RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch"));
 //
@@ -80,12 +80,6 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
 //        layout.putConstraint(SpringLayout.NORTH, mainMenu, 1, SpringLayout.NORTH, this);
         //(this.getWidth()/2)-(mainMenu.getWidth()/2) || 0
         add(mainMenu);
-        mainMenu.revalidate();
-        mainMenu.repaint();
-        mainMenu.setVisible(true);
-        list();
-        System.out.println(layout.getConstraints(mainMenu).getX().getValue());
-        System.out.println(layout.getConstraints(mainMenu).getY().getValue());
     }
 
     private BufferedImage generateBG () {

@@ -3,7 +3,10 @@ package root.game;
 import root.dataclass.Animal;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -20,6 +23,7 @@ import javax.swing.*;
  */
 
 public class Arithmetics extends GameStage {
+    int result = -1;
 
     /**
      * Creates an instance of the Arithmetics game stage. Creates a new GameStage panel that is fit for the Arithemtics stage of the game.
@@ -27,57 +31,90 @@ public class Arithmetics extends GameStage {
      */
     public Arithmetics(int difficulty) {
         super(difficulty);
-        buttons = new JButton[]{new JButton()};
+    }
+
+    private int generateResult (String priority) {
+        if (difficulty == 1) {
+            gameObjective = "How many animals can you see right now?";
+            return stock.length;
+        } else if (difficulty == 2) {
+            int counter = 0;
+            for (int h = 0; h < stock.length; h ++)
+                if (stock[h].getType().equals(priority))
+                    counter ++;
+            gameObjective = "How many " + priority.toLowerCase() + " can you see right now?";
+            return counter;
+        } else if (difficulty == 3) {
+            int objective = (int) (Math.random() * 2);
+            int total = (int)((Math.random() * ((20 - 10) + 1)) + 10);
+
+            // idk about this.
+            // Those sentence are not made for this
+            String [][] messageVariations = {{"If here w", "Here w", "If w", "W"}, {", and ", " and ", ""}};
+
+            if (objective == 1) {
+                gameObjective = "If here we have " + stock.length + " animals, and in another barn we have " + (total - stock.length) + " animals, how many animals do we have in total?";
+                gameObjective = "Here we have " + stock.length + " animals. In another barn we have " + (total - stock.length) + " animals. How many animals do we have in total?";
+                return total;
+            } else if (objective == 2) {
+                gameObjective = "If here we have " + stock.length + " animals, and in another barn we have " + (total - stock.length) + " animals how many more animals do we have in the other barn?";
+                gameObjective = "Here we have " + stock.length + " animals. In another barn we have " + (total - stock.length) + " animals. How many more animals do we have in the other barn?";
+                return (total - stock.length) - stock.length;
+            } else if (objective == 3) {
+                gameObjective = "If we have " + total + " animals in total, and we can see " + stock.length + " animals here, how many animals do we have in total?";
+                return total - stock.length;
+            }
+        }
+
+        return 0;
     }
 
     @Override
-    protected void generateAnimals() {
-        double t = 1.25e2;
-        System.out.println(t);
-        // Holds the index within animalColors, of which animals were chosen to be drawn.
-        int [] animalsChosen = new int [getStablesAvailable()];
-
+    protected void generateAnimals () {
         // {Chicken, goose, sheep, horse, cow, goat}
         String [] [] animalColors = {{"Chicken", "Brown", "White"}, {"Goose", "Brown", "White"}, {"Sheep", "Brown", "White"}, {"Horse", "Black", "White", "Brown"},
                 {"Cow", "BlackOn-Brown", "BlackOn-White", "BrownOn-White", "WhiteOn-Black", "WhiteOn-Brown"}, {"Goat", "Brown", "White", "Gray"}};
+        // If difficulty != 1 -> Min: 3-4, Max: 6 || If difficulty == 1 -> Min: 1, Max: 6
+        int [] animalsChosen = new int [(difficulty == 2) ? (int)((Math.random() * ((6 - (6 - 2)) + 1)) + (6 - 2)) : (int)((Math.random() * ((6 - (6 - 3)) + 1)) + (6 - 3))];
+        int starter = 0, priorityAnimal = (difficulty == 2) ? (int)(Math.random()*5) : -1;
 
-        // Set amount of animals to be chosen based on difficulty
-        if (difficulty == 1){ // Animals used: 1-2; chicken, goose
-            animalsChosen = new int [(int)(Math.round(Math.random()+1))];
-        } else if (difficulty == 2) { // Animals used: 2-3; chicken, goose, sheep, horse
-            animalsChosen = new int [(int)(Math.round(Math.random()+1)) + 2];
-        } else if (difficulty == 3) { // Animals used: 3-4; chicken, goose, sheep, horse, cow, goat
-            animalsChosen = new int [(int)(Math.round(Math.random()+1)) + 4];
-        }
-
-        // Fill it with a random animal based on difficulty
-        for (int h = 0; h < animalsChosen.length; h++) {
-            animalsChosen[h] = (int)(Math.random()*(2*difficulty));
+        if (difficulty == 2) {
+            int randomGenerated = 0;
+            for (int h = 0; h < animalsChosen.length; h++) {
+                if ((int) (Math.random() * 2) + 1 == 2 && randomGenerated < 2) {
+                    do {
+                        animalsChosen[h] = (int) (Math.random() * 6);
+                    } while (animalsChosen[h] == priorityAnimal);
+                    randomGenerated++;
+                } else {
+                    animalsChosen[h] = priorityAnimal;
+                }
+            }
+        } else {
+            // Fill it with a random animal based on difficulty
+            for (int h = 0; h < animalsChosen.length; h++) {
+                animalsChosen[h] = (int) (Math.random() * 6);
+            }
         }
 
         // Generate random animals, create and fill the 'stock' array
         stock = new Animal[animalsChosen.length];
-        Point[] p = getPosition(stock.length);
-        int starter = 0;
+//        Point[] p = getPosition(stock.length);
+        Point[] p = new Point[0];
+        // If stalls are needed (will happen if background == 2 and animalsChosen.length > 3
         if (p.length > stock.length) {
             for (int h = 0; h < p.length - stock.length; h ++) {
-                int index = (int)(Math.random()*(animalColors[animalsChosen[0]].length - 1))+1;
-                String tempHold = animalColors[animalsChosen[0]][index];
-
-                stock[0] = new Animal(tempHold, animalColors[animalsChosen[0]][0], p[0], p[p.length-1]);
-//                if (!animals.contains(animalColors[animalsChosen[h]][0]))
-//                    animals.add(animalColors[animalsChosen[h]][0]);
+                int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 2))+1; // Generate Random Color
+                stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], p[h], p[h + stock.length - 1]); // Create new Animal
             }
-            starter = p.length - stock.length;
+            starter = p.length - stock.length; // Set starter, so that the loop below skips what has been assigned already
         }
+        // Generate the rest of the animals.
         for (int h = starter; h < stock.length; h++) {
-            // Chooses a random color of an animal
-            int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1;
-            String tempHold = animalColors[animalsChosen[h]][index];
-            stock[h] = new Animal(tempHold, animalColors[animalsChosen[h]][0], p[h]);
-//            if (!animals.contains(animalColors[animalsChosen[h]][0]))
-//                animals.add(animalColors[animalsChosen[h]][0]);
+            int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1; // Generate Random Color
+            stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], p[h]); // Create new Animal
         }
+        result = generateResult(animalColors[priorityAnimal][0]);
     }
 
     @Override
@@ -87,7 +124,28 @@ public class Arithmetics extends GameStage {
 
     @Override
     protected void createAnimals(Graphics g) {
+        // a lot of temporary
 
+        for (int h = 0; h < stock.length; h ++) {
+            g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
+            System.out.println("Swear on my electricity I drew the " + stock[h].getType() + "!");
+            if (stock[h].stallNeeded()) {
+                BufferedImage stall = null;
+                int x = 0, y = 0;
+                try {
+                    if (stock[h].getX() + stock[h].getPicture().getWidth() == 348) {
+                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-left.png"));
+                        x = 1; y = 106;
+                    } else {
+                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-right.png"));
+                        x = 894; y = 85;
+                    }
+                } catch (IOException e) {
+                    System.out.println("STALL NOT FOUND GODDAMMIT!!!!!");
+                }
+                g.drawImage(stall, x, y, null);
+            }
+        }
     }
 
     @Override

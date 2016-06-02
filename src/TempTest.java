@@ -1,5 +1,7 @@
 package root;
 
+import root.dataclass.Animal;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +28,8 @@ class TempTest extends JFrame {
      * An arrays of (x,y) positions of each stable on the current background.
      */
     private Point [] stablePositions;
+    private Animal [] stock;
+    private int difficulty = 2;
 
     public void setUpFrame () {
         frame.setSize(1280, 720);
@@ -34,11 +38,12 @@ class TempTest extends JFrame {
     }
 
     public TempTest () {
-        for (int h = 1; h < 5; h ++) {
-            testGetPositions(h);
-            try {Thread.sleep (10);} catch (InterruptedException e) {}
-        }
+//        for (int h = 1; h < 5; h ++) {
+//            testGetPositions(h);
+//            try {Thread.sleep (10);} catch (InterruptedException e) {}
+//        }
 //        testing5();
+        testGenerateAnimals();
     }
 
     public void testing2 () {
@@ -256,6 +261,65 @@ class TempTest extends JFrame {
             try {Thread.sleep (1);} catch (InterruptedException e) {}
         }
     }
+
+
+    protected void generateAnimals () {
+        // {Chicken, goose, sheep, horse, cow, goat}
+        String [] [] animalColors = {{"Chicken", "Brown", "White"}, {"Goose", "Brown", "White"}, {"Sheep", "Brown", "White"}, {"Horse", "Black", "White", "Brown"},
+                {"Cow", "BlackOn-Brown", "BlackOn-White", "BrownOn-White", "WhiteOn-Black", "WhiteOn-Brown"}, {"Goat", "Brown", "White", "Gray"}};
+        // If difficulty != 1 -> Min: 3-4, Max: 6 || If difficulty == 1 -> Min: 1, Max: 6
+        int [] animalsChosen = new int [(difficulty == 2) ? (int)((Math.random() * ((6 - (6 - 2)) + 1)) + (6 - 2)) : (int)((Math.random() * ((6 - (6 - 3)) + 1)) + (6 - 3))];
+        int starter = 0, priorityAnimal = (difficulty == 2) ? (int)(Math.random()*6) : -1;
+
+        if (difficulty == 2) {
+            int randomGenerated = 0;
+            for (int h = 0; h < animalsChosen.length; h++) {
+                if ((int) (Math.random() * 2) + 1 == 2 && randomGenerated < 2) {
+                    do {
+                        animalsChosen[h] = (int) (Math.random() * 6);
+                    } while (animalsChosen[h] == priorityAnimal);
+                    randomGenerated++;
+                } else {
+                    animalsChosen[h] = priorityAnimal;
+                }
+            }
+        } else {
+            // Fill it with a random animal based on difficulty
+            for (int h = 0; h < animalsChosen.length; h++) {
+                animalsChosen[h] = (int) (Math.random() * 6);
+            }
+        }
+
+        // Generate random animals, create and fill the 'stock' array
+        stock = new Animal[animalsChosen.length];
+//        Point[] p = getPosition(stock.length);
+        Point[] p = new Point[0];
+        // If stalls are needed (will happen if background == 2 and animalsChosen.length > 3
+        if (p.length > stock.length) {
+            for (int h = 0; h < p.length - stock.length; h ++) {
+                int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 2))+1; // Generate Random Color
+//                stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], p[h], p[h + stock.length - 1]); // Create new Animal
+                stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], new Point (0 ,0), null); // Create new Animal
+                // Animal Counter here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
+            starter = p.length - stock.length; // Set starter, so that the loop below skips what has been assigned already
+        }
+        // Generate the rest of the animals.
+        for (int h = starter; h < stock.length; h++) {
+            int index = (int)(Math.random()*(animalColors[animalsChosen[h]].length - 1))+1; // Generate Random Color
+//            stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], p[h]); // Create new Animal
+            stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], new Point (0, 0)); // Create new Animal
+            // Animal Counter here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
+    }
+
+    public void testGenerateAnimals () {
+        generateAnimals();
+        for (int h = 0; h < stock.length; h ++)
+            System.out.println(stock[h].toString());
+        System.out.println(stock.length);
+    }
+
 
     public static void main(String[] args) {
         new TempTest();

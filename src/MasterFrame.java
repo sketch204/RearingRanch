@@ -21,7 +21,7 @@ public class MasterFrame extends JFrame implements ActionListener {
     public static MainMenu m = new MainMenu();
     public static DifficultyChooser d = new DifficultyChooser();
     public static Instructions i = new Instructions();
-    public static HighscoresPanel h = new HighscoresPanel();
+    public static HighscoresPanel h = new HighscoresPanel(0);
     public static GoodByeScreen g = new GoodByeScreen();
 
     private Container current = new Panel();

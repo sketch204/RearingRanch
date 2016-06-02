@@ -59,9 +59,9 @@ public class AnimalClassifier extends GameStage {
             animalsChosen = new int [(int)(Math.round(Math.random()+1)) + 4];
         }
 
-        // Fill it with a random animal based on difficulty
+        // Fill it with a random animal
         for (int h = 0; h < animalsChosen.length; h++) {
-            animalsChosen[h] = (int)(Math.random()*(2*difficulty));
+            animalsChosen[h] = (int)(Math.random()*(6));
         }
 
         // Generate random animals, create and fill the 'stock' array
@@ -75,6 +75,7 @@ public class AnimalClassifier extends GameStage {
                 try {
                     stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], p[h], p[h + stock.length]); // Create new Animal
                 } catch (ArrayIndexOutOfBoundsException e) {
+                    // Temporary
                     System.out.println("Max: " + (p.length - stock.length));
                     System.out.println("Stock: " + stock.length);
                     System.out.println("Points: " + p.length);
@@ -93,6 +94,7 @@ public class AnimalClassifier extends GameStage {
             if (!animals.contains(animalColors[animalsChosen[h]][0])) // If such an animal has not been recorded yet, then record it
                 animals.add(animalColors[animalsChosen[h]][0]);
         }
+        // Temporary
         for (int h = 0; h < stock.length; h ++) {
             System.out.println(stock[h].getColor() + "-" + stock[h].getType());
             System.out.println("(" + stock[h].getX() + ", " + stock[h].getY() + ")");

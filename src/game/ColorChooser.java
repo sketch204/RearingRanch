@@ -90,6 +90,7 @@ public class ColorChooser extends GameStage {
             if (!colors.contains(tempHold))
                 colors.add(tempHold);
         }
+        // Temparory
         for (int h = 0; h < stock.length; h ++) {
             System.out.println(stock[h].getColor() + " " + stock[h].getType());
             System.out.println("(" + stock[h].getX() + ", " + stock[h].getY() + ")");

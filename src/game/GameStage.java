@@ -70,6 +70,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * This is the array that is used to check for a legal input.
      */
     protected Animal[] stock;
+    /**
+     * The message that the user gets, when pressing the help button.
+     */
+    protected String gameObjective;
 
     /**
      * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
@@ -122,9 +126,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * Also initializes the stablePositions and StablesAvailable variables.
      */
     private void generateBackground() {
-//        int bGNum = (int)(Math.random() * 4) + 1;
-        // Testing
-        int bGNum = 2;
+        int bGNum = (int)(Math.random() * 4) + 1;
         background = new File("src/pictures/backgrounds/background" + bGNum + ".png");
 
         switch (bGNum) {
