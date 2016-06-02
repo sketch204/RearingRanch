@@ -33,6 +33,12 @@ public class Arithmetics extends GameStage {
         super(difficulty);
     }
 
+    /**
+     * Generates the current game objective as well as the final result of the current stage.
+     *
+     * @param priority
+     * @return
+     */
     private int generateResult (String priority) {
         if (difficulty == 1) {
             gameObjective = "How many animals can you see right now?";
