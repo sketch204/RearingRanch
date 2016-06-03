@@ -24,7 +24,7 @@ public class MasterFrame extends JFrame implements ActionListener {
     public static HighscoresPanel h = new HighscoresPanel(0);
     public static GoodByeScreen g = new GoodByeScreen();
 
-    private Container current = new Panel();
+    private static Container current = new Panel();
 
     /**
      * Creates an instance of a JFrame starting with a SplashScreen.
@@ -35,17 +35,21 @@ public class MasterFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setJMenuBar(createMenuBar());
 
-        // thanks barkin
-//        ImageIcon ii = new ImageIcon (("src/pictures/InalGotov-Season.gif"));
-//        JLabel label = new JLabel();
-//        label.setIcon(ii);
-//        add(label);
         current = m;
         add(current);
         setVisible(true);
         revalidate();
         repaint();
     }
+
+    static void initiateGoodbye () {
+        current.removeAll();
+        current.setVisible(false);
+        current.revalidate();
+        current.repaint();
+        new SplashScreen("GoodByeScreen");
+    }
+
 
     private JMenuBar createMenuBar () {
         JMenuBar menu = new JMenuBar();
@@ -87,10 +91,11 @@ public class MasterFrame extends JFrame implements ActionListener {
             about.add(references);
             about.setVisible(true);
         });
+
         helpItem.addActionListener(e -> {
             try
             {
-                Runtime.getRuntime().exec("src/help/help.chm");
+                Runtime.getRuntime().exec("help/help.chm");
             }
             catch (IOException ie)
             {
@@ -162,11 +167,12 @@ public class MasterFrame extends JFrame implements ActionListener {
             int choice = JOptionPane.showConfirmDialog(this, "Are you sure you wish to quit?", "Confirm", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            System.exit(0); }
+                initiateGoodbye();
+            }
         }
         revalidate();
         repaint();

@@ -22,10 +22,13 @@ import static root.MainMenu.*;
  */
 public class HighscoresPanel extends JPanel implements ActionListener, KeyListener{
 
-    /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
+    /** <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
+    /** <b> levelChoices </b> JButton array to store buttons to view each difficulty's leaderboard. */
     private JButton [] levelChoices = new JButton[3];
+    /** <b> options </b> JButton array to store buttons to print, clear highscores, or return to Main Menu. */
     private JButton [] options = new JButton[3];
+    /** <b> index </b>  Stores the current index of the */
     private int index = 0;
     private int difficulty;
 
@@ -34,13 +37,14 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         this.difficulty = difficulty;
         setLayout(layout);
         setSize(1280, 720);
+        Highscores.create();
+        if (Highscores.scores.exists())
+            System.out.print("created file");
         prepareGUI();
     }
 
     private void prepareGUI() {
-        Highscores.create();
-        if (Highscores.scores.exists())
-            System.out.print("created file");
+
 
         try {
             levelChoices = new JButton[]{new JButton(new ImageIcon((ImageIO.read(new File("src/pictures/buttons/difficultyChooser/EasyButton.png"))).getScaledInstance(98, 22, 0))),
@@ -135,7 +139,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         g.drawString (difficulty, 140, 320);
 
         g.setFont(new Font ("Times New Roman", Font.BOLD, 20));
-        g.drawString ("Name", 415, 255);
+        g.drawString("Name", 415, 255);
         g.drawString("Score", 615, 255);
         for (int i = 0; i < 10; i++) {
             //if (i < Highscores.players.size())

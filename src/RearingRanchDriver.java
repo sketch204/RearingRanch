@@ -8,7 +8,7 @@ package root;
  *
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: -
+ *       Tamir: 0:30
  *       Inal: 0:30
  */
 public class RearingRanchDriver {
@@ -23,7 +23,8 @@ public class RearingRanchDriver {
     }
 
     public static void main (String [] args) {
-        new RearingRanchDriver();
+        new SplashScreen("SplashScreen");
+//        new RearingRanchDriver();
         // Never mind this, i wanted to try cheat codes, for jokes and fun :)
         // I'll finish it sometime later
 //        if (args[0].equalsIgnoreCase("ns") || args[0].equalsIgnoreCase("nextStage"))

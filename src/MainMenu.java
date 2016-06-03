@@ -15,7 +15,7 @@ import javax.swing.*;
  * @author Tamir Arnesty
  * @version 2 2016-05-11.
  *
- * Last Edited: 2016-05-39
+ * Last Edited: 2016-05-30
  * Hours since 2016-05-11:
  *       Tamir: 10:00
  *       Inal: 2:00
@@ -69,10 +69,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
         /** Text for button ToolTip that displays shortcuts for each button. */
         String [] shortcuts = {"Press p to play game.", "Press i to open the instructions.", "Press h to view highscores", "Press q to quit"};
 
-        /** <br> <b> intro </b> Instance of JLabel class that stores an introduction message to the user. */
-        JLabel intro = new JLabel("<html> Welcome to Rearing Ranch! Press any of the following buttons to continue." +
-                "<br>Press Play Game to start! If you need help, press Instructions. Press the Highscores button to view previous highscores!" +
-                "<br>If you want to leave, press Quit! </html>");
+
 
         mainMenu.requestFocus();
         mainMenu.addActionListener(this);
@@ -85,7 +82,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
             mainChoices[ii].addKeyListener(this);
             mainChoices[ii].setToolTipText(shortcuts[ii]);
             mainChoices[ii].setContentAreaFilled(true);
-//            mainChoices[ii].setBorder(BorderFactory.createEtchedBorder());
+            mainChoices[ii].setBorder(BorderFactory.createEtchedBorder());
 
         }
 
@@ -102,13 +99,6 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
             add(mainChoices[i]);
         }
 
-        layout.putConstraint(SpringLayout.NORTH, intro, 100, SpringLayout.NORTH, this);
-        layout.putConstraint(SpringLayout.WEST, intro, 100, SpringLayout.WEST, this);
-        intro.setFont(new Font ("OCR A Std", Font.PLAIN, 13));
-        intro.setOpaque(true);
-        intro.setForeground(new Color (34, 34, 34));
-        intro.setBackground(new Color (191, 184, 108, 220));
-        add(intro);
         paintComponent(this.getGraphics());
         setVisible(true);
         revalidate();
@@ -146,11 +136,9 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
     public void paintComponent (Graphics g) {
         if (g != null) {
             int yCoord = 215 + 105*index;
-//            if (!start) {
+                g.drawImage(getBG(), 0, 0, null);
                 g.drawImage(getBG(), 0, 0, null);
             g.drawImage(getImage("GameLogo"), 380, 0, null);
-//                start = true;
-//            }
             g.drawImage(getImage("Goose-Brown small"), 400, yCoord, null); // interval is 105 pixels on y axis
         }
     }
@@ -165,10 +153,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().i, "Instructions");
         else if (e.getSource().equals(mainChoices[2])) {
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().h, "Highscores");
-            // Temporary
-//            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
         } else if (e.getSource().equals(mainChoices[3])) {
-            //RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().g, "Good Bye!");
             int choice = JOptionPane.showConfirmDialog(this, "Are you sure you wish to quit?", "Confirm", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {
                 try {
@@ -176,7 +161,9 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
-                System.exit(0); }        }
+                MasterFrame.initiateGoodbye();
+            }
+        }
     }
 
     @Override

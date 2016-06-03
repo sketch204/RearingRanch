@@ -20,7 +20,7 @@ import java.io.*;
  */
 public class Highscores  {
 
-    private int recorded;
+    static private int recorded;
     static File scores = new File ("Highscores.rrf");
 
     static ArrayList <Player> players = new ArrayList<Player>();
@@ -96,7 +96,22 @@ public class Highscores  {
     }
 
     static void write () {
+        try {
 
+            PrintWriter w = new PrintWriter(new FileWriter(scores));
+            w.println("A file made by Tamir for Ms. Dyke");
+            w.println(recorded);
+            w.println("---- divider ----");
+
+            for (int i = 0; i < players.size(); i++) {
+                w.println(players.get(i).getName());
+                w.println(players.get(i).getDifficulty());
+                w.println(players.get(i).getTime());
+                w.println("---- divider ----");
+            }
+            w.close();
+        } catch (IOException e) {
+        }
     }
 
     static void create () {

@@ -19,7 +19,7 @@ import javax.swing.*;
  * @version 1.3, 2016-05-15.
  * Last Edited: 2016-05-16
  * Hours since 2016-05-15:
- *       Tamir: 0
+ *       Tamir: 0:10
  *       Inal: 2:00
  */
 public class Arithmetics extends GameStage {
