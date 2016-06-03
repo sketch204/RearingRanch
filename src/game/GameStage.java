@@ -23,7 +23,7 @@ import java.util.ArrayList;
  *          Last Edited: 2016-05-15
  *          Hours since 2016-05-11:
  *          Tamir: -
- *          Inal: 16:15
+ *          Inal: 11:15
  */
 public abstract class GameStage extends JPanel implements ActionListener {
     /**

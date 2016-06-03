@@ -18,7 +18,7 @@ import java.io.*;
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
  *       Tamir: 2:00
- *       Inal: 1:00
+ *       Inal: 1:40
  */
 public class DifficultyChooser extends JPanel implements ActionListener, KeyListener {
     private int currentStage = -1;
