@@ -22,19 +22,17 @@ import java.io.*;
  */
 public class DifficultyChooser extends JPanel implements ActionListener, KeyListener {
     private int currentStage = -1;
-
-    private int difficulty;
+    long startTime;
     private Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconWidth(),
                                                  (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconHeight());
     static JButton [] diffButtons = {new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")),
-                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/MediumButton.png")),
-                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/HardButton.png"))};
+                                     new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/MediumButton.png")),
+                                     new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/HardButton.png"))};
     /**
      * Holds the file that will act as background through out the whole run of the program.
      */
     private JButton mainMenu = new JButton (RearingRanchDriver.getWindow().m.getMainMenuButton().getAction());
     private JLabel back = RearingRanchDriver.getWindow().m.getGoBack();
-
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
 
@@ -82,20 +80,13 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         add(mainMenu);
     }
 
-    private BufferedImage generateBG () {
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(MainMenu.background);
-        } catch (IOException e) {}
-        return img;
-    }
-
     @Override
     protected void paintComponent (Graphics g) {
-        g.drawImage(generateBG(), 0, 0, null);
+        g.drawImage(RearingRanchDriver.getWindow().m.getBG(), 0, 0, null);
         g.drawImage(MainMenu.getImage("GameLogo"), 380, 0, null);
     }
 
+    // ITS NEVER USED! :)
     private KeyListener enter = new KeyAdapter() {
         @Override
         public void keyTyped(KeyEvent ke) {
@@ -105,67 +96,44 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         }
     };
 
-    public void nextStage () {
+    public void nextStage (int difficulty) {
         currentStage++;
         switch (currentStage) {
             case 0:
                 RearingRanchDriver.getWindow().setPanel(new ColorChooser(difficulty), "Choose the Colour!");
+                startTime = System.currentTimeMillis();
                 break;
             case 1:
                 RearingRanchDriver.getWindow().setPanel(new AnimalClassifier(difficulty), "What's the animal?");
+
                 break;
             case 2:
                 RearingRanchDriver.getWindow().setPanel(new Arithmetics(difficulty), "Count them up!");
                 break;
             case 4:
                 RearingRanchDriver.getWindow().h.display(difficulty);
-                difficulty = 0;
                 currentStage = -1;
         }
     }
 
-    public void initiatePlay (int difficulty) {
-        int currentStage = 0;
-        GameStage[] stages = {new ColorChooser(difficulty), new AnimalClassifier(difficulty), new Arithmetics(difficulty)};
-        RearingRanchDriver.getWindow().setPanel(stages[0], "Choose the Colour!");
-//        RearingRanchDriver.getWindow().setPanel(stages[1], "Choose the Animal!");
-//        RearingRanchDriver.getWindow().setPanel(stages[2], "Do some Math!");
+    public void pauseTimer () {
 
+    }
 
-        // This loop is the reason that nothing showed up when you initiated play
-        // The program focused on the loop and waited until it would finish with the loop
-        // before displaying and handling the window.
+    public void continueTimer () {
 
-        // I'm thinking, having a background thread that would do that loop and somehow have
-        // it switching the stages.
-
-//        while (true) {
-//            if (!stages[0].isActive() && currentStage == 0) {
-//                RearingRanchDriver.getWindow().setPanel(stages[1], "What's the animal?");
-//                currentStage ++;
-//            } else if (!stages[1].isActive() && currentStage == 1) {
-//                RearingRanchDriver.getWindow().setPanel(stages[2], "Count them up!");
-//                currentStage ++;
-//            } else if (!stages[2].isActive())
-//                break;
-//        }
-
-        // I'm thinking show highscores?
-        // i think we should discuss this class
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(diffButtons[0]))
-            difficulty = 1;
+            nextStage(1);
         else if (e.getSource().equals(diffButtons[1]))
-            difficulty = 2;
+            nextStage(2);
         else if (e.getSource().equals(diffButtons[2]))
-            difficulty = 3;
+            nextStage(3);
         else if (e.getSource().equals(back))
             RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
-        if (difficulty != 0)
-            nextStage();
     }
 
     @Override

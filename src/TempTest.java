@@ -28,8 +28,9 @@ class TempTest extends JFrame {
      * An arrays of (x,y) positions of each stable on the current background.
      */
     private Point [] stablePositions;
-    private Animal [] stock;
-    private int difficulty = 2;
+    private Animal [] stock = new Animal [5];
+    private int difficulty = 3;
+    String gameObjective;
 
     public void setUpFrame () {
         frame.setSize(1280, 720);
@@ -38,12 +39,14 @@ class TempTest extends JFrame {
     }
 
     public TempTest () {
-//        for (int h = 1; h < 5; h ++) {
+        for (int h = 1; h < 70000; h ++) {
 //            testGetPositions(h);
 //            try {Thread.sleep (10);} catch (InterruptedException e) {}
-//        }
+            testgenerateResults();
+            System.out.println();
+        }
 //        testing5();
-        testGenerateAnimals();
+//        testGenerateAnimals();
     }
 
     public void testing2 () {
@@ -262,7 +265,6 @@ class TempTest extends JFrame {
         }
     }
 
-
     protected void generateAnimals () {
         // {Chicken, goose, sheep, horse, cow, goat}
         String [] [] animalColors = {{"Chicken", "Brown", "White"}, {"Goose", "Brown", "White"}, {"Sheep", "Brown", "White"}, {"Horse", "Black", "White", "Brown"},
@@ -320,10 +322,50 @@ class TempTest extends JFrame {
         System.out.println(stock.length);
     }
 
+    private int generateResult (String priority) {
+        // Something's not right here
+        // It returned a 0
+        if (difficulty == 1) {
+            gameObjective = "How many animals can you see right now?";
+            return stock.length;
+        } else if (difficulty == 2) {
+            int counter = 0;
+            for (int h = 0; h < stock.length; h ++)
+                if (stock[h].getType().equals(priority))
+                    counter ++;
+            gameObjective = "How many " + priority.toLowerCase() + " can you see right now?";
+            return counter;
+        } else if (difficulty == 3) {
+            int objective = (int) (Math.random() * 3) + 1;
+            int total = (int)((Math.random() * ((20 - 10) + 1)) + 10);
+
+            if (objective == 1) {
+                gameObjective = "If here we have " + stock.length + " animals, and in another barn we have " + (total - stock.length) + " animals, how many animals do we have in total?";
+                return total;
+            } else if (objective == 2) {
+                gameObjective = "If here we have " + stock.length + " animals, and in another barn we have " + (total - stock.length) + " animals how many more animals do we have in the other barn?";
+                return (total - stock.length) - stock.length;
+            } else if (objective == 3) {
+                gameObjective = "If we have " + total + " animals in total, and we can see " + stock.length + " animals here, how many animals do we have in the other barn?";
+                return total - stock.length;
+            }
+        }
+        return 0;
+    }
+
+    public void testgenerateResults () {
+        System.out.println(generateResult("Horse"));
+        System.out.println(gameObjective);
+    }
 
     public static void main(String[] args) {
         new TempTest();
-//        ArrayList<Integer> list = new ArrayList<Integer>(new Integer [10]);
-//        System.out.println(list.size());
+
+//        System.out.println(System.currentTimeMillis());
+//        long current = System.currentTimeMillis();
+//        try {Thread.sleep(6000);} catch (InterruptedException e) {}
+//        System.out.println(System.currentTimeMillis() - current);
+//        System.out.println(System.currentTimeMillis());
+//        System.out.println(System.currentTimeMillis());
     }
 }

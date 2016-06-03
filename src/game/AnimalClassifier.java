@@ -32,7 +32,7 @@ public class AnimalClassifier extends GameStage {
     private static ArrayList<String> animals = new ArrayList<String>();
 
     /**
-     * Creates an instance of the AnimalClassifier game stage. Creates a new GameStage panel that is fit for the Animal Classifier stage of the game.
+     * Creates an instance of the AnimalClassifier game stage. Creates a new GameStage panel that is fit for the AnimalClassifier stage of the game.
      * @param difficulty The difficulty on which this stage will be played on.
      */
     public AnimalClassifier(int difficulty) {
@@ -94,6 +94,7 @@ public class AnimalClassifier extends GameStage {
             if (!animals.contains(animalColors[animalsChosen[h]][0])) // If such an animal has not been recorded yet, then record it
                 animals.add(animalColors[animalsChosen[h]][0]);
         }
+        gameObjective = "Name each animal that can see on screen.";
         // Temporary
         for (int h = 0; h < stock.length; h ++) {
             System.out.println(stock[h].getColor() + "-" + stock[h].getType());
@@ -118,9 +119,8 @@ public class AnimalClassifier extends GameStage {
             }
         }
         if (matchesFound == animals.size() && input.size() == animals.size()) {
-            System.out.println("You guessed it!");
-            System.out.println("---------------------------------------------------------");
-            RearingRanchDriver.getWindow().d.nextStage();
+            System.out.println("You guessed it");
+            RearingRanchDriver.getWindow().d.nextStage(difficulty);
         } else
             System.out.println("Nope");
     }
@@ -129,7 +129,6 @@ public class AnimalClassifier extends GameStage {
     protected void createAnimals(Graphics g) {
         for (int h = 0; h < stock.length; h ++) {
             g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
-            System.out.println("Swear on my electricity I drew the " + stock[h].getType() + "!");
             if (stock[h].stallNeeded()) {
                 BufferedImage stall = null;
                 int x = 0, y = 0;

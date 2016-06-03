@@ -4,8 +4,8 @@
     <entry_points version="2.0" />
   </component>
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="/Volumes/USBUTT/Java 4U/EarlyEd Inc./Dropping May 27/EarlyEd Inc. V3 May 27, 2016/doc" />
-    <option name="OPTION_SCOPE" value="public" />
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../../../Temp/doc" />
+    <option name="OPTION_SCOPE" value="private" />
     <option name="OPTION_HIERARCHY" value="true" />
     <option name="OPTION_NAVIGATOR" value="true" />
     <option name="OPTION_INDEX" value="true" />
@@ -18,7 +18,7 @@
     <option name="OTHER_OPTIONS" />
     <option name="HEAP_SIZE" />
     <option name="LOCALE" />
-    <option name="OPEN_IN_BROWSER" value="true" />
+    <option name="OPEN_IN_BROWSER" value="false" />
     <option name="OPTION_INCLUDE_LIBS" value="false" />
   </component>
   <component name="MavenImportPreferences">

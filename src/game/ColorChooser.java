@@ -90,7 +90,8 @@ public class ColorChooser extends GameStage {
             if (!colors.contains(tempHold))
                 colors.add(tempHold);
         }
-        // Temparory
+        gameObjective = "List the main color that each animal has.";
+        // Temporary
         for (int h = 0; h < stock.length; h ++) {
             System.out.println(stock[h].getColor() + " " + stock[h].getType());
             System.out.println("(" + stock[h].getX() + ", " + stock[h].getY() + ")");
@@ -118,7 +119,7 @@ public class ColorChooser extends GameStage {
         if (matchesFound == colors.size() && input.size() == colors.size()) {
             System.out.println("You guessed it!");
             System.out.println("---------------------------------------------------------");
-            RearingRanchDriver.getWindow().d.nextStage();
+            RearingRanchDriver.getWindow().d.nextStage(difficulty);
         } else
             System.out.println("Nope");
     }
@@ -127,7 +128,6 @@ public class ColorChooser extends GameStage {
     protected void createAnimals(Graphics g) {
         for (int h = 0; h < stock.length; h ++) {
             g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
-            System.out.println("Swear on my electricity I drew the " + stock[h].getType() + "!");
             if (stock[h].stallNeeded()) {
                 BufferedImage stall = null;
                 int x = 0, y = 0;
@@ -145,6 +145,7 @@ public class ColorChooser extends GameStage {
                 g.drawImage(stall, x, y, null);
             }
         }
+        g.fillRect(10, 10, 40, 40);
     }
 
     @Override

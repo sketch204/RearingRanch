@@ -2,8 +2,6 @@ package root;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /** Instructions class creates a new panel that will replace main menu. The panel includes three labels that include instructions and
  * explanations of how to use the program and play the game.
@@ -107,7 +105,7 @@ public class Instructions extends JPanel {
     }
     @Override
     public void paintComponent (Graphics g) {
-        g.drawImage(MainMenu.generateBG(), 0, 0, null);
+        g.drawImage(MainMenu.getBG(), 0, 0, null);
         g.drawImage(MainMenu.getImage("GameLogo"), 380, 0, null);
     }
 }

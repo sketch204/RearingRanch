@@ -27,7 +27,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
                                                        (new ImageIcon("src/pictures/buttons/mainMenu/PlayButton.png")).getIconHeight());
     /**Holds the file that will act as background through out the whole run of the program.
      */
-    static File background = new File("src/pictures/backgrounds/background" + 4 + ".png");
+    public static File background = new File("src/pictures/backgrounds/background" + 4 + ".png");
     /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
     private JButton mainMenu = new JButton(new ImageIcon (getImage("buttons/MainMenuButton").getScaledInstance(150, 35, 0)));
     /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
@@ -124,7 +124,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
         return goBack;
     }
 
-    static BufferedImage generateBG () {
+    static BufferedImage getBG() {
         BufferedImage img = null;
         try {
             img = ImageIO.read(background);
@@ -142,11 +142,12 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener, Mou
         }
         return null;
     }
+
     public void paintComponent (Graphics g) {
         if (g != null) {
             int yCoord = 215 + 105*index;
 //            if (!start) {
-                g.drawImage(generateBG(), 0, 0, null);
+                g.drawImage(getBG(), 0, 0, null);
             g.drawImage(getImage("GameLogo"), 380, 0, null);
 //                start = true;
 //            }
