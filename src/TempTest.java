@@ -359,8 +359,13 @@ class TempTest extends JFrame {
     }
 
     public static void main(String[] args) {
-        new TempTest();
-
+//        new TempTest();
+        Timer timer = new Timer ();
+        timer.run();
+        while (true) {
+            try { Thread.sleep (100); } catch (InterruptedException e) {}
+            System.out.println(timer.getTime());
+        }
 //        System.out.println(System.currentTimeMillis());
 //        long current = System.currentTimeMillis();
 //        try {Thread.sleep(6000);} catch (InterruptedException e) {}
