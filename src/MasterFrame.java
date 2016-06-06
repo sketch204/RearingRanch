@@ -18,11 +18,17 @@ import java.io.IOException;
  *       Inal: 3:00
  */
 public class MasterFrame extends JFrame implements ActionListener {
-    public static MainMenu m = new MainMenu();
-    public static DifficultyChooser d = new DifficultyChooser();
-    public static Instructions i = new Instructions();
-    public static HighscoresPanel h = new HighscoresPanel(0);
-    public static GoodByeScreen g = new GoodByeScreen();
+
+    private static MainMenu m;
+    private static DifficultyChooser d;
+    private static Instructions i;
+    private static HighscoresPanel h;
+//    private static JPanel [] instances = {m, d, i, h};
+//    private static JPanel [] panels = {new MainMenu(), new DifficultyChooser(), new Instructions(), new HighscoresPanel(1)};
+//    private static MainMenu m = new MainMenu();
+//    private static DifficultyChooser d = new DifficultyChooser();
+//    private static Instructions i = new Instructions();
+//    private static HighscoresPanel h = new HighscoresPanel(1);
 
     private static Container current = new Panel();
 
@@ -35,12 +41,20 @@ public class MasterFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setJMenuBar(createMenuBar());
 
-        current = m;
+        current = getM();
         add(current);
         setVisible(true);
         revalidate();
         repaint();
     }
+
+//    static void create (int index) {
+//        instances [index] = panels [index];
+//    }
+//
+//    static JPanel getPanels (int index) {
+//        return panels[index];
+//    }
 
     static void initiateGoodbye () {
         current.removeAll();
@@ -48,6 +62,14 @@ public class MasterFrame extends JFrame implements ActionListener {
         current.revalidate();
         current.repaint();
         new SplashScreen("GoodByeScreen");
+    }
+
+    public static DifficultyChooser getD() {
+        return d = new DifficultyChooser();
+    }
+
+    public static Instructions getI() {
+        return i = new Instructions();
     }
 
 
@@ -176,5 +198,13 @@ public class MasterFrame extends JFrame implements ActionListener {
         }
         revalidate();
         repaint();
+    }
+
+    static MainMenu getM() {
+        return m = new MainMenu();
+    }
+
+    public static JPanel getH() {
+        return h = new HighscoresPanel();
     }
 }

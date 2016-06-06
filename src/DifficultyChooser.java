@@ -1,13 +1,10 @@
 package root;
 
 import root.game.*;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
+import static root.MainMenu.*;
 
 /**
  * DifficultyChooser class will display the user with three difficulty levels: easy, medium, and hard, that they must choose
@@ -28,13 +25,12 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
     static JButton [] diffButtons = {new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")),
                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/MediumButton.png")),
                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/HardButton.png"))};
-    /**
-     * Holds the file that will act as background through out the whole run of the program.
-     */
-    private JButton mainMenu = new JButton (RearingRanchDriver.getWindow().m.getMainMenuButton().getAction());
-    private JLabel back = RearingRanchDriver.getWindow().m.getGoBack();
+    /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/
+    private JButton mainMenu = new JButton(MasterFrame.getM().getMainMenuButton().getIcon());
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
+    /** <b> index </b> Integer that stores the index of mainChoices button array. */
+    private int index = 0;
 
     public DifficultyChooser () {
         super();
@@ -46,44 +42,41 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
     private void prepareGUI () {
         /** Text for button ToolTip that displays shortcuts for each button. */
         String [] shortcuts = {"Press e to play Easy.", "Press m to play Medium.", "Press h to play Hard."};
+        /** <br> <b> goBack </b> Clone of a JLabel class from MainMenu that displays a prompt message to return to main menu. */
+        JLabel goBack = new JLabel(MasterFrame.getM().getGoBack().getText());
 
         for (int h = 0; h < diffButtons.length; h++) {
             diffButtons[h].addActionListener(this);
-            diffButtons[h].setPreferredSize(buttonSize);
+//            diffButtons[h].setPreferredSize(buttonSize);
             diffButtons[h].setToolTipText(shortcuts[h]);
+            diffButtons[h].addKeyListener(this);
+            diffButtons[h].addKeyListener(enter);
             layout.putConstraint(SpringLayout.NORTH, diffButtons[h], 200, SpringLayout.NORTH, this);
             layout.putConstraint(SpringLayout.WEST, diffButtons[h], 130 + ((int)buttonSize.getWidth() + 20)*h, SpringLayout.WEST, this);
             add (diffButtons[h]);
         }
 
-        diffButtons[0].requestFocusInWindow();
-        /** <br> <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
-         * finishes reading the instructions above.*/
-        JLabel goBack = new JLabel ("<html> Press the button to return to Main Menu.");
-        goBack.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
+        diffButtons[index].requestFocusInWindow();
 
+        goBack.setFont(new Font ("OCR A Std", Font.PLAIN, 14));
         layout.putConstraint(SpringLayout.SOUTH, goBack, -220, SpringLayout.SOUTH, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, goBack, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(goBack);
 
-
-        /** <br> <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
-//        JButton mainMenu = RearingRanchDriver.getWindow().m.getMainMenuButton();
-//        mainMenu.requestFocus();
-//        mainMenu.addActionListener(e -> RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch"));
-//
-//        mainMenu.addKeyListener(MainMenu.enter);
-//        mainMenu.requestFocusInWindow();
-//        layout.putConstraint(SpringLayout.WEST, mainMenu, 1, SpringLayout.WEST, this);
-//        layout.putConstraint(SpringLayout.NORTH, mainMenu, 1, SpringLayout.NORTH, this);
-        //(this.getWidth()/2)-(mainMenu.getWidth()/2) || 0
+        mainMenu.addActionListener(this);
+        mainMenu.setContentAreaFilled(true);
+        mainMenu.setBorder(BorderFactory.createEtchedBorder());
+        layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(mainMenu);
     }
 
     @Override
     protected void paintComponent (Graphics g) {
-        g.drawImage(RearingRanchDriver.getWindow().m.getBG(), 0, 0, null);
-        g.drawImage(MainMenu.getImage("GameLogo"), 380, 0, null);
+        g.drawImage(getBG(), 0, 0, null);
+        g.drawImage(getImage("GameLogo"), 380, 0, null);
+        revalidate();
+        repaint();
     }
 
     // ITS NEVER USED! :)
@@ -111,7 +104,8 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
                 RearingRanchDriver.getWindow().setPanel(new Arithmetics(difficulty), "Count them up!");
                 break;
             case 4:
-                RearingRanchDriver.getWindow().h.display(difficulty);
+                RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "High Scores");
+                HighscoresPanel.display(difficulty);
                 currentStage = -1;
         }
     }
@@ -132,8 +126,8 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
             nextStage(2);
         else if (e.getSource().equals(diffButtons[2]))
             nextStage(3);
-        else if (e.getSource().equals(back))
-            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+        else if (e.getSource().equals(mainMenu))
+            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
     }
 
     @Override
@@ -145,7 +139,32 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_RIGHT:
+                if (index > diffButtons.length-1) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                break;
+            case KeyEvent.VK_LEFT:
+                if (index > 0) {
+                    index--;
+                } else {
+                    index = diffButtons.length-1;
+                }
+                break;
+            case KeyEvent.VK_E:
+                diffButtons[0].doClick();
+                break;
+            case KeyEvent.VK_M:
+                diffButtons[0].doClick();
+                break;
+            case KeyEvent.VK_H:
+                diffButtons[0].doClick();
+                break;
         }
+        diffButtons[index].requestFocusInWindow();
+        revalidate();
+        repaint();
     }
 
     @Override

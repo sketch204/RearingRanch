@@ -8,12 +8,13 @@ public class Player {
     public Player (String name, int difficulty, int time) {
         this.difficulty = difficulty;
         this.time = time;
-        this.name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length()-1).toLowerCase();
+        this.name = name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
-    private String getMinuteSecondTime() {
+    public String getMinuteSecondTime() {
         int minutes = time/60;
-        int seconds = (minutes > 0) ? time - (60 * minutes) : time ;
+        int seconds = (minutes > 0) ? time - (60 * minutes) : time;
+
         return "" + minutes + ":" + seconds;
     }
 
@@ -30,7 +31,7 @@ public class Player {
     }
 
     public String toString () {
-        return name + " finished the game on " + difficulty + " difficulty in " + getMinuteSecondTime();
+        return name + " finished the game on difficulty " + difficulty + " in " + getMinuteSecondTime();
     }
 
     public void setTime(int time) {

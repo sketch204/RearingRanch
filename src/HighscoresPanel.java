@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 
+import static root.Highscores.*;
 import static root.MainMenu.*;
 
 /**
@@ -17,41 +18,54 @@ import static root.MainMenu.*;
  * @version 1 2016-05-30
  * Last Edited: 2016-05-30
  * Hours since 2016-05-11:
- *       Tamir: 7:00 (as of 4:26 may 31)
+ *       Tamir: 9:00 (as of 4:26 may 31)
  *       Inal: -
  */
 public class HighscoresPanel extends JPanel implements ActionListener, KeyListener{
 
+    private static boolean display = false;
     /** <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
     /** <b> levelChoices </b> JButton array to store buttons to view each difficulty's leaderboard. */
     private JButton [] levelChoices = new JButton[3];
     /** <b> options </b> JButton array to store buttons to print, clear highscores, or return to Main Menu. */
     private JButton [] options = new JButton[3];
-    /** <b> index </b>  Stores the current index of the */
+    /** <b> index </b>  Stores the current index of the button in focus. */
     private int index = 0;
-    private int difficulty;
 
-    public HighscoresPanel (int difficulty) {
+    private static int difficulty;
+//    public HighscoresPanel () {
+//        super();
+//    }
+    public HighscoresPanel () {
         super ();
-        this.difficulty = difficulty;
+
         setLayout(layout);
         setSize(1280, 720);
-        Highscores.create();
-        if (Highscores.scores.exists())
-            System.out.print("created file");
+
+        System.out.println("--------------------" +scores.exists());
+        if (!scores.exists()) {
+            System.out.println("after check" +scores.exists());
+            create(); }
+
+        if (Highscores.scores.exists()) {
+            System.out.print("hohohohhohhoho");
+        System.out.print("created file"); }
+
         prepareGUI();
+        display(1);
     }
 
     private void prepareGUI() {
-
+        /** Text for button ToolTip that displays shortcuts for each button. */
+        String [] shortcuts = {"Press e for easy.", "Press m for medium.", "Press h for hard.", "Press c to clear high scores.", "Press r to return to Main Menu.", "Press p to print."};
 
         try {
             levelChoices = new JButton[]{new JButton(new ImageIcon((ImageIO.read(new File("src/pictures/buttons/difficultyChooser/EasyButton.png"))).getScaledInstance(98, 22, 0))),
                     new JButton(new ImageIcon((ImageIO.read(new File("src/pictures/buttons/difficultyChooser/MediumButton.png"))).getScaledInstance(98, 22, 0))),
                     new JButton(new ImageIcon((ImageIO.read(new File("src/pictures/buttons/difficultyChooser/HardButton.png"))).getScaledInstance(98, 22, 0)))};
-        } catch (IOException e) {
-        } catch (NullPointerException e) {}
+        } catch (IOException | NullPointerException e) {
+        }
 
         try {
             options = new JButton[] {new JButton(new ImageIcon((ImageIO.read(new File("src/pictures/buttons/highscores/delete.png"))))),
@@ -60,8 +74,6 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /** Text for button ToolTip that displays shortcuts for each button. */
-        String [] shortcuts = {"Press e for easy.", "Press m for medium.", "Press h for hard.", "Press c to clear high scores.", "Press r to return to Main Menu.", "Press p to print."};
 
         levelChoices[0].requestFocus();
         layout.putConstraint(SpringLayout.NORTH, levelChoices[1], 200, SpringLayout.NORTH, this);
@@ -109,7 +121,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
     @Override
     public void paintComponent (Graphics g) {
 
-        g.drawImage(generateBG(), 0, 0, null);
+        g.drawImage(getBG(), 0, 0, null);
         g.drawImage(getImage("GameLogo"), 380, 0, null);
         g.drawImage(getImage("Company Logo Scaled").getScaledInstance(75, 75, 0), -5, 5 , null);
         g.drawImage(getImage("Logo Name").getScaledInstance(85, 41, 0), this.getWidth()-90, 5, null);
@@ -141,9 +153,14 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         g.setFont(new Font ("Times New Roman", Font.BOLD, 20));
         g.drawString("Name", 415, 255);
         g.drawString("Score", 615, 255);
-        for (int i = 0; i < 10; i++) {
-            //if (i < Highscores.players.size())
-                g.drawString ("" + (i + 1) + ". ", 400, 280 + i*30);
+        if (display) {
+            for (int i = 0; i < 10; i++) {
+                if (i < Highscores.players.size()) {
+                    g.drawString("" + (i + 1) + ". ", 390, 280 + i * 30);
+                    g.drawString(players.get(i).getName(), 415, 280 + i * 30);
+                    g.drawString(players.get(i).getMinuteSecondTime(), 615, 280 + i * 30);
+                }
+            }
         }
         revalidate();
         repaint();
@@ -165,8 +182,10 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
      * Set this panel as the main panel, and display highscores, for the given difficulty.
      * @param difficulty The difficulty of the scoreboard to display.
      */
-    public void display (int difficulty) {
-
+    static void display (int difficulty) {
+        HighscoresPanel.difficulty = difficulty;
+        load(difficulty);
+        display = true;
     }
 
     @Override
@@ -183,7 +202,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         } else if (e.getSource().equals(options[0])) {
             Highscores.delete();
         } else if (e.getSource().equals(options[1])) {
-            RearingRanchDriver.getWindow().setPanel(RearingRanchDriver.getWindow().m, "Rearing Ranch");
+            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
         } else if (e.getSource().equals(options[2])) {
 //            new Printer();
         }

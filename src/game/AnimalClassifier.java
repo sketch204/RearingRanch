@@ -1,6 +1,6 @@
 package root.game;
 
-import root.RearingRanchDriver;
+import root.MasterFrame;
 import root.dataclass.Animal;
 
 import java.awt.*;
@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -120,7 +119,7 @@ public class AnimalClassifier extends GameStage {
         }
         if (matchesFound == animals.size() && input.size() == animals.size()) {
             System.out.println("You guessed it");
-            RearingRanchDriver.getWindow().d.nextStage(difficulty);
+            MasterFrame.getD().nextStage(difficulty);
         } else
             System.out.println("Nope");
     }

@@ -358,19 +358,19 @@ class TempTest extends JFrame {
         System.out.println(gameObjective);
     }
 
-    public static void main(String[] args) {
-//        new TempTest();
-        Timer timer = new Timer ();
-        timer.run();
-        while (true) {
-            try { Thread.sleep (100); } catch (InterruptedException e) {}
-            System.out.println(timer.getTime());
-        }
-//        System.out.println(System.currentTimeMillis());
-//        long current = System.currentTimeMillis();
-//        try {Thread.sleep(6000);} catch (InterruptedException e) {}
-//        System.out.println(System.currentTimeMillis() - current);
-//        System.out.println(System.currentTimeMillis());
-//        System.out.println(System.currentTimeMillis());
-    }
+//    public static void main(String[] args) {
+////        new TempTest();
+//        Timer timer = new Timer ();
+//        timer.run();
+//        while (true) {
+//            try { Thread.sleep (100); } catch (InterruptedException e) {}
+//            System.out.println(timer.getTime());
+//        }
+////        System.out.println(System.currentTimeMillis());
+////        long current = System.currentTimeMillis();
+////        try {Thread.sleep(6000);} catch (InterruptedException e) {}
+////        System.out.println(System.currentTimeMillis() - current);
+////        System.out.println(System.currentTimeMillis());
+////        System.out.println(System.currentTimeMillis());
+//    }
 }

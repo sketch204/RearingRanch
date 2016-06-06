@@ -1,5 +1,6 @@
 package root.game;
 
+import root.MasterFrame;
 import root.RearingRanchDriver;
 import root.dataclass.Animal;
 
@@ -136,7 +137,7 @@ public class Arithmetics extends GameStage {
         }
         if (userInput == result) {
             System.out.println("You guessed it!");
-            RearingRanchDriver.getWindow().d.nextStage(difficulty);
+            MasterFrame.getD().nextStage(difficulty);
         } else {
             System.out.println("Nope");
         }

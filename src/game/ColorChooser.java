@@ -1,5 +1,6 @@
 package root.game;
 
+import root.MasterFrame;
 import root.RearingRanchDriver;
 import root.dataclass.Animal;
 import java.awt.*;
@@ -119,7 +120,7 @@ public class ColorChooser extends GameStage {
         if (matchesFound == colors.size() && input.size() == colors.size()) {
             System.out.println("You guessed it!");
             System.out.println("---------------------------------------------------------");
-            RearingRanchDriver.getWindow().d.nextStage(difficulty);
+            MasterFrame.getD().nextStage(difficulty);
         } else
             System.out.println("Nope");
     }
