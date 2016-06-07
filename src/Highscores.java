@@ -41,7 +41,7 @@ public class Highscores  extends HighscoresPanel{
      * @param difficulty The difficulty the player chose.
      * @param time The amount of time it took the player to finish the game.
      */
-    public Highscores (String name, int difficulty, int time) {
+    public Highscores (String name, int difficulty, long time) {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getTime() > time) {
                 players.add(i, new Player (name, difficulty, time));

@@ -27,10 +27,10 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
     /** <b> background </b> Holds the file that will act as background through out the whole run of the program. */
     public static File background = new File("src/pictures/backgrounds/background" + ((int) (Math.random() * 4) + 1) + ".png");
     /** <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
-    private JButton mainMenu = new JButton(new ImageIcon (getImage("buttons/MainMenuButton").getScaledInstance(150, 35, 0)));
+    public static JButton mainMenu = new JButton(new ImageIcon (getImage("buttons/MainMenuButton").getScaledInstance(150, 35, 0)));
     /** <b> goBack </b> Instance of JLabel class that displays prompt message to return to main menu once the user
      * finishes reading the instructions above.*/
-    private JLabel goBack = new JLabel ("<html> Press the button to return to Main Menu.");
+    public static JLabel goBack = new JLabel ("<html> Press the button to return to Main Menu.");
     /** <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
     /** <b> index </b> Integer that stores the index of mainChoices button array. */
@@ -111,9 +111,9 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
     /** method getGoBack used to return the label prompt for the Main Menu return button.
      * @return JLabel that prompts user with return message.
      */
-    public JLabel getGoBack () {
-        return goBack;
-    }
+//    public JLabel getGoBack () {
+//        return goBack;
+//    }
 
     /** method getBG used to return the background for each window.
      * @return BufferedImage that is set as the window background.
@@ -165,14 +165,14 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(mainMenu)) {
-            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch" );
-        } else if (e.getSource().equals(mainChoices[0])) {
-            RearingRanchDriver.getWindow().setPanel(MasterFrame.getD(), "Difficulty Chooser");
+        if (e.getSource().equals(mainMenu))
+            RearingRanchDriver.getWindow().setPanel(0, "Rearing Ranch");
+        else if (e.getSource().equals(mainChoices[0])) {
+            RearingRanchDriver.getWindow().setPanel(1, "Difficulty Chooser");
         } else if (e.getSource().equals((mainChoices[1])))
-            RearingRanchDriver.getWindow().setPanel(MasterFrame.getI(), "Instructions");
+            RearingRanchDriver.getWindow().setPanel(2, "Instructions");
         else if (e.getSource().equals(mainChoices[2])) {
-            RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "Highscores");
+            RearingRanchDriver.getWindow().setPanel(3, "Highscores");
         } else if (e.getSource().equals(mainChoices[3])) {
             int choice = JOptionPane.showConfirmDialog(this, "Are you sure you wish to quit?", "Confirm", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {

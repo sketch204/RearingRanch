@@ -1,5 +1,7 @@
 package root.game;
 
+import root.DifficultyChooser;
+import root.Timer;
 import root.dataclass.Animal;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * The GameStage class acts as a parent class for ColorChooser, Animal Classifier and
@@ -22,7 +26,7 @@ import java.util.ArrayList;
  *          Last Edited: 2016-05-15
  *          Hours since 2016-05-11:
  *          Tamir: 0:30
- *          Inal: 11:15
+ *          Inal: 13:15
  */
 public abstract class GameStage extends JPanel implements ActionListener {
     /** Holds the file that will act as background through out the whole run of the current stage. */
@@ -38,8 +42,15 @@ public abstract class GameStage extends JPanel implements ActionListener {
                                         new JButton(new ImageIcon("src/pictures/buttons/stage0/Icon-Help.png"))};
     private static JLabel objectiveLabel;
 
-    private boolean objectiveIsShown = false;
     /** The array that holds all the game buttons currently on screen. */
+    private JLabel wrongAnswerLabel = new JLabel ("Try again please.");
+
+    private ExecutorService executor;
+
+    private JLabel pauseGameScreen = new JLabel(new ImageIcon("src/pictures/backgrounds/pausedScreen.png"));
+    /**
+     * The array that holds all the game buttons currently on screen.
+     */
     protected JButton[] buttons;
     /**
      * Holds the difficulty of the current stage
@@ -63,12 +74,15 @@ public abstract class GameStage extends JPanel implements ActionListener {
     protected String gameObjective;
     private boolean paused = false;
 
+    protected Timer timer;
+
     /**
      * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
      */
     public GameStage() {
         super();
         this.difficulty = 0;
+        this.timer = new Timer ();
         this.setLayout(layout);
         this.setSize(1280, 720);
         this.setBackground(new Color(203, 203, 203));
@@ -76,6 +90,8 @@ public abstract class GameStage extends JPanel implements ActionListener {
         generateBackground();
         prepareGUI();
         this.setVisible(true);
+        executor = Executors.newCachedThreadPool();
+        executor.submit(timer);
     }
 
     /**
@@ -83,9 +99,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * Generates the animals based on difficulty.
      * @param difficulty Sets the difficulty of this stage.
      */
-    public GameStage(int difficulty) {
+    public GameStage(int difficulty, long initialTime) {
         super();
         this.difficulty = difficulty;
+        this.timer = new Timer (initialTime);
         setLayout(layout);
         setSize(1280, 720);
         setBackground(new Color(203, 203, 203));
@@ -94,6 +111,8 @@ public abstract class GameStage extends JPanel implements ActionListener {
         generateAnimals();
         prepareGUI();
         setVisible(true);
+        executor = Executors.newCachedThreadPool();
+        executor.submit(timer);
     }
 
     /**
@@ -217,13 +236,6 @@ public abstract class GameStage extends JPanel implements ActionListener {
         for (int h = 0; h < actionButtons.length; h++)
             add(actionButtons[h]);
 
-        actionButtons[2].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                paused = !paused;
-                pauseGame();
-            }
-        });
         objectiveLabel = new JLabel(gameObjective);
         objectiveLabel.setOpaque(true);
         objectiveLabel.setFont(new Font ("Chalkboard", 0, 25));
@@ -234,17 +246,28 @@ public abstract class GameStage extends JPanel implements ActionListener {
         layout.putConstraint(SpringLayout.NORTH, objectiveLabel, 10, SpringLayout.NORTH, this);
         add(objectiveLabel);
         displayGameObjective();
+
+        layout.putConstraint(SpringLayout.EAST, timer.getVisual(), -10, SpringLayout.EAST, this);
+        layout.putConstraint(SpringLayout.NORTH, timer.getVisual(), 10, SpringLayout.NORTH, this);
+        add(timer.getVisual());
+
+        wrongAnswerLabel.setOpaque(true);
+        wrongAnswerLabel.setFont(new Font ("Chalkboard", 0, 25));
+        wrongAnswerLabel.setForeground(new Color (34, 34, 34));
+        wrongAnswerLabel.setBackground(new Color (213, 194, 158, 220));
+        wrongAnswerLabel.setVisible(false);
+
+        layout.putConstraint(SpringLayout.WEST, wrongAnswerLabel, 10, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.SOUTH, wrongAnswerLabel, 10, SpringLayout.NORTH, actionButtons[0]);
+        add(wrongAnswerLabel);
+
+        pauseGameScreen.setSize(1280, 720);
+        pauseGameScreen.setOpaque(true);
+        pauseGameScreen.setBackground(new Color (99, 0, 134, 255));
     }
 
-    private void addPaused () throws IOException {
-//        add(ImageIO.read(new File("src/pictures/backgrounds/pausedScreen.png"));
-    }
     private void displayGameObjective () {
-        if (objectiveIsShown)
-            objectiveLabel.setVisible(false);
-        else
-            objectiveLabel.setVisible(true);
-        objectiveIsShown = !objectiveIsShown;
+        objectiveLabel.setVisible(!objectiveLabel.isVisible());
         revalidate();
         repaint();
     }
@@ -264,27 +287,35 @@ public abstract class GameStage extends JPanel implements ActionListener {
         repaint();
     }
 
-    /**
-     * Removes that last entered element from the input bar.
-     * <p>
-     * <b>Local Variables </b>
-     * <br> <b>label </b> A temporary holder for the JLabel that should be removed.
-     */
-    private void removeInputElement(String elementText) {
-        JLabel label = null;
-        for (int h = 0; h < input.size(); h ++)
-            if (input.get(h).getText().equals(elementText))
-                label = input.remove(h);
-        if (label == null)
-            return;
-        remove(label);
-        revalidate();
-        repaint();
+    private void switchComponentVisibility () {
+        // Hide all non-game button
+        for (int h = 0; h < actionButtons.length; h ++)
+            if (h != 2)
+                actionButtons[h].setVisible(!actionButtons[h].isVisible());
+        //Hide all game buttons
+        for (int h = 0; h < buttons.length; h++)
+            buttons[h].setVisible(!buttons[h].isVisible());
+        // If shown, hide the gameObjective label
+        if (objectiveLabel.isVisible())
+            displayGameObjective();
+        else {
+            revalidate();
+            repaint();
+        }
     }
 
-    private void pauseGame() {
-        paintComponent(this.getGraphics());
-//        DifficultyChooser.timer.interrupt();
+    private void switchTimer() {
+        if (timer.isTiming()) {
+            timer.pauseTimer();
+            switchComponentVisibility ();
+            add (pauseGameScreen);
+        } else {
+            timer.continueTimer();
+            switchComponentVisibility ();
+            remove (pauseGameScreen);
+        }
+        revalidate();
+        repaint();
     }
 
     /**
@@ -356,6 +387,44 @@ public abstract class GameStage extends JPanel implements ActionListener {
             layout.putConstraint(SpringLayout.SOUTH, buttons[h], 0, SpringLayout.SOUTH, this);
             add(buttons[h]);
         }
+    }
+
+//    protected void wrongAnswer () {
+//        Timer t = new Timer();
+//        executor.submit(timer);
+//
+//    }
+
+    protected void winScreen () {
+        timer.pauseTimer();
+        SpringLayout layout = new SpringLayout();
+        JDialog winScreen = new JDialog();
+        winScreen.setTitle("Congratulations!");
+        winScreen.setSize(100, 30);
+        winScreen.setPreferredSize(new Dimension(100, 30));
+        winScreen.setLayout(layout);
+        winScreen.setResizable(false);
+
+        JLabel label = new JLabel ("You've completed this stage!");
+
+        JButton nextButton = new JButton("Next Stage!");
+        nextButton.addActionListener(e -> closeStage(null));
+
+        layout.putConstraint(SpringLayout.NORTH, label, 10, SpringLayout.NORTH, winScreen);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, label, 0, SpringLayout.HORIZONTAL_CENTER, winScreen);
+
+        layout.putConstraint(SpringLayout.NORTH, nextButton, 10, SpringLayout.SOUTH, label);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, nextButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
+
+        winScreen.add(label);
+        winScreen.add(nextButton);
+        winScreen.setVisible(true);
+        winScreen.list();
+    }
+
+    protected void closeStage (String playerName) {
+        DifficultyChooser.nextStage(difficulty, timer.getTime(), playerName);
+        timer.killTimer();
     }
 
     /**
@@ -489,22 +558,17 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource().equals(actionButtons[0]))
+        if (ae.getSource().equals(actionButtons[0])) // Submit
             inputLegal();
-        else if (ae.getSource().equals(actionButtons[1]))
+        else if (ae.getSource().equals(actionButtons[1])) // Erase
             removeInputElement();
-        else if (ae.getSource().equals(actionButtons[3]))
+        else if (ae.getSource().equals(actionButtons[2])) // Pause
+            switchTimer();
+        else if (ae.getSource().equals(actionButtons[3])) // Help
             displayGameObjective();
-        else {
-            if (!canWriteInput(ae.getActionCommand()))
-                removeInputElement(ae.getActionCommand());
-            else
-                writeInput(ae.getActionCommand());
+        else { // Game Button
+            writeInput(ae.getActionCommand());
         }
-    }
-
-    private void removeComponents () {
-        this.removeAll();
     }
 
     /**

@@ -1,5 +1,7 @@
 package root;
 
+import sun.applet.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -24,7 +26,7 @@ public class Instructions extends JPanel{
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
     /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/
-    JButton mainMenu = MasterFrame.getM().getMainMenuButton();
+    JButton mainMenu = new JButton(MainMenu.mainMenu.getIcon());
 
     /** Instructions constructor sets the layout manager to SpringLayout, sets the size to 1280x720, and references prepareGUI method. */
     Instructions() {
@@ -57,7 +59,7 @@ public class Instructions extends JPanel{
                 "<br> points if you get the questions wrong. Just have fun! Get ready to learn and beat your score from before, if this " +
                 "<br> isn't your first time playing.");
         /** <br> <b> goBack </b> Clone of a JLabel class from MainMenu that displays a prompt message to return to main menu. */
-        JLabel goBack = MasterFrame.getM().getGoBack();
+        JLabel goBack = new JLabel(MainMenu.goBack.getText());
 
         /** <b> colour </b> The variable used to set the colour of the instructions labels. */
         Color colour;

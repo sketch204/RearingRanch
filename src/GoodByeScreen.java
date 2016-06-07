@@ -15,23 +15,23 @@ import java.awt.event.*;
  */
 public class GoodByeScreen extends JPanel{
 
-    private Timer t = new Timer(125, new ActionListener() {
-        public void actionPerformed(ActionEvent ae) {
-            alpha -= 0.05f; // decrements the fade
-            if (alpha <= 0) {
-                alpha = 0;
-                t.stop();
-            }
-            repaint();
-
-        }
-    }); // how long the fade is
+//    private Timer t = new Timer(125, new ActionListener() {
+//        public void actionPerformed(ActionEvent ae) {
+//            alpha -= 0.05f; // decrements the fade
+//            if (alpha <= 0) {
+//                alpha = 0;
+//                t.stop();
+//            }
+//            repaint();
+//
+//        }
+//    }); // how long the fade is
 
     private float alpha = 1f;
 
     public GoodByeScreen() {
         //super("Goodbye Screen for now");
-        t.start();
+//        t.start();
 
         //setBackground(Color.red);
         setSize(1280, 720);

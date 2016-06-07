@@ -1,7 +1,5 @@
 package root.game;
 
-import root.MasterFrame;
-import root.RearingRanchDriver;
 import root.dataclass.Animal;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,7 +21,6 @@ import javax.swing.*;
  *       Tamir: -
  *       Inal: 7:15
  */
-
 public class ColorChooser extends GameStage {
     /**
      * Contains the colors that are currently on screen.
@@ -34,10 +31,8 @@ public class ColorChooser extends GameStage {
      * Creates an instance of the ColorChooser game stage. Creates a new GameStage panel that is fit for the Color Chooser stage of the game.
      * @param difficulty The difficulty on which this stage will be played on.
      */
-    public ColorChooser(int difficulty) {
-        super(difficulty);
-//        System.out.println(colors.toString());
-//        System.out.println(stock.length);
+    public ColorChooser(int difficulty, long timeOffset) {
+        super(difficulty, timeOffset);
     }
 
     /**
@@ -92,17 +87,10 @@ public class ColorChooser extends GameStage {
                 colors.add(tempHold);
         }
         gameObjective = "List the main colour of each animal on screen.";
-        // Temporary
-        for (int h = 0; h < stock.length; h ++) {
-            System.out.println(stock[h].getColor() + " " + stock[h].getType());
-            System.out.println("(" + stock[h].getX() + ", " + stock[h].getY() + ")");
-            System.out.println(stock[h].stallNeeded());
-            System.out.println();
-        }
     }
 
     /**
-     * Checks whether the input is legal or, if legal then proceeds to the next stage.
+     * Checks whether the input is legal or not, if legal then proceeds to the next stage.
      */
     @Override
     protected void inputLegal() {
@@ -118,11 +106,10 @@ public class ColorChooser extends GameStage {
             }
         }
         if (matchesFound == colors.size() && input.size() == colors.size()) {
-            System.out.println("You guessed it!");
-            System.out.println("---------------------------------------------------------");
-            MasterFrame.getD().nextStage(difficulty);
+            winScreen();
         } else
             System.out.println("Nope");
+//            wrongAnswer();
     }
 
     @Override
@@ -141,16 +128,16 @@ public class ColorChooser extends GameStage {
                         x = 894; y = 85;
                     }
                 } catch (IOException e) {
-                    System.out.println("STALL NOT FOUND GODDAMMIT!!!!!");
+                    System.out.println("Please re-install this application!");
+                    e.printStackTrace();
                 }
                 g.drawImage(stall, x, y, null);
             }
         }
-        g.fillRect(10, 10, 40, 40);
     }
 
     @Override
-    protected ImageIcon[] generateButtons () {
+    protected ImageIcon[] generateButtons() {
         buttons = new JButton[4];
         ImageIcon [] icons = {new ImageIcon ("src/pictures/buttons/stage1/Icon-Black.png"), new ImageIcon ("src/pictures/buttons/stage1/Icon-Gray.png"),
                               new ImageIcon ("src/pictures/buttons/stage1/Icon-Brown.png"), new ImageIcon ("src/pictures/buttons/stage1/Icon-White.png")};

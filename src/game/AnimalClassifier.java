@@ -1,5 +1,6 @@
 package root.game;
 
+import root.DifficultyChooser;
 import root.MasterFrame;
 import root.dataclass.Animal;
 
@@ -34,12 +35,13 @@ public class AnimalClassifier extends GameStage {
      * Creates an instance of the AnimalClassifier game stage. Creates a new GameStage panel that is fit for the AnimalClassifier stage of the game.
      * @param difficulty The difficulty on which this stage will be played on.
      */
-    public AnimalClassifier(int difficulty) {
-        super(difficulty);
-//        System.out.println(animals.toString());
-//        System.out.println(stock.length);
+    public AnimalClassifier(int difficulty, long timeOffset) {
+        super(difficulty, timeOffset);
     }
 
+    /**
+     * Generates the animals based on difficulty and fills the 'stock' array with them.
+     */
     @Override
     protected void generateAnimals() {
         // Holds the index within animalColors, of which animals were chosen to be drawn.
@@ -94,16 +96,11 @@ public class AnimalClassifier extends GameStage {
                 animals.add(animalColors[animalsChosen[h]][0]);
         }
         gameObjective = "Name each animal that can see on screen.";
-        // Temporary
-        for (int h = 0; h < stock.length; h ++) {
-            System.out.println(stock[h].getColor() + "-" + stock[h].getType());
-            System.out.println("(" + stock[h].getX() + ", " + stock[h].getY() + ")");
-            System.out.println("(" + p[h].getX() + ", " + p[h].getY() + ")");
-            System.out.println(stock[h].stallNeeded());
-            System.out.println();
-        }
     }
 
+    /**
+     * Checks whether the input is legal or not, if legal then proceeds to the next stage.
+     */
     @Override
     protected void inputLegal() {
         ArrayList<String> tempHold = new ArrayList<String>(animals);
@@ -118,8 +115,7 @@ public class AnimalClassifier extends GameStage {
             }
         }
         if (matchesFound == animals.size() && input.size() == animals.size()) {
-            System.out.println("You guessed it");
-            MasterFrame.getD().nextStage(difficulty);
+            winScreen();
         } else
             System.out.println("Nope");
     }
@@ -140,7 +136,8 @@ public class AnimalClassifier extends GameStage {
                         x = 894; y = 85;
                     }
                 } catch (IOException e) {
-                    System.out.println("STALL NOT FOUND GODDAMMIT!!!!!");
+                    System.out.println("Please re-install this application!");
+                    e.printStackTrace();
                 }
                 g.drawImage(stall, x, y, null);
             }

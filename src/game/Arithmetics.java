@@ -1,5 +1,6 @@
 package root.game;
 
+import root.DifficultyChooser;
 import root.MasterFrame;
 import root.RearingRanchDriver;
 import root.dataclass.Animal;
@@ -27,14 +28,14 @@ public class Arithmetics extends GameStage {
     /**
      * Holds the number of animals that the user must count.
      */
-    private static int result = -1;
+    private int result = -1;
 
     /**
      * Creates an instance of the Arithmetics game stage. Creates a new GameStage panel that is fit for the Arithemtics stage of the game.
      * @param difficulty The difficulty on which this stage will be played on.
      */
-    public Arithmetics(int difficulty) {
-        super(difficulty);
+    public Arithmetics(int difficulty, long timeOffset) {
+        super(difficulty, timeOffset);
         System.out.println(result);
     }
 
@@ -60,13 +61,13 @@ public class Arithmetics extends GameStage {
             int total = (int)((Math.random() * ((20 - 10) + 1)) + 10);
 
             if (objective == 1) {
-                gameObjective = "If we have " + stock.length + " animals here, and in another barn we have " + (total - stock.length) + " animals, how many animals do we have in total?";
+                gameObjective = "<html> If we have " + stock.length + " animals here, and in another barn <br> we have " + (total - stock.length) + " animals, how many animals do we <br> have in total? </html>";
                 return total;
             } else if (objective == 2) {
-                gameObjective = "If we have " + stock.length + " animals here, and in another barn we have " + (total - stock.length) + " animals how many more animals do we have in the other barn?";
+                gameObjective = "<html> If we have " + stock.length + " animals here, and in another barn <br> we have " + (total - stock.length) + " animals how many more animals do <br> we have in the other barn?";
                 return (total - stock.length) - stock.length;
             } else if (objective == 3) {
-                gameObjective = "If we have " + total + " animals in total, and we can see " + stock.length + " animals here, how many animals do we have in the other barn?";
+                gameObjective = "<html> If we have " + total + " animals in total, and we can see <br>" + stock.length + " animals here, how many animals do we have in the other barn?";
                 return total - stock.length;
             }
         }
@@ -123,7 +124,6 @@ public class Arithmetics extends GameStage {
 
     @Override
     protected void inputLegal() {
-        // No work :(
         String tempHold = "";
         int userInput = 0;
         for (int h = 0; h < input.size(); h++) {
@@ -132,21 +132,39 @@ public class Arithmetics extends GameStage {
         try {
             userInput = Integer.parseInt(tempHold);
         } catch (IllegalArgumentException e) {
-            System.out.println("Input is incorrect");
+            System.out.println("Input is corrupted");
             System.exit(27);
         }
         if (userInput == result) {
-            System.out.println("You guessed it!");
-            MasterFrame.getD().nextStage(difficulty);
+            winScreen();
         } else {
             System.out.println("Nope");
         }
     }
 
     @Override
-    protected void createAnimals(Graphics g) {
-        // a lot of temporary
+    protected void winScreen () {
+        timer.pauseTimer();
+        JDialog winScreen = new JDialog();
+        winScreen.setTitle("Congratulations!");
+        winScreen.setSize(100, 30);
+        winScreen.setLayout(new FlowLayout());
+        winScreen.setResizable(false);
 
+        JLabel label = new JLabel ("<html>You've completed the game in just " + timer.toString() + "<br> Please enter your name to proceed.");
+        JTextField name = new JTextField(30);
+
+        JButton nextButton = new JButton("Submit");
+        nextButton.addActionListener(e -> closeStage(name.getText()));
+
+        winScreen.add(label);
+        winScreen.add(name);
+        winScreen.add(nextButton);
+        winScreen.setVisible(true);
+    }
+
+    @Override
+    protected void createAnimals(Graphics g) {
         for (int h = 0; h < stock.length; h ++) {
             g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
             if (stock[h].stallNeeded()) {
@@ -161,7 +179,8 @@ public class Arithmetics extends GameStage {
                         x = 894; y = 85;
                     }
                 } catch (IOException e) {
-                    System.out.println("STALL NOT FOUND GODDAMMIT!!!!!");
+                    System.out.println("Please re-install this application!");
+                    e.printStackTrace();
                 }
                 g.drawImage(stall, x, y, null);
             }

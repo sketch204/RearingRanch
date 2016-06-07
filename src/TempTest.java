@@ -10,6 +10,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class is used for whatever testing we may need to perform :)
@@ -39,12 +42,11 @@ class TempTest extends JFrame {
     }
 
     public TempTest () {
-        for (int h = 1; h < 70000; h ++) {
+        testTimer();
+//        for (int h = 1; h < 70000; h ++) {
 //            testGetPositions(h);
 //            try {Thread.sleep (10);} catch (InterruptedException e) {}
-            testgenerateResults();
-            System.out.println();
-        }
+//        }
 //        testing5();
 //        testGenerateAnimals();
     }
@@ -358,19 +360,48 @@ class TempTest extends JFrame {
         System.out.println(gameObjective);
     }
 
-//    public static void main(String[] args) {
-////        new TempTest();
-//        Timer timer = new Timer ();
-//        timer.run();
+    public void testTimer () {
+        setUpFrame();
+//        int max = 610;
+
+        System.out.println("Well, I started");
+        Timer timer = new Timer ();
+
+        frame.add(timer.getVisual());
+
+        ExecutorService executor = Executors.newCachedThreadPool();
+        executor.submit(timer);
+
+        frame.setVisible(true);
+
+        while (true) {
+            if (timer.getTime() == 1000) {
+                break;
+            }
+        }
+
 //        while (true) {
-//            try { Thread.sleep (100); } catch (InterruptedException e) {}
+//            try { Thread.sleep (10); } catch (InterruptedException e) {}
 //            System.out.println(timer.getTime());
+//            if (timer.getTime() >= 600 && timer.getTime() <= max) {
+//                timer.pauseTimer();
+//                max = (int) timer.getTime() - 1;
+//                for (int h = 1; h <= 3; h ++) {
+//                    System.out.println(h);
+//                    try {Thread.sleep(1000);}catch(InterruptedException e) {}
+//                }
+//                timer.continueTimer();
+//            }
 //        }
-////        System.out.println(System.currentTimeMillis());
-////        long current = System.currentTimeMillis();
-////        try {Thread.sleep(6000);} catch (InterruptedException e) {}
-////        System.out.println(System.currentTimeMillis() - current);
-////        System.out.println(System.currentTimeMillis());
-////        System.out.println(System.currentTimeMillis());
-//    }
+    }
+
+    public static void main(String[] args) {
+//        new TempTest();
+//        System.out.println(System.currentTimeMillis());
+//        long current = System.currentTimeMillis();
+//        try {Thread.sleep(6000);} catch (InterruptedException e) {}
+//        System.out.println(System.currentTimeMillis() - current);
+//        System.out.println(System.currentTimeMillis());
+//        System.out.println(System.currentTimeMillis());
+    }
 }

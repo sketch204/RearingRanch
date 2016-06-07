@@ -180,7 +180,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
      * Set this panel as the main panel, and display highscores, for the given difficulty.
      * @param difficulty The difficulty of the scoreboard to display.
      */
-    static void display (int difficulty) {
+    public static void display (int difficulty) {
         load(difficulty);
         display = true;
     }
@@ -199,7 +199,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         } else if (e.getSource().equals(options[0])) {
             Highscores.delete();
         } else if (e.getSource().equals(options[1])) {
-            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
+            RearingRanchDriver.getWindow().setPanel(0, "Rearing Ranch");
         } else if (e.getSource().equals(options[2])) {
             printDialog();
         }

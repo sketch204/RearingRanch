@@ -18,15 +18,15 @@ import static root.MainMenu.*;
  *       Inal: 1:40
  */
 public class DifficultyChooser extends JPanel implements ActionListener, KeyListener {
-    private int currentStage = -1;
-    long startTime;
+    private static int currentStage = -1;
+
     private Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconWidth(),
                                                  (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconHeight());
     static JButton [] diffButtons = {new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")),
                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/MediumButton.png")),
                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/HardButton.png"))};
     /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/
-    private JButton mainMenu = new JButton(MasterFrame.getM().getMainMenuButton().getIcon());
+    private JButton mainMenu = new JButton(MainMenu.mainMenu.getIcon());
     /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
     /** <b> index </b> Integer that stores the index of mainChoices button array. */
@@ -43,7 +43,7 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         /** Text for button ToolTip that displays shortcuts for each button. */
         String [] shortcuts = {"Press e to play Easy.", "Press m to play Medium.", "Press h to play Hard."};
         /** <br> <b> goBack </b> Clone of a JLabel class from MainMenu that displays a prompt message to return to main menu. */
-        JLabel goBack = new JLabel(MasterFrame.getM().getGoBack().getText());
+        JLabel goBack = new JLabel(MainMenu.goBack.getText());
 
         for (int h = 0; h < diffButtons.length; h++) {
             diffButtons[h].addActionListener(this);
@@ -69,6 +69,14 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(mainMenu);
+
+//        winScreen.setSize(100, 30);
+//        winScreen.setLayout(new FlowLayout());
+//        winScreen.setResizable(false);
+//        JLabel label = new JLabel ("You've completed this stage!");
+//        winScreen.add(label);
+//        JButton nextButton = new JButton("Next Stage!");
+//        nextButton.addActionListener(e -> );
     }
 
     @Override
@@ -79,7 +87,6 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         repaint();
     }
 
-    // ITS NEVER USED! :)
     private KeyListener enter = new KeyAdapter() {
         @Override
         public void keyTyped(KeyEvent ke) {
@@ -89,22 +96,24 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         }
     };
 
-    public void nextStage (int difficulty) {
+    public static void nextStage (int difficulty, long timeOffset, String playerName) {
         currentStage++;
         switch (currentStage) {
             case 0:
-                RearingRanchDriver.getWindow().setPanel(new ColorChooser(difficulty), "Choose the Colour!");
-                startTime = System.currentTimeMillis();
+                RearingRanchDriver.getWindow().setPanel(new ColorChooser(difficulty, 0), "Choose the Colour!");
+//                startTime = System.currentTimeMillis();
                 break;
             case 1:
-                RearingRanchDriver.getWindow().setPanel(new AnimalClassifier(difficulty), "What's the animal?");
+
+                RearingRanchDriver.getWindow().setPanel(new AnimalClassifier(difficulty, timeOffset), "What's the animal?");
 
                 break;
             case 2:
-                RearingRanchDriver.getWindow().setPanel(new Arithmetics(difficulty), "Count them up!");
+                RearingRanchDriver.getWindow().setPanel(new Arithmetics(difficulty, timeOffset), "Count them up!");
                 break;
             case 4:
-                RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "High Scores");
+                RearingRanchDriver.getWindow().setPanel(3, "High Scores");
+                new Highscores(playerName, difficulty, timeOffset);
                 HighscoresPanel.display(difficulty);
                 currentStage = -1;
         }
@@ -121,13 +130,13 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(diffButtons[0]))
-            nextStage(1);
+            nextStage(1, 0, null);
         else if (e.getSource().equals(diffButtons[1]))
-            nextStage(2);
+            nextStage(2, 0, null);
         else if (e.getSource().equals(diffButtons[2]))
-            nextStage(3);
+            nextStage(3, 0, null);
         else if (e.getSource().equals(mainMenu))
-            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
+            RearingRanchDriver.getWindow().setPanel(0, "Rearing Ranch");
     }
 
     @Override
