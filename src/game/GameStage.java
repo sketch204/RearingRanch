@@ -62,6 +62,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected String gameObjective;
     private boolean paused = false;
+    private JLabel pauseScreen = new JLabel(new ImageIcon("src/pictures/backgrounds/pausedScreen.png"));
 
     /**
      * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
@@ -221,7 +222,11 @@ public abstract class GameStage extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paused = !paused;
-                pauseGame();
+                try {
+                    pauseGame();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         objectiveLabel = new JLabel(gameObjective);
@@ -236,8 +241,12 @@ public abstract class GameStage extends JPanel implements ActionListener {
         displayGameObjective();
     }
 
-    private void addPaused () throws IOException {
-//        add(ImageIO.read(new File("src/pictures/backgrounds/pausedScreen.png"));
+    private void addPause () throws IOException {
+        this.add(pauseScreen);
+    }
+
+    private void removePause () {
+        this.remove(pauseScreen);
     }
     private void displayGameObjective () {
         if (objectiveIsShown)
@@ -282,7 +291,11 @@ public abstract class GameStage extends JPanel implements ActionListener {
         repaint();
     }
 
-    private void pauseGame() {
+    private void pauseGame() throws IOException {
+        if (paused)
+            addPause();
+        else
+            removePause();
         paintComponent(this.getGraphics());
 //        DifficultyChooser.timer.interrupt();
     }
