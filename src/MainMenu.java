@@ -166,13 +166,13 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(mainMenu))
-            RearingRanchDriver.getWindow().setPanel(0, "Rearing Ranch");
+            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
         else if (e.getSource().equals(mainChoices[0])) {
-            RearingRanchDriver.getWindow().setPanel(1, "Difficulty Chooser");
+            RearingRanchDriver.getWindow().setPanel(MasterFrame.getD(), "Difficulty Chooser");
         } else if (e.getSource().equals((mainChoices[1])))
-            RearingRanchDriver.getWindow().setPanel(2, "Instructions");
+            RearingRanchDriver.getWindow().setPanel(MasterFrame.getI(), "Instructions");
         else if (e.getSource().equals(mainChoices[2])) {
-            RearingRanchDriver.getWindow().setPanel(3, "Highscores");
+            RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "Highscores");
         } else if (e.getSource().equals(mainChoices[3])) {
             int choice = JOptionPane.showConfirmDialog(this, "Are you sure you wish to quit?", "Confirm", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {

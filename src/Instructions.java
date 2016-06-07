@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import static root.MainMenu.*;
+import static root.MainMenu.mainMenu;
 
 
 /** Instructions class creates a new panel that will replace main menu. The panel includes three labels that display instructions and
@@ -103,6 +104,7 @@ public class Instructions extends JPanel{
         mainMenu.grabFocus();
         mainMenu.setContentAreaFilled(true);
 //        mainMenu.addKeyListener(this);
+        mainMenu.addActionListener(e -> RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Main Menu"));
         mainMenu.requestFocusInWindow();
         mainMenu.setBorder(BorderFactory.createEtchedBorder());
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);

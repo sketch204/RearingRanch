@@ -199,7 +199,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         } else if (e.getSource().equals(options[0])) {
             Highscores.delete();
         } else if (e.getSource().equals(options[1])) {
-            RearingRanchDriver.getWindow().setPanel(0, "Rearing Ranch");
+            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
         } else if (e.getSource().equals(options[2])) {
             printDialog();
         }

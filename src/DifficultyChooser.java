@@ -47,7 +47,7 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
 
         for (int h = 0; h < diffButtons.length; h++) {
             diffButtons[h].addActionListener(this);
-//            diffButtons[h].setPreferredSize(buttonSize);
+            diffButtons[h].setBorder(BorderFactory.createEtchedBorder());
             diffButtons[h].setToolTipText(shortcuts[h]);
             diffButtons[h].addKeyListener(this);
             diffButtons[h].addKeyListener(enter);
@@ -112,19 +112,11 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
                 RearingRanchDriver.getWindow().setPanel(new Arithmetics(difficulty, timeOffset), "Count them up!");
                 break;
             case 4:
-                RearingRanchDriver.getWindow().setPanel(3, "High Scores");
+                RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "High Scores");
                 new Highscores(playerName, difficulty, timeOffset);
                 HighscoresPanel.display(difficulty);
                 currentStage = -1;
         }
-    }
-
-    public void pauseTimer () {
-
-    }
-
-    public void continueTimer () {
-
     }
 
     @Override
@@ -136,7 +128,7 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         else if (e.getSource().equals(diffButtons[2]))
             nextStage(3, 0, null);
         else if (e.getSource().equals(mainMenu))
-            RearingRanchDriver.getWindow().setPanel(0, "Rearing Ranch");
+            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
     }
 
     @Override

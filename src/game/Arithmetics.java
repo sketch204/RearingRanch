@@ -6,6 +6,8 @@ import root.RearingRanchDriver;
 import root.dataclass.Animal;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -147,7 +149,7 @@ public class Arithmetics extends GameStage {
         timer.pauseTimer();
         JDialog winScreen = new JDialog();
         winScreen.setTitle("Congratulations!");
-        winScreen.setSize(100, 30);
+        winScreen.setSize(300, 200);
         winScreen.setLayout(new FlowLayout());
         winScreen.setResizable(false);
 
@@ -155,7 +157,19 @@ public class Arithmetics extends GameStage {
         JTextField name = new JTextField(30);
 
         JButton nextButton = new JButton("Submit");
-        nextButton.addActionListener(e -> closeStage(name.getText()));
+
+        nextButton.addActionListener(e -> {
+            closeStage(name.getText());
+            winScreen.dispose();
+        });
+
+        winScreen.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosed(e);
+                closeStage(null);
+            }
+        });
 
         winScreen.add(label);
         winScreen.add(name);

@@ -1,5 +1,6 @@
 package root.game;
 
+import jdk.nashorn.internal.scripts.JD;
 import root.DifficultyChooser;
 import root.Timer;
 import root.dataclass.Animal;
@@ -296,6 +297,8 @@ public abstract class GameStage extends JPanel implements ActionListener {
         for (int h = 0; h < buttons.length; h++)
             buttons[h].setVisible(!buttons[h].isVisible());
         // If shown, hide the gameObjective label
+        for (int h = 0; h < input.size(); h++)
+            input.get(h).setVisible(!input.get(h).isVisible());
         if (objectiveLabel.isVisible())
             displayGameObjective();
         else {
@@ -397,29 +400,32 @@ public abstract class GameStage extends JPanel implements ActionListener {
 
     protected void winScreen () {
         timer.pauseTimer();
-        SpringLayout layout = new SpringLayout();
         JDialog winScreen = new JDialog();
         winScreen.setTitle("Congratulations!");
-        winScreen.setSize(100, 30);
-        winScreen.setPreferredSize(new Dimension(100, 30));
-        winScreen.setLayout(layout);
+        winScreen.setSize(300, 100);
+        winScreen.setLayout(new FlowLayout());
         winScreen.setResizable(false);
-
+        winScreen.setLocation(this.getWidth()/2, this.getHeight()/2);
+        winScreen.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         JLabel label = new JLabel ("You've completed this stage!");
 
         JButton nextButton = new JButton("Next Stage!");
-        nextButton.addActionListener(e -> closeStage(null));
+        nextButton.addActionListener(e -> {
+            closeStage(null);
+            winScreen.dispose();
+        });
 
-        layout.putConstraint(SpringLayout.NORTH, label, 10, SpringLayout.NORTH, winScreen);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, label, 0, SpringLayout.HORIZONTAL_CENTER, winScreen);
-
-        layout.putConstraint(SpringLayout.NORTH, nextButton, 10, SpringLayout.SOUTH, label);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, nextButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
+        winScreen.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosed(e);
+                closeStage(null);
+            }
+        });
 
         winScreen.add(label);
         winScreen.add(nextButton);
         winScreen.setVisible(true);
-        winScreen.list();
     }
 
     protected void closeStage (String playerName) {
