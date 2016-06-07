@@ -76,7 +76,6 @@ public class Highscores  extends HighscoresPanel{
                             players.add(new Player(r.readLine(), Integer.parseInt(r.readLine()), Integer.parseInt(r.readLine())));
                             r.readLine(); // divider line
                         }
-                        r.readLine();
                         line = r.readLine();
                     }
                 }
@@ -122,13 +121,23 @@ public class Highscores  extends HighscoresPanel{
             tempP = tempList.get(x);
             for (y = x - 1 ; y >= 0 ; y--)
             {
-                if (tempP.getTime() >= tempList.get(y).getTime())
+                if (tempP.getDifficulty() >= tempList.get(y).getDifficulty())
                 {
                     break;
                 }
-                tempList.set(y+1, players.get(y));
+                tempList.set(y, players.get(y));
             }
-            tempList.set(y + 1, tempP);
+            tempList.set(y+1, tempP);
+
+            for (y = x - 1 ; y >= 0 ; y--) {
+                if (tempP.getDifficulty() == tempList.get(y).getDifficulty()) {
+                    if (tempP.getTime() >= tempList.get(y).getTime()) {
+                        break;
+                    }
+                    tempList.set(x, players.get(y));
+                }
+                tempList.set(y, tempP);
+            }
         }
     }
 

@@ -83,7 +83,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
             mainChoices[ii].setBorder(BorderFactory.createEtchedBorder());
         }
 
-        mainChoices[0].requestFocusInWindow();
+        mainChoices[0].grabFocus();
         layout.putConstraint(SpringLayout.NORTH,  mainChoices[0], 200, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER,  mainChoices[0], 0, SpringLayout.HORIZONTAL_CENTER, this);
         add (mainChoices[0]);
@@ -94,8 +94,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
             add(mainChoices[i]);
         }
 
-        mainChoices[index].requestFocusInWindow();
-
+        mainChoices[index].grabFocus();
         paintComponent(this.getGraphics());
         setVisible(true);
         revalidate();
@@ -166,9 +165,9 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(mainMenu))
-            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
-        else if (e.getSource().equals(mainChoices[0])) {
+        if (e.getSource().equals(mainMenu)) {
+            RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch" );
+        } else if (e.getSource().equals(mainChoices[0])) {
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getD(), "Difficulty Chooser");
         } else if (e.getSource().equals((mainChoices[1])))
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getI(), "Instructions");
@@ -236,16 +235,16 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
                 }
                 break;
             case KeyEvent.VK_P:
-                mainChoices[0].doClick();
+                mainChoices[0].doClick(100);
                 break;
             case KeyEvent.VK_I:
-                mainChoices[1].doClick();
+                mainChoices[1].doClick(100);
                 break;
             case KeyEvent.VK_H:
-                mainChoices[2].doClick();
+                mainChoices[2].doClick(100);
                 break;
             case KeyEvent.VK_Q:
-                mainChoices[3].doClick();
+                mainChoices[3].doClick(100);
                 break;
             default:
                 break;

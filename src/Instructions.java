@@ -98,6 +98,7 @@ public class Instructions extends JPanel{
 //        goBack.setBackground(new Color (191, 184, 108, 220));
         add(goBack);
 
+        mainMenu.grabFocus();
         mainMenu.setContentAreaFilled(true);
 //        mainMenu.addKeyListener(this);
         mainMenu.requestFocusInWindow();

@@ -4,9 +4,8 @@ import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
+import java.awt.print.*;
 import java.io.*;
-
 import static root.Highscores.*;
 import static root.MainMenu.*;
 
@@ -18,11 +17,12 @@ import static root.MainMenu.*;
  * @version 1 2016-05-30
  * Last Edited: 2016-05-30
  * Hours since 2016-05-11:
- *       Tamir: 9:00 (as of 4:26 may 31)
+ *       Tamir: 10:00
  *       Inal: -
  */
-public class HighscoresPanel extends JPanel implements ActionListener, KeyListener{
+public class HighscoresPanel extends JPanel implements ActionListener, KeyListener, Printable{
 
+    /** <b> display </b> */
     private static boolean display = false;
     /** <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
     private SpringLayout layout = new SpringLayout();
@@ -33,10 +33,9 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
     /** <b> index </b>  Stores the current index of the button in focus. */
     private int index = 0;
 
-    private static int difficulty;
-//    public HighscoresPanel () {
-//        super();
-//    }
+    /** HighscoresPanel constructor creates a window that is 720p standard and sets the layout to SpringLayout, invokes
+     * prepareGUI and display methods to load information and componennts onto the screen. If the highscores file does not
+     * exist, it is created. */
     public HighscoresPanel () {
         super ();
 
@@ -56,6 +55,14 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         display(1);
     }
 
+    /** Method prepareGUI adds all JComponents onto the screen and sets their appearance preferences, event listeners, and
+     * ToolTips.
+     *
+     * <br> <b> For Loops: </b>
+     * <br> 1st: Adds event listeners, sets borders and ToolTip text, and sets appearance for the window buttons.
+     * <br> 2nd: Adds the first and last button in the levelChoices array to the screen.
+     *
+     */
     private void prepareGUI() {
         /** Text for button ToolTip that displays shortcuts for each button. */
         String [] shortcuts = {"Press e for easy.", "Press m for medium.", "Press h for hard.", "Press c to clear high scores.", "Press r to return to Main Menu.", "Press p to print."};
@@ -94,6 +101,8 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
             levelChoices[i].setContentAreaFilled(true);
             levelChoices[i].setBorder(BorderFactory.createEtchedBorder());
         }
+
+        options[1].setBorder(BorderFactory.createEtchedBorder());
 
         for (int i = 0; i < levelChoices.length; i+= 2) {
             layout.putConstraint(SpringLayout.NORTH, levelChoices[i], 200, SpringLayout.NORTH, this);
@@ -151,14 +160,15 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         g.drawString (difficulty, 140, 320);
 
         g.setFont(new Font ("Times New Roman", Font.BOLD, 20));
-        g.drawString("Name", 415, 255);
+        g.drawString("Name", 425, 255);
         g.drawString("Score", 615, 255);
         if (display) {
             for (int i = 0; i < 10; i++) {
                 if (i < Highscores.players.size()) {
                     g.drawString("" + (i + 1) + ". ", 390, 280 + i * 30);
-                    g.drawString(players.get(i).getName(), 415, 280 + i * 30);
+                    g.drawString(players.get(i).getName(), 425, 280 + i * 30);
                     g.drawString(players.get(i).getMinuteSecondTime(), 615, 280 + i * 30);
+                    g.drawString(Integer.toString(players.get(i).getDifficulty()), 815, 280 + i * 30);
                 }
             }
         }
@@ -166,24 +176,11 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         repaint();
     }
 
-    private BufferedImage generateBG () {
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(background);
-        } catch (IOException e) {}
-        return img;
-
-    }
-
-    // i dont think wee need this. if we pass the difficulty into the constructor, then assign it to a local here, then
-    // we can just access it as the variable through the paintComponent and display through there. I could call read, which has the parameter
-    // of the difficulty that looks for those certain scores. I'll update read (load) also and you can see.
     /**
      * Set this panel as the main panel, and display highscores, for the given difficulty.
      * @param difficulty The difficulty of the scoreboard to display.
      */
     static void display (int difficulty) {
-        HighscoresPanel.difficulty = difficulty;
         load(difficulty);
         display = true;
     }
@@ -204,7 +201,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         } else if (e.getSource().equals(options[1])) {
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
         } else if (e.getSource().equals(options[2])) {
-//            new Printer();
+            printDialog();
         }
     }
 
@@ -257,5 +254,42 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+
+    public void printDialog () {
+        PrinterJob print = PrinterJob.getPrinterJob();
+        print.setPrintable(this);
+        try {
+            print.print();
+        } catch (PrinterException ex) {      System.out.println ("err");
+        }
+    }
+
+    @Override
+    public int print(Graphics g, PageFormat pf, int pageIndex) throws PrinterException {
+        if (pageIndex > 0)
+            return NO_SUCH_PAGE;
+
+        g.drawImage(getImage("GameLogo").getScaledInstance(183, 65, 0), 213, 20, null);
+        g.drawImage(getImage("Company Logo Scaled").getScaledInstance(75, 75, 0), 10, 20 , null);
+        g.drawImage(getImage("Logo Name").getScaledInstance(85, 41, 0), (int) pf.getWidth() - 120, 20, null);
+        g.setFont(new Font ("Times New Roman", Font.BOLD, 20));
+
+        g.setColor(new Color (217, 58, 68));
+        g.drawString ("High Scores", 250, 100);
+        g.setFont(new Font ("Times New Roman", Font.BOLD, 12));
+        g.drawString("Name", 190, 255);
+        g.drawString("Score", 285, 255);
+        g.drawString("Difficulty", 375, 255);
+            for (int i = 0; i < 10; i++) {
+                if (i < Highscores.players.size()) {
+                    g.drawString("" + (i + 1) + ". ", 170, 280 + i * 30);
+                    g.drawString(players.get(i).getName(), 190, 280 + i * 30);
+                    g.drawString(players.get(i).getMinuteSecondTime(), 290, 280 + i * 30);
+                    g.drawString(Integer.toString(players.get(i).getDifficulty()), 395, 280 + i * 30);
+                }
+            }
+        return PAGE_EXISTS;
     }
 }

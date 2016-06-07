@@ -1,6 +1,5 @@
 package root.game;
 
-import root.DifficultyChooser;
 import root.dataclass.Animal;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,25 +21,17 @@ import java.util.ArrayList;
  * @version 1.3, 2016-05-09.
  *          Last Edited: 2016-05-15
  *          Hours since 2016-05-11:
- *          Tamir: -
+ *          Tamir: 0:30
  *          Inal: 11:15
  */
 public abstract class GameStage extends JPanel implements ActionListener {
-    /**
-     * Holds the file that will act as background through out the whole run of the current stage.
-     */
+    /** Holds the file that will act as background through out the whole run of the current stage. */
     private File background;
-    /**
-     * The amount of stables available for the current background.
-     */
+    /** The amount of stables available for the current background. */
     private int stablesAvailable = 0;
-    /**
-     * An arrays of (x,y) positions of each stable on the current background.
-     */
+    /** An arrays of (x,y) positions of each stable on the current background. */
     private Point [] stablePositions;
-    /**
-     * Contains the other non-game buttons such as submit and pause buttons.
-     */
+    /** Contains the other non-game buttons such as submit and pause buttons. */
     private JButton [] actionButtons = {new JButton(new ImageIcon("src/pictures/buttons/stage0/Icon-Submit.png")),
                                         new JButton(new ImageIcon("src/pictures/buttons/stage0/Icon-Erase.png")),
                                         new JButton(new ImageIcon("src/pictures/buttons/stage0/Icon-Pause.png")),
@@ -48,9 +39,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     private static JLabel objectiveLabel;
 
     private boolean objectiveIsShown = false;
-    /**
-     * The array that holds all the game buttons currently on screen.
-     */
+    /** The array that holds all the game buttons currently on screen. */
     protected JButton[] buttons;
     /**
      * Holds the difficulty of the current stage
@@ -72,6 +61,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * The message that the user gets, when pressing the help button.
      */
     protected String gameObjective;
+    private boolean paused = false;
 
     /**
      * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
@@ -227,6 +217,13 @@ public abstract class GameStage extends JPanel implements ActionListener {
         for (int h = 0; h < actionButtons.length; h++)
             add(actionButtons[h]);
 
+        actionButtons[2].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                paused = !paused;
+                pauseGame();
+            }
+        });
         objectiveLabel = new JLabel(gameObjective);
         objectiveLabel.setOpaque(true);
         objectiveLabel.setFont(new Font ("Chalkboard", 0, 25));
@@ -239,6 +236,9 @@ public abstract class GameStage extends JPanel implements ActionListener {
         displayGameObjective();
     }
 
+    private void addPaused () throws IOException {
+//        add(ImageIO.read(new File("src/pictures/backgrounds/pausedScreen.png"));
+    }
     private void displayGameObjective () {
         if (objectiveIsShown)
             objectiveLabel.setVisible(false);
@@ -283,6 +283,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     }
 
     private void pauseGame() {
+        paintComponent(this.getGraphics());
 //        DifficultyChooser.timer.interrupt();
     }
 
@@ -492,8 +493,6 @@ public abstract class GameStage extends JPanel implements ActionListener {
             inputLegal();
         else if (ae.getSource().equals(actionButtons[1]))
             removeInputElement();
-        else if (ae.getSource().equals(actionButtons[2]))
-            pauseGame();
         else if (ae.getSource().equals(actionButtons[3]))
             displayGameObjective();
         else {
@@ -502,6 +501,10 @@ public abstract class GameStage extends JPanel implements ActionListener {
             else
                 writeInput(ae.getActionCommand());
         }
+    }
+
+    private void removeComponents () {
+        this.removeAll();
     }
 
     /**
@@ -517,5 +520,12 @@ public abstract class GameStage extends JPanel implements ActionListener {
         createAnimals(g);
         g.fillRect(0, 580, 1280, 200);
         g.fillRect(0, 535, 1280, 47);
+        if (paused) {
+            try {
+                g.drawImage(ImageIO.read(new File("src/pictures/backgrounds/pausedScreen.png" )), 0, 0, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

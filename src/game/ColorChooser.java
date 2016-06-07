@@ -91,7 +91,7 @@ public class ColorChooser extends GameStage {
             if (!colors.contains(tempHold))
                 colors.add(tempHold);
         }
-        gameObjective = "List the main color that each animal has.";
+        gameObjective = "List the main colour of each animal on screen.";
         // Temporary
         for (int h = 0; h < stock.length; h ++) {
             System.out.println(stock[h].getColor() + " " + stock[h].getType());

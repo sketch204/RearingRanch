@@ -48,14 +48,6 @@ public class MasterFrame extends JFrame implements ActionListener {
         repaint();
     }
 
-//    static void create (int index) {
-//        instances [index] = panels [index];
-//    }
-//
-//    static JPanel getPanels (int index) {
-//        return panels[index];
-//    }
-
     static void initiateGoodbye () {
         current.removeAll();
         current.setVisible(false);
@@ -118,6 +110,7 @@ public class MasterFrame extends JFrame implements ActionListener {
             try
             {
                 Runtime.getRuntime().exec("help/help.chm");
+                System.out.print("loaded");
             }
             catch (IOException ie)
             {
