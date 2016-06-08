@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
- * The dataclass.Animal class contains information on a single instance of an stock. The information
+ * The Animal class contains information on a single instance of an animal. The information
  * includes things such as the type of animal, its color as well as its associated picture file.
  *
  * <b>Global Variables </b>
@@ -22,9 +22,15 @@ import java.io.*;
  *       Inal: 1:00
  */
 public class Animal {
-
-    private String type, color;
-    private Point animal, stall = new Point (-1, -1);
+    /** Holds the type of this animal. */
+    private String type;
+    /** Holds the color of this animal. */
+    private String color;
+    /** Holds the on-screen (x, y) location of this animal. */
+    private Point animal;
+    /** Holds the on-screen (x, y) location of this animal's stall. If set to (-1, -1) then no stall is associated with this animal. */
+    private Point stall = new Point (-1, -1);
+    /** Holds the image file associated with this animal. */
     private BufferedImage picture;
 
     /**
@@ -76,38 +82,55 @@ public class Animal {
         this.animal = setPosition(animal);
     }
 
+    /**
+     * Returns the type of this animal.
+     * @return The type of this animal.
+     * */
     public String getType() {
         return type;
     }
 
-    public String getColor() {
-        return color;
-    }
-
+    /** Reformats the position of this animal, by moving the drawing point in its appropriate, diagonally opposite location. */
     private Point setPosition (Point oldPosition) {
         return new Point (oldPosition.x - picture.getWidth(), oldPosition.y - picture.getHeight());
     }
 
+    /**
+     * States whether a stall is needed for this animal.
+     * @return Returns true if, and only if, a stall location has been set for this animal
+     * */
     public boolean stallNeeded () {
         return stall.x != -1;
     }
 
+    /**
+     * Returns the x position of this animal.
+     * @return The x position of this animal.
+     */
     public int getY() {
         return animal.y;
     }
 
+    /**
+     * Returns the y position of this animal.
+     * @return The y position of this animal.
+     */
     public int getX () {
         return animal.x;
     }
 
     /**
-     * Retruns the picture file that is associated with this animal.
+     * Returns the image file that is associated with this animal.
      * @return The BufferedImage that is associated with this animal.
      */
     public BufferedImage getPicture () {
         return picture;
     }
 
+    /**
+     * Formulates and returns a string representation of this class.
+     * @return A string representation of this class.
+     * */
     @Override
     public String toString() {
         return "This is a " + color + " " + type;

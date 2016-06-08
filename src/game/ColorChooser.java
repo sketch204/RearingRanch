@@ -2,11 +2,7 @@ package root.game;
 
 import root.dataclass.Animal;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -26,7 +22,8 @@ public class ColorChooser extends GameStage {
      * Contains the colors that are currently on screen.
      * Used for checking legality of input.
      */
-    private static ArrayList<String> colors = new ArrayList<String>();
+    private static ArrayList<String> colors;
+
     /**
      * Creates an instance of the ColorChooser game stage. Creates a new GameStage panel that is fit for the Color Chooser stage of the game.
      * @param difficulty The difficulty on which this stage will be played on.
@@ -35,13 +32,11 @@ public class ColorChooser extends GameStage {
         super(difficulty, timeOffset);
     }
 
-    /**
-     * Generates the animals based on difficulty and fills the 'stock' array with them.
-     */
     @Override
     protected void generateAnimals() {
         // Holds the index within animalColors, of which animals were chosen to be drawn.
         int [] animalsChosen = new int [getStablesAvailable()];
+        colors = new ArrayList<String>();
 
         // {Chicken, goose, sheep, horse, cow, goat}
         String [] [] animalColors = {{"Chicken", "Brown", "White"}, {"Goose", "Brown", "White"}, {"Sheep", "Brown", "White"}, {"Horse", "Black", "White", "Brown"},
@@ -89,9 +84,6 @@ public class ColorChooser extends GameStage {
         gameObjective = "List the main colour of each animal on screen.";
     }
 
-    /**
-     * Checks whether the input is legal or not, if legal then proceeds to the next stage.
-     */
     @Override
     protected void inputLegal() {
         ArrayList<String> tempHold = new ArrayList<String>(colors);
@@ -108,32 +100,7 @@ public class ColorChooser extends GameStage {
         if (matchesFound == colors.size() && input.size() == colors.size()) {
             winScreen();
         } else
-            System.out.println("Nope");
-//            wrongAnswer();
-    }
-
-    @Override
-    protected void createAnimals(Graphics g) {
-        for (int h = 0; h < stock.length; h ++) {
-            g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
-            if (stock[h].stallNeeded()) {
-                BufferedImage stall = null;
-                int x = 0, y = 0;
-                try {
-                    if (stock[h].getX() + stock[h].getPicture().getWidth() == 348) {
-                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-left.png"));
-                        x = 1; y = 106;
-                    } else {
-                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-right.png"));
-                        x = 894; y = 85;
-                    }
-                } catch (IOException e) {
-                    System.out.println("Please re-install this application!");
-                    e.printStackTrace();
-                }
-                g.drawImage(stall, x, y, null);
-            }
-        }
+            wrongAnswer();
     }
 
     @Override

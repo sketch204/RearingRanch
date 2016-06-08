@@ -19,10 +19,10 @@ import java.io.IOException;
  */
 public class MasterFrame extends JFrame implements ActionListener {
 
-    private static MainMenu m;
-    private static DifficultyChooser d;
-    private static Instructions i;
-    private static HighscoresPanel h;
+    public static MainMenu m;
+    public static DifficultyChooser d;
+    public static Instructions i;
+    public static HighscoresPanel h;
 //    private static JPanel [] instances = {m, d, i, h};
 //    private static JPanel [] panels = {new MainMenu(), new DifficultyChooser(), new Instructions(), new HighscoresPanel(1)};
 //    private static MainMenu m = new MainMenu();

@@ -167,7 +167,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
                 if (i < Highscores.players.size()) {
                     g.drawString("" + (i + 1) + ". ", 390, 280 + i * 30);
                     g.drawString(players.get(i).getName(), 425, 280 + i * 30);
-                    g.drawString(players.get(i).getMinuteSecondTime(), 615, 280 + i * 30);
+                    g.drawString(players.get(i).getFormattedTime(), 615, 280 + i * 30);
                     g.drawString(Integer.toString(players.get(i).getDifficulty()), 815, 280 + i * 30);
                 }
             }
@@ -286,7 +286,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
                 if (i < Highscores.players.size()) {
                     g.drawString("" + (i + 1) + ". ", 170, 280 + i * 30);
                     g.drawString(players.get(i).getName(), 190, 280 + i * 30);
-                    g.drawString(players.get(i).getMinuteSecondTime(), 290, 280 + i * 30);
+                    g.drawString(players.get(i).getFormattedTime(), 290, 280 + i * 30);
                     g.drawString(Integer.toString(players.get(i).getDifficulty()), 395, 280 + i * 30);
                 }
             }

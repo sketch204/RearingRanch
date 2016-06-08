@@ -18,20 +18,23 @@ import static root.MainMenu.*;
  *       Inal: 1:40
  */
 public class DifficultyChooser extends JPanel implements ActionListener, KeyListener {
+    /** Holds the current game stage. */
     private static int currentStage = -1;
-
+    /** A size property for the level difficulty buttons. */
     private Dimension buttonSize = new Dimension((new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconWidth(),
                                                  (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")).getIconHeight());
-    static JButton [] diffButtons = {new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")),
+    /** An array of the level difficulty buttons. */
+    public JButton [] diffButtons = {new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/EasyButton.png")),
                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/MediumButton.png")),
                                      new JButton (new ImageIcon("src/pictures/buttons/difficultyChooser/HardButton.png"))};
-    /** <br> <b> mainMenu </b> Clone of a JButton from MainMenu used to return the user to Main Menu.*/
+    /** Clone of a JButton from MainMenu, used to return the user to Main Menu.*/
     private JButton mainMenu = new JButton(MainMenu.mainMenu.getIcon());
-    /** <br> <b> layout </b> Instance of LayoutManager SpringLayout is used to organize GUI Components onto the screen. */
+    /** The LayoutManager that is used to position GUI Components on the screen. */
     private SpringLayout layout = new SpringLayout();
-    /** <b> index </b> Integer that stores the index of mainChoices button array. */
+    /** Integer that stores the index of mainChoices button array. */
     private int index = 0;
 
+    /** Creates a new instance of a DifficultyChooser. */
     public DifficultyChooser () {
         super();
         setLayout(layout);
@@ -39,6 +42,7 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         prepareGUI();
     }
 
+    /** Setups and draws all the necessary buttons for this Panel. */
     private void prepareGUI () {
         /** Text for button ToolTip that displays shortcuts for each button. */
         String [] shortcuts = {"Press e to play Easy.", "Press m to play Medium.", "Press h to play Hard."};
@@ -79,8 +83,10 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
 //        nextButton.addActionListener(e -> );
     }
 
+    /** Draws the background, as well as the company logo. */
     @Override
     protected void paintComponent (Graphics g) {
+        super.paintComponent(g);
         g.drawImage(getBG(), 0, 0, null);
         g.drawImage(getImage("GameLogo"), 380, 0, null);
         revalidate();
@@ -96,29 +102,39 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         }
     };
 
-    public static void nextStage (int difficulty, long timeOffset, String playerName) {
+    /**
+     * Switches the current panel of MasterFrame to the next appropriate stage, based on the currentStage property.
+     * If at the time of call, currentStage is -1 then it turns on the first stage. If at the time of call,
+     * currentStage is 2 then it turns on the highscores panel.
+     * @param difficulty - The difficulty on which to play the stages.
+     * @param timeOffset - The time offset that the next stage should start with. (Set to zero when initiating first stage)
+     * @param playerName - The current player's name. (Null in all cases except for when highscores will be displayed)
+     */
+    public void nextStage (int difficulty, long timeOffset, String playerName) {
         currentStage++;
         switch (currentStage) {
             case 0:
-                RearingRanchDriver.getWindow().setPanel(new ColorChooser(difficulty, 0), "Choose the Colour!");
-//                startTime = System.currentTimeMillis();
+                RearingRanchDriver.getWindow().setPanel(new ColorChooser(difficulty, timeOffset), "Choose the Colour!");
                 break;
             case 1:
-
                 RearingRanchDriver.getWindow().setPanel(new AnimalClassifier(difficulty, timeOffset), "What's the animal?");
-
                 break;
             case 2:
                 RearingRanchDriver.getWindow().setPanel(new Arithmetics(difficulty, timeOffset), "Count them up!");
                 break;
-            case 4:
+            case 3:
                 RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "High Scores");
                 new Highscores(playerName, difficulty, timeOffset);
                 HighscoresPanel.display(difficulty);
                 currentStage = -1;
+                break;
         }
     }
 
+    /**
+     * Handles all button clicks for this JPanel.
+     * @param e Holds the event that was initiated.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(diffButtons[0]))

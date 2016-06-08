@@ -1,17 +1,9 @@
 package root.game;
 
-import root.DifficultyChooser;
-import root.MasterFrame;
-import root.RearingRanchDriver;
 import root.dataclass.Animal;
-
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -29,8 +21,9 @@ import javax.swing.*;
 public class Arithmetics extends GameStage {
     /**
      * Holds the number of animals that the user must count.
+     * Its static, so that the answer does actually get set, when the parent calls generateAnimals.
      */
-    private int result = -1;
+    private static int result = -1;
 
     /**
      * Creates an instance of the Arithmetics game stage. Creates a new GameStage panel that is fit for the Arithemtics stage of the game.
@@ -60,7 +53,7 @@ public class Arithmetics extends GameStage {
             return counter;
         } else if (difficulty == 3) {
             int objective = (int) (Math.random() * 3) + 1;
-            int total = (int)((Math.random() * ((20 - 10) + 1)) + 10);
+            int total = (int)((Math.random() * ((20 - 13) + 1)) + 13);
 
             if (objective == 1) {
                 gameObjective = "<html> If we have " + stock.length + " animals here, and in another barn <br> we have " + (total - stock.length) + " animals, how many animals do we <br> have in total? </html>";
@@ -121,29 +114,33 @@ public class Arithmetics extends GameStage {
             stock[h] = new Animal(animalColors[animalsChosen[h]][index], animalColors[animalsChosen[h]][0], p[h]); // Create new Animal
         }
         result = generateResult(animalColors[priorityAnimal][0]);
-        System.out.println(result);
     }
 
     @Override
     protected void inputLegal() {
+        if (input.size() < 1)
+            // wrongAnswer();
+            return;
         String tempHold = "";
         int userInput = 0;
-        for (int h = 0; h < input.size(); h++) {
+        for (int h = 0; h < input.size(); h++)
             tempHold += input.get(h).getText();
-        }
+
         try {
             userInput = Integer.parseInt(tempHold);
         } catch (IllegalArgumentException e) {
             System.out.println("Input is corrupted");
             System.exit(27);
         }
+        System.out.println(userInput);
         if (userInput == result) {
             winScreen();
         } else {
-            System.out.println("Nope");
+            wrongAnswer();
         }
     }
 
+    /** Creates a small window that notifies the user that he has completed the game, and prompts him for his name. */
     @Override
     protected void winScreen () {
         timer.pauseTimer();
@@ -154,7 +151,7 @@ public class Arithmetics extends GameStage {
         winScreen.setResizable(false);
 
         JLabel label = new JLabel ("<html>You've completed the game in just " + timer.toString() + "<br> Please enter your name to proceed.");
-        JTextField name = new JTextField(30);
+        JTextField name = new JTextField(20);
 
         JButton nextButton = new JButton("Submit");
 
@@ -167,7 +164,7 @@ public class Arithmetics extends GameStage {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosed(e);
-                closeStage(null);
+                closeStage(name.getText());
             }
         });
 
@@ -175,30 +172,6 @@ public class Arithmetics extends GameStage {
         winScreen.add(name);
         winScreen.add(nextButton);
         winScreen.setVisible(true);
-    }
-
-    @Override
-    protected void createAnimals(Graphics g) {
-        for (int h = 0; h < stock.length; h ++) {
-            g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
-            if (stock[h].stallNeeded()) {
-                BufferedImage stall = null;
-                int x = 0, y = 0;
-                try {
-                    if (stock[h].getX() + stock[h].getPicture().getWidth() == 348) {
-                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-left.png"));
-                        x = 1; y = 106;
-                    } else {
-                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-right.png"));
-                        x = 894; y = 85;
-                    }
-                } catch (IOException e) {
-                    System.out.println("Please re-install this application!");
-                    e.printStackTrace();
-                }
-                g.drawImage(stall, x, y, null);
-            }
-        }
     }
 
     @Override

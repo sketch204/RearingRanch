@@ -1,7 +1,6 @@
 package root.game;
 
-import jdk.nashorn.internal.scripts.JD;
-import root.DifficultyChooser;
+import root.MasterFrame;
 import root.Timer;
 import root.dataclass.Animal;
 import javax.imageio.ImageIO;
@@ -18,7 +17,8 @@ import java.util.concurrent.Executors;
 /**
  * The GameStage class acts as a parent class for ColorChooser, Animal Classifier and
  * Arithmetics classes. It handles most of the user interface components such as; buttons
- * user input, labels, drawing of the animals etc...
+ * user input, labels, drawing of the animals etc... It also handles most of the mechanics, behind each stage
+ * such as: user input, pausing the game, closing off a stage...
  * <b>Note*</b>
  * Buttons that are used for input (excluding all input bar buttons and buttons such as pausing or quiting) are referred to as game buttons.
  * A position on screen that an animal can be drawn on is referred to as a stable.
@@ -27,59 +27,44 @@ import java.util.concurrent.Executors;
  *          Last Edited: 2016-05-15
  *          Hours since 2016-05-11:
  *          Tamir: 0:30
- *          Inal: 13:15
+ *          Inal: 14:15
  */
 public abstract class GameStage extends JPanel implements ActionListener {
     /** Holds the file that will act as background through out the whole run of the current stage. */
     private File background;
     /** The amount of stables available for the current background. */
     private int stablesAvailable = 0;
-    /** An arrays of (x,y) positions of each stable on the current background. */
+    /** An array of (x,y) positions for each stable on the current background. */
     private Point [] stablePositions;
-    /** Contains the other non-game buttons such as submit and pause buttons. */
+    /** Contains the non-game buttons such as submit and pause buttons. */
     private JButton [] actionButtons = {new JButton(new ImageIcon("src/pictures/buttons/stage0/Icon-Submit.png")),
                                         new JButton(new ImageIcon("src/pictures/buttons/stage0/Icon-Erase.png")),
                                         new JButton(new ImageIcon("src/pictures/buttons/stage0/Icon-Pause.png")),
                                         new JButton(new ImageIcon("src/pictures/buttons/stage0/Icon-Help.png"))};
+    /** The JLabel that specifies the objective of the current stage. */
     private static JLabel objectiveLabel;
-
-    /** The array that holds all the game buttons currently on screen. */
+    /** The JLabel that notifies the user if they have entered the wrong answer. */
     private JLabel wrongAnswerLabel = new JLabel ("Try again please.");
-
+    /** This handles the synchronous run of the Timer class. */
     private ExecutorService executor;
-
+    /** This holds the pause screen for the current stage. */
     private JLabel pauseGameScreen = new JLabel(new ImageIcon("src/pictures/backgrounds/pausedScreen.png"));
-    /**
-     * The array that holds all the game buttons currently on screen.
-     */
+    /** The array that holds all the game buttons, currently on screen. */
     protected JButton[] buttons;
-    /**
-     * Holds the difficulty of the current stage
-     */
+    /** The difficulty of the current stage. */
     protected int difficulty;
-    /**
-     * The ArrayList that holds all JLabels currently on the input bar.
-     */
+    /** The ArrayList that holds all JLabels currently on the input bar. */
     protected ArrayList<JLabel> input = new ArrayList<JLabel>();
-    /**
-     * The layout instance of this panel.
-     */
+    /** The layout instance of this panel. */
     protected SpringLayout layout = new SpringLayout();
-    /**
-     * The array that holds all the animals currently on screen.
-     */
+    /** The array that holds all the animals currently on screen. */
     protected Animal[] stock;
-    /**
-     * The message that the user gets, when pressing the help button.
-     */
+    /** The message that the user gets, when pressing the help button. */
     protected String gameObjective;
-    private boolean paused = false;
-
+    /** The timer that is timing the current stage. */
     protected Timer timer;
 
-    /**
-     * Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game.
-     */
+    /** Creates an instance of a GameStage. Sets up the panel and creates all graphics for the game. */
     public GameStage() {
         super();
         this.difficulty = 0;
@@ -185,11 +170,12 @@ public abstract class GameStage extends JPanel implements ActionListener {
     }
 
     /**
-     * Transform the background from a File type to a BufferedImage type.
-     * @return A version of the background in a BufferedImage format.
+     * Transforms the background from a File type to a BufferedImage type.
      * </p>
      * <b>Local Variables </b>
      * <br> <b>img </b> A temporary holder for the BufferedImage version of the background.
+     *
+     * @return A version of the background in a BufferedImage format.
      */
     private BufferedImage castBG() {
         BufferedImage img = null;
@@ -246,7 +232,6 @@ public abstract class GameStage extends JPanel implements ActionListener {
         layout.putConstraint(SpringLayout.WEST, objectiveLabel, 10, SpringLayout.EAST, actionButtons[3]);
         layout.putConstraint(SpringLayout.NORTH, objectiveLabel, 10, SpringLayout.NORTH, this);
         add(objectiveLabel);
-        displayGameObjective();
 
         layout.putConstraint(SpringLayout.EAST, timer.getVisual(), -10, SpringLayout.EAST, this);
         layout.putConstraint(SpringLayout.NORTH, timer.getVisual(), 10, SpringLayout.NORTH, this);
@@ -259,7 +244,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         wrongAnswerLabel.setVisible(false);
 
         layout.putConstraint(SpringLayout.WEST, wrongAnswerLabel, 10, SpringLayout.WEST, this);
-        layout.putConstraint(SpringLayout.SOUTH, wrongAnswerLabel, 10, SpringLayout.NORTH, actionButtons[0]);
+        layout.putConstraint(SpringLayout.SOUTH, wrongAnswerLabel, -10, SpringLayout.NORTH, actionButtons[0]);
         add(wrongAnswerLabel);
 
         pauseGameScreen.setSize(1280, 720);
@@ -267,6 +252,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         pauseGameScreen.setBackground(new Color (99, 0, 134, 255));
     }
 
+    /** Switches the visibility of the gameObjective JLabel. */
     private void displayGameObjective () {
         objectiveLabel.setVisible(!objectiveLabel.isVisible());
         revalidate();
@@ -288,6 +274,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         repaint();
     }
 
+    /** Switches the visibility of all non-graphics components on screen. */
     private void switchComponentVisibility () {
         // Hide all non-game button
         for (int h = 0; h < actionButtons.length; h ++)
@@ -307,16 +294,16 @@ public abstract class GameStage extends JPanel implements ActionListener {
         }
     }
 
+    /** Switches the state of the timer. If it is paused then resumes it, if it is running then pauses it. */
     private void switchTimer() {
         if (timer.isTiming()) {
             timer.pauseTimer();
-            switchComponentVisibility ();
             add (pauseGameScreen);
         } else {
             timer.continueTimer();
-            switchComponentVisibility ();
             remove (pauseGameScreen);
         }
+        switchComponentVisibility ();
         revalidate();
         repaint();
     }
@@ -392,12 +379,37 @@ public abstract class GameStage extends JPanel implements ActionListener {
         }
     }
 
-//    protected void wrongAnswer () {
-//        Timer t = new Timer();
-//        executor.submit(timer);
-//
-//    }
+    /** Switches the visibility of the wrongAnswerLabel JLabel. */
+    private void displayWrongAnswer () {
+        wrongAnswerLabel.setVisible(!wrongAnswerLabel.isVisible());
+        revalidate();
+        repaint();
+    }
 
+    /** Displays the wrongAnswerLabel and initiates a timer for 3 seconds after which it hides the wrongAnswerLabel. */
+    protected void wrongAnswer () {
+        Timer t = new Timer() {
+            @Override
+            protected void time () {
+                while (isAlive) {
+                    if (timing)
+                        time++;
+                    if (time >= 300) {
+                        displayWrongAnswer();
+                        killTimer();
+                    }
+                    try { Thread.sleep(10);}catch(InterruptedException e) {}
+                }
+            }
+        };
+        executor.submit(t);
+        displayWrongAnswer();
+    }
+
+    /**
+     * Creates a small window that notifies the user that he has completed the current stage and
+     * creates a button that the user can use to move on to the next stage.
+     * */
     protected void winScreen () {
         timer.pauseTimer();
         JDialog winScreen = new JDialog();
@@ -428,9 +440,15 @@ public abstract class GameStage extends JPanel implements ActionListener {
         winScreen.setVisible(true);
     }
 
+    /**
+     * Finishes the final processes of the current stage and moves on to the next.
+     * The playerName argument is only used in the last stage.
+     * @param playerName - The name of the current player, set by the player himself, upon completion of the last stage.
+     */
     protected void closeStage (String playerName) {
-        DifficultyChooser.nextStage(difficulty, timer.getTime(), playerName);
         timer.killTimer();
+        executor.shutdown();
+        MasterFrame.d.nextStage(difficulty, timer.getTime(), playerName);
     }
 
     /**
@@ -540,11 +558,30 @@ public abstract class GameStage extends JPanel implements ActionListener {
      * The animals are drawn from left to right, top to bottom.
      * @return
      */
-    protected abstract void createAnimals(Graphics g);
+    protected void createAnimals(Graphics g) {
+        for (int h = 0; h < stock.length; h ++) {
+            g.drawImage(stock[h].getPicture(), stock[h].getX(), stock[h].getY(), null);
+            if (stock[h].stallNeeded()) {
+                BufferedImage stall = null;
+                int x = 0, y = 0;
+                try {
+                    if (stock[h].getX() + stock[h].getPicture().getWidth() == 348) {
+                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-left.png"));
+                        x = 1; y = 106;
+                    } else {
+                        stall = ImageIO.read(new File("src/pictures/backgrounds/stall-right.png"));
+                        x = 894; y = 85;
+                    }
+                } catch (IOException e) {
+                    System.out.println("Please re-install this application!");
+                    e.printStackTrace();
+                }
+                g.drawImage(stall, x, y, null);
+            }
+        }
+    }
 
-    /**
-     * Fills the stock with randomly generated animals, according to the difficulty parameter,
-     */
+    /** Fills the stock with randomly generated animals, according to the difficulty parameter. */
     protected abstract void generateAnimals();
 
     /**
@@ -553,9 +590,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
      */
     protected abstract ImageIcon[] generateButtons();
 
-    /**
-     * Checks whether the input from the input bar is legal and return true if so.
-     */
+    /** Checks whether the input from the input bar is legal and return true if so. */
     protected abstract void inputLegal();
 
     /**
@@ -590,12 +625,5 @@ public abstract class GameStage extends JPanel implements ActionListener {
         createAnimals(g);
         g.fillRect(0, 580, 1280, 200);
         g.fillRect(0, 535, 1280, 47);
-        if (paused) {
-            try {
-                g.drawImage(ImageIO.read(new File("src/pictures/backgrounds/pausedScreen.png" )), 0, 0, null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
