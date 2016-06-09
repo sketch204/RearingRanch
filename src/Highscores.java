@@ -23,7 +23,7 @@ public class Highscores {
     /** <b> players </b> An ArrayList of the Players class.*/
     static ArrayList <Player> players = new ArrayList<Player>();
     /** <b> loadedOnce </b> Boolean to determine when to load the high scores from the file. */
-    private static boolean loadedOnce = false;
+    private static boolean writeAble = true;
 
     /** Highscores constructor increments the recorded counter. */
     public Highscores () {
@@ -38,6 +38,7 @@ public class Highscores {
      * @param time The amount of time it took the player to finish the game.
      */
     public Highscores (String name, int difficulty, long time) {
+        int size = players.size();
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getDifficulty() == difficulty) {
                 if (players.get(i).getTime() > time) {
@@ -46,13 +47,15 @@ public class Highscores {
                 }
             }
         }
+        if (size == players.size())
+            players.add (new Player (name, difficulty, time));
+
         this.recorded++;
     }
 
 
     // difficulty to sort the list
     public static void load() {
-//        if (!loadedOnce) {
             clear();
             // look for only the certain difficulty
             String line = "";
@@ -68,7 +71,7 @@ public class Highscores {
                             try {
                                 players.add(new Player(r.readLine(), Integer.parseInt(r.readLine()), Integer.parseInt(r.readLine())));
                                 r.readLine(); // divider line
-                            } catch (IllegalArgumentException e) {
+                            } catch (NumberFormatException e) {
                                 JOptionPane.showMessageDialog(null, "Unable to load high scores. Fatal error!!", "ErrorMsg", JOptionPane.ERROR_MESSAGE);
                             }
                         }
@@ -78,13 +81,11 @@ public class Highscores {
                 if (!sorted(players))
                     sort(players);
                 r.close();
-                loadedOnce = true;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
             }
         }
-//    }
 
     /** Method sorted compares consequent scores to determine whether the list of scores is sorted.
      *
@@ -169,6 +170,7 @@ public class Highscores {
             w.println("END");
             w.close();
         } catch (IOException e) {
+            System.out.println("Failed to write");
         }
     }
 
@@ -190,6 +192,8 @@ public class Highscores {
             scores.delete();
             System.out.println("deleted");
             clear();
+            view(1);
+            recorded = 0;
             create();
         } else
             System.out.println("doesn't exist");

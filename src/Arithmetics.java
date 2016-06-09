@@ -166,9 +166,8 @@ public class Arithmetics extends GameStage {
                 closeStage(name.getText());
                 winScreen.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Please enter a valid name! No empty spaces", "ErrorMsg", JOptionPane.WARNING_MESSAGE);
-                name.setText(null);
-                name.requestFocusInWindow();
+                closeStage("Player");
+                winScreen.dispose();
             }
         });
 

@@ -144,19 +144,19 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
             g.setColor(new Color(0, 0, 0));
 
         String difficulty = "Easy";
-        if (levelChoices[2].isFocusOwner())
+        if (levelChoices[2].isFocusOwner() || (!displayList.isEmpty() && displayList.get(0).getDifficulty() == 1))
             difficulty = "Hard";
-        else if (levelChoices[1].isFocusOwner())
+        else if (levelChoices[1].isFocusOwner() || (!displayList.isEmpty() && displayList.get(0).getDifficulty() == 2))
             difficulty = "Medium";
         else {
-            if (levelChoices[0].isFocusOwner())
+            if (levelChoices[0].isFocusOwner() || (!displayList.isEmpty() && displayList.get(0).getDifficulty() == 3))
                 difficulty = "Easy";
         }
 
         g.setFont(new Font ("Times New Roman", Font.BOLD, 15));
         g.drawString("You are currently viewing the leaderboard for:", 70, 300);
         g.setFont(new Font ("Times New Roman", Font.ITALIC, 15));
-        g.drawString (difficulty, 150, 320);
+        g.drawString (difficulty, 170, 320);
 
         g.setFont(new Font ("Times New Roman", Font.BOLD, 20));
         g.drawString("Name", 425, 255);
@@ -199,13 +199,14 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
             levelChoices[2].requestFocusInWindow();
         } else if (e.getSource().equals(options[0])) {
             Highscores.delete();
+
         } else if (e.getSource().equals(options[1])) {
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
         } else if (e.getSource().equals(options[2])) {
             printDialog();
         }
-        repaint();
         revalidate();
+        repaint();
     }
 
     @Override
