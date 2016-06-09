@@ -11,7 +11,7 @@ import java.io.*;
  * @version 1 2016-05-15
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 4:00
+ *       Tamir: 6:00
  *       Inal: -
  */
 public class Highscores {
@@ -119,6 +119,7 @@ public class Highscores {
      * @param tempList The ArrayList of players that is to be sorted.
      */
     private static void sort(ArrayList<Player> tempList) {
+        boolean solver = false;
         int y, x;
         Player tempP;
         // sort by difficulty
@@ -142,10 +143,17 @@ public class Highscores {
                         break;
                     }
                     tempList.set(y + 1, players.get(y));
+                } else if (tempP.getDifficulty() >= tempList.get(y).getDifficulty()) {
+                    System.out.println("III");
+                    solver = true;
+                    break;
                 }
             }
-            if (x < tempList.size()-1)
+            if (x < tempList.size()-1 || solver) {
+                solver = false;
+                if (y == 0) { y = x-1; }
                 tempList.set(y + 1, tempP);
+            }
         }
     }
 
@@ -167,7 +175,7 @@ public class Highscores {
                     JOptionPane.showMessageDialog(null, "Unable to write to high scores. Fatal error!!", "ErrorMsg", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            w.println("END");
+            w.print("END");
             w.close();
         } catch (IOException e) {
             System.out.println("Failed to write");

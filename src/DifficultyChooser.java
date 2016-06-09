@@ -13,7 +13,7 @@ import java.awt.event.*;
  *       Tamir: 2:00
  *       Inal: 1:40
  */
-public class DifficultyChooser extends JPanel implements ActionListener, KeyListener {
+public class DifficultyChooser extends JPanel implements ActionListener {
     /** Holds the current game stage. */
     private static int currentStage = -1;
     /** A size property for the level difficulty buttons. */
@@ -49,7 +49,7 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
             diffButtons[h].addActionListener(this);
             diffButtons[h].setBorder(BorderFactory.createEtchedBorder());
             diffButtons[h].setToolTipText(shortcuts[h]);
-            diffButtons[h].addKeyListener(this);
+//            diffButtons[h].addKeyListener(this);
             diffButtons[h].addKeyListener(enter);
             layout.putConstraint(SpringLayout.NORTH, diffButtons[h], 200, SpringLayout.NORTH, this);
             layout.putConstraint(SpringLayout.WEST, diffButtons[h], 130 + ((int)buttonSize.getWidth() + 20)*h, SpringLayout.WEST, this);
@@ -114,7 +114,7 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
             case 3:
                 RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "High Scores");
                 Highscores.newScore(playerName, difficulty, timeOffset);
-                HighscoresPanel.display(difficulty, false);
+                HighscoresPanel.display(difficulty);
                 currentStage = -1;
                 break;
         }
@@ -136,45 +136,45 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
-                if (index > diffButtons.length-1) {
-                    index = 0;
-                } else {
-                    index++;
-                }
-                break;
-            case KeyEvent.VK_LEFT:
-                if (index > 0) {
-                    index--;
-                } else {
-                    index = diffButtons.length-1;
-                }
-                break;
-            case KeyEvent.VK_E:
-                diffButtons[0].doClick();
-                break;
-            case KeyEvent.VK_M:
-                diffButtons[0].doClick();
-                break;
-            case KeyEvent.VK_H:
-                diffButtons[0].doClick();
-                break;
-        }
-        diffButtons[index].requestFocusInWindow();
-        revalidate();
-        repaint();
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+//    @Override
+//    public void keyTyped(KeyEvent e) {
+//
+//    }
+//
+//    @Override
+//    public void keyPressed(KeyEvent e) {
+//        switch (e.getKeyCode()) {
+//            case KeyEvent.VK_RIGHT:
+//                if (index > diffButtons.length-1) {
+//                    index = 0;
+//                } else {
+//                    index++;
+//                }
+//                break;
+//            case KeyEvent.VK_LEFT:
+//                if (index > 0) {
+//                    index--;
+//                } else {
+//                    index = diffButtons.length-1;
+//                }
+//                break;
+//            case KeyEvent.VK_E:
+//                diffButtons[0].doClick();
+//                break;
+//            case KeyEvent.VK_M:
+//                diffButtons[0].doClick();
+//                break;
+//            case KeyEvent.VK_H:
+//                diffButtons[0].doClick();
+//                break;
+//        }
+//        diffButtons[index].requestFocusInWindow();
+//        revalidate();
+//        repaint();
+//    }
+//
+//    @Override
+//    public void keyReleased(KeyEvent e) {
+//
+//    }
 }

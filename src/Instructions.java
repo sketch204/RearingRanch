@@ -94,7 +94,7 @@ public class Instructions extends JPanel{
         mainMenu.setContentAreaFilled(true);
 //        mainMenu.addKeyListener(this);
         mainMenu.addActionListener(e -> RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Main Menu"));
-        mainMenu.requestFocusInWindow();
+//        mainMenu.requestFocusInWindow();
         mainMenu.setBorder(BorderFactory.createEtchedBorder());
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);

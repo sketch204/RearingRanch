@@ -88,7 +88,6 @@ public class SplashScreen{
         frame.setVisible(false);
         if (!animation.equals("GoodByeScreen")) {
             new RearingRanchDriver();
-//            startTime = 0;
         }
         else
             System.exit(0);

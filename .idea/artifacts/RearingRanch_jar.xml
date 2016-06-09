@@ -4,6 +4,9 @@
     <root id="archive" name="RearingRanch.jar">
       <element id="module-output" name="RearingRanch" />
       <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/redist/annotations-java8.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/animations" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/files" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/pictures" />
     </root>
   </artifact>
 </component>

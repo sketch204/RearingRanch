@@ -14,10 +14,10 @@ import java.util.ArrayList;
  * @version 1 2016-05-30
  * Last Edited: 2016-05-30
  * Hours since 2016-05-11:
- *       Tamir: 10:00
+ *       Tamir: 11:00
  *       Inal: -
  */
-public class HighscoresPanel extends JPanel implements ActionListener, KeyListener, Printable{
+public class HighscoresPanel extends JPanel implements ActionListener, Printable{
 
     /** <b> display </b> */
     private static boolean display = false;
@@ -51,7 +51,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         System.out.print("created file"); }
 
         prepareGUI();
-        display(1, false);
+        display(1);
     }
 
     /** Method prepareGUI adds all JComponents onto the screen and sets their appearance preferences, event listeners, and
@@ -89,13 +89,13 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         for (int i = 0; i < levelChoices.length; i++) {
             options[i].addActionListener(this);
             options[i].addKeyListener(MainMenu.enter);
-            options[i].addKeyListener(this);
+//            options[i].addKeyListener(this);
             options[i].setToolTipText(shortcuts[i+3]);
             options[i].setContentAreaFilled(true);
             options[i].setBorder(BorderFactory.createEmptyBorder());
             levelChoices[i].addActionListener(this);
-            levelChoices[i].addKeyListener(MainMenu.enter);
-            levelChoices[i].addKeyListener(this);
+//            levelChoices[i].addKeyListener(MainMenu.enter);
+//            levelChoices[i].addKeyListener(this);
             levelChoices[i].setToolTipText(shortcuts[i]);
             levelChoices[i].setContentAreaFilled(true);
             levelChoices[i].setBorder(BorderFactory.createEtchedBorder());
@@ -144,12 +144,12 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
             g.setColor(new Color(0, 0, 0));
 
         String difficulty = "Easy";
-        if (levelChoices[2].isFocusOwner() || (!displayList.isEmpty() && displayList.get(0).getDifficulty() == 1))
+        if (levelChoices[2].isFocusOwner() || (!displayList.isEmpty() && displayList.get(0).getDifficulty() == 3))
             difficulty = "Hard";
         else if (levelChoices[1].isFocusOwner() || (!displayList.isEmpty() && displayList.get(0).getDifficulty() == 2))
             difficulty = "Medium";
         else {
-            if (levelChoices[0].isFocusOwner() || (!displayList.isEmpty() && displayList.get(0).getDifficulty() == 3))
+            if (levelChoices[0].isFocusOwner() || (!displayList.isEmpty() && displayList.get(0).getDifficulty() == 1))
                 difficulty = "Easy";
         }
 
@@ -178,9 +178,9 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
     /** Method display loads
      * @param difficulty The difficulty of the scoreboard to display.
      */
-    public static void display (int difficulty, boolean start) {
-        if (start)
-            Highscores.write();
+    public static void display(int difficulty) {
+//        if (start)
+//            Highscores.write();
         Highscores.load();
         displayList = Highscores.view(difficulty);
         display = true;
@@ -189,18 +189,18 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(levelChoices[0])) {
-            display(1, false);
+            display(1);
             levelChoices[0].requestFocusInWindow();
         } else if (e.getSource().equals(levelChoices[1])) {
-            display(2, false);
+            display(2);
             levelChoices[1].requestFocusInWindow();
         } else if (e.getSource().equals(levelChoices[2])) {
-            display(3, false);
+            display(3);
             levelChoices[2].requestFocusInWindow();
         } else if (e.getSource().equals(options[0])) {
             Highscores.delete();
-
         } else if (e.getSource().equals(options[1])) {
+            Highscores.write();
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
         } else if (e.getSource().equals(options[2])) {
             printDialog();
@@ -209,56 +209,42 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         repaint();
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
-                if (index < levelChoices.length) {
-                    index++;
-                    levelChoices[index].requestFocusInWindow();
-                }
-                else {
-                    index = 0;
-                    levelChoices[index].requestFocusInWindow();
-                }
-            case KeyEvent.VK_LEFT:
-                if (index < 0) {
-                    index--;
-                    levelChoices[index].requestFocusInWindow();
-                } else {
-                    index = levelChoices.length;
-                    levelChoices[index].requestFocusInWindow();
-                }
-            case KeyEvent.VK_E:
-                levelChoices[0].doClick();
-                break;
-            case KeyEvent.VK_M:
-                levelChoices[1].doClick();
-                break;
-            case KeyEvent.VK_H:
-                levelChoices[2].doClick();
-                break;
-            case KeyEvent.VK_P:
-                options[2].doClick();
-            case KeyEvent.VK_C:
-                options[0].doClick();
-            case KeyEvent.VK_R:
-                options[1].doClick();
-            default:
-                    break;
-        }
-        paintComponent(this.getGraphics());
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+//    @Override
+//    public void keyTyped(KeyEvent e) {
+//
+//    }
+//
+//    @Override
+//    public void keyPressed(KeyEvent e) {
+//        switch(e.getKeyCode()) {
+//            case KeyEvent.VK_E:
+//                levelChoices[0].doClick();
+//                break;
+//            case KeyEvent.VK_M:
+//                levelChoices[1].doClick();
+//                break;
+//            case KeyEvent.VK_H:
+//                levelChoices[2].doClick();
+//                break;
+//            case KeyEvent.VK_P:
+//                options[2].doClick();
+//                break;
+//            case KeyEvent.VK_C:
+//                options[0].doClick();
+//                break;
+//            case KeyEvent.VK_R:
+//                options[1].doClick();
+//                break;
+//            default:
+//                    break;
+//        }
+//        paintComponent(this.getGraphics());
+//    }
+//
+//    @Override
+//    public void keyReleased(KeyEvent e) {
+//
+//    }
 
 
     public void printDialog () {
@@ -287,11 +273,11 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         g.drawString("Score", 285, 255);
         g.drawString("Difficulty", 375, 255);
             for (int i = 0; i < 10; i++) {
-                if (i < Highscores.players.size()) {
+                if (i < displayList.size()) {
                     g.drawString("" + (i + 1) + ". ", 170, 280 + i * 30);
-                    g.drawString(Highscores.players.get(i).getName(), 190, 280 + i * 30);
-                    g.drawString(Highscores.players.get(i).getFormattedTime(), 290, 280 + i * 30);
-                    g.drawString(Integer.toString(Highscores.players.get(i).getDifficulty()), 395, 280 + i * 30);
+                    g.drawString(displayList.get(i).getName(), 190, 280 + i * 30);
+                    g.drawString(displayList.get(i).getFormattedTime(), 290, 280 + i * 30);
+                    g.drawString(Integer.toString(displayList.get(i).getDifficulty()), 395, 280 + i * 30);
                 }
             }
         return PAGE_EXISTS;
