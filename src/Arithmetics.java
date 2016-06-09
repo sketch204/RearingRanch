@@ -1,6 +1,3 @@
-package root.game;
-
-import root.dataclass.Animal;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

@@ -1,5 +1,3 @@
-package root;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -136,7 +134,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
             BufferedImage pic = ImageIO.read (new File("src/pictures/" + name + ".png"));
             return pic;
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "No such file exists! Sorry mate.", "ErrorMsg", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "The game files are corrupted. Please re-install the game.", "ErrorMsg", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
         return null;

@@ -1,5 +1,3 @@
-package root.dataclass;
-
 /**
  * The PLayer class contains information about a single player that has played a game.
  * It is created at the end of each game and contains information about the user's time and

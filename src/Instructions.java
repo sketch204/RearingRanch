@@ -1,15 +1,9 @@
-package root;
-
 import sun.applet.Main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import static root.MainMenu.*;
-import static root.MainMenu.mainMenu;
-
 
 /** Instructions class creates a new panel that will replace main menu. The panel includes three labels that display instructions and
  * explanations of how to use the program and play the game. To return to Main Menu, user must press the return button.
@@ -64,11 +58,11 @@ public class Instructions extends JPanel{
 
         /** <b> colour </b> The variable used to set the colour of the instructions labels. */
         Color colour;
-        if (background.getPath().contains("background1"))
+        if (MainMenu.background.getPath().contains("background1"))
             colour = new Color (255, 255, 255);
-        else if ((background.getPath().contains("background2")))
+        else if ((MainMenu.background.getPath().contains("background2")))
             colour = new Color(43, 167, 133);
-        else if (background.getPath().contains("background3"))
+        else if (MainMenu.background.getPath().contains("background3"))
             colour = new Color (164, 0, 3);
         else
             colour = new Color(0, 0, 0);

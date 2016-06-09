@@ -1,5 +1,3 @@
-package root;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -43,15 +41,24 @@ public class SplashScreen{
         this.animation = animation;
         try {
             startTime = System.currentTimeMillis();
+            panel = new JPanel();
             frame = new JFrame();
+
             frame.setUndecorated(true);
             frame.setAlwaysOnTop (true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            panel = (JPanel) frame.getContentPane();
             frame.setSize(new Dimension(1280, 720));
+            frame.setLocationRelativeTo(null);
+
+            panel.setSize(1280, 720);
+
+
             image.setIcon(new ImageIcon("src/animations/" + animation + ".gif"));
             panel.add(image);
-            frame.setLocationRelativeTo(null);
+            frame.add (panel);
+            panel.revalidate();
+            panel.repaint();
+
             frame.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html> Splash Screen screen gif could not be found. <br> Program closing...", "Error", JOptionPane.ERROR_MESSAGE);

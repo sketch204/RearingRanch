@@ -1,6 +1,3 @@
-package root.game;
-
-import root.dataclass.Animal;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;

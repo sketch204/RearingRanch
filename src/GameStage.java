@@ -1,8 +1,3 @@
-package root.game;
-
-import root.MasterFrame;
-import root.Timer;
-import root.dataclass.Animal;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;

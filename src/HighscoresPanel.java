@@ -1,13 +1,9 @@
-package root;
-
 import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.print.*;
 import java.io.*;
-import static root.Highscores.*;
-import static root.MainMenu.*;
 
 /**
  * The HighscoresPanel class displays the top 10 entries of an ArrayList of Player
@@ -42,10 +38,10 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         setLayout(layout);
         setSize(1280, 720);
 
-        System.out.println("--------------------" +scores.exists());
-        if (!scores.exists()) {
-            System.out.println("after check" +scores.exists());
-            create(); }
+        System.out.println("--------------------" + Highscores.scores.exists());
+        if (!Highscores.scores.exists()) {
+            System.out.println("after check" + Highscores.scores.exists());
+            Highscores.create(); }
 
         if (Highscores.scores.exists()) {
             System.out.print("hohohohhohhoho");
@@ -89,13 +85,13 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
 
         for (int i = 0; i < levelChoices.length; i++) {
             options[i].addActionListener(this);
-            options[i].addKeyListener(enter);
+            options[i].addKeyListener(MainMenu.enter);
             options[i].addKeyListener(this);
             options[i].setToolTipText(shortcuts[i+3]);
             options[i].setContentAreaFilled(true);
             options[i].setBorder(BorderFactory.createEmptyBorder());
             levelChoices[i].addActionListener(this);
-            levelChoices[i].addKeyListener(enter);
+            levelChoices[i].addKeyListener(MainMenu.enter);
             levelChoices[i].addKeyListener(this);
             levelChoices[i].setToolTipText(shortcuts[i]);
             levelChoices[i].setContentAreaFilled(true);
@@ -130,16 +126,16 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
     @Override
     public void paintComponent (Graphics g) {
 
-        g.drawImage(getBG(), 0, 0, null);
-        g.drawImage(getImage("GameLogo"), 380, 0, null);
-        g.drawImage(getImage("Company Logo Scaled").getScaledInstance(75, 75, 0), -5, 5 , null);
-        g.drawImage(getImage("Logo Name").getScaledInstance(85, 41, 0), this.getWidth()-90, 5, null);
+        g.drawImage(MainMenu.getBG(), 0, 0, null);
+        g.drawImage(MainMenu.getImage("GameLogo"), 380, 0, null);
+        g.drawImage(MainMenu.getImage("Company Logo Scaled").getScaledInstance(75, 75, 0), -5, 5 , null);
+        g.drawImage(MainMenu.getImage("Logo Name").getScaledInstance(85, 41, 0), this.getWidth()-90, 5, null);
 
-        if (background.getPath().contains("background1"))
+        if (MainMenu.background.getPath().contains("background1"))
             g.setColor(new Color (255, 255, 255));
-        else if ((background.getPath().contains("background2")))
+        else if ((MainMenu.background.getPath().contains("background2")))
             g.setColor(new Color(43, 167, 133));
-        else if (background.getPath().contains("background3"))
+        else if (MainMenu.background.getPath().contains("background3"))
             g.setColor(new Color (164, 0, 3));
         else
             g.setColor(new Color(0, 0, 0));
@@ -166,9 +162,9 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
             for (int i = 0; i < 10; i++) {
                 if (i < Highscores.players.size()) {
                     g.drawString("" + (i + 1) + ". ", 390, 280 + i * 30);
-                    g.drawString(players.get(i).getName(), 425, 280 + i * 30);
-                    g.drawString(players.get(i).getFormattedTime(), 615, 280 + i * 30);
-                    g.drawString(Integer.toString(players.get(i).getDifficulty()), 815, 280 + i * 30);
+                    g.drawString(Highscores.players.get(i).getName(), 425, 280 + i * 30);
+                    g.drawString(Highscores.players.get(i).getFormattedTime(), 615, 280 + i * 30);
+                    g.drawString(Integer.toString(Highscores.players.get(i).getDifficulty()), 815, 280 + i * 30);
                 }
             }
         }
@@ -181,7 +177,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
      * @param difficulty The difficulty of the scoreboard to display.
      */
     public static void display (int difficulty) {
-        load(difficulty);
+        Highscores.load(difficulty);
         display = true;
     }
 
@@ -271,9 +267,9 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         if (pageIndex > 0)
             return NO_SUCH_PAGE;
 
-        g.drawImage(getImage("GameLogo").getScaledInstance(183, 65, 0), 213, 20, null);
-        g.drawImage(getImage("Company Logo Scaled").getScaledInstance(75, 75, 0), 10, 20 , null);
-        g.drawImage(getImage("Logo Name").getScaledInstance(85, 41, 0), (int) pf.getWidth() - 120, 20, null);
+        g.drawImage(MainMenu.getImage("GameLogo").getScaledInstance(183, 65, 0), 213, 20, null);
+        g.drawImage(MainMenu.getImage("Company Logo Scaled").getScaledInstance(75, 75, 0), 10, 20 , null);
+        g.drawImage(MainMenu.getImage("Logo Name").getScaledInstance(85, 41, 0), (int) pf.getWidth() - 120, 20, null);
         g.setFont(new Font ("Times New Roman", Font.BOLD, 20));
 
         g.setColor(new Color (217, 58, 68));
@@ -285,9 +281,9 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
             for (int i = 0; i < 10; i++) {
                 if (i < Highscores.players.size()) {
                     g.drawString("" + (i + 1) + ". ", 170, 280 + i * 30);
-                    g.drawString(players.get(i).getName(), 190, 280 + i * 30);
-                    g.drawString(players.get(i).getFormattedTime(), 290, 280 + i * 30);
-                    g.drawString(Integer.toString(players.get(i).getDifficulty()), 395, 280 + i * 30);
+                    g.drawString(Highscores.players.get(i).getName(), 190, 280 + i * 30);
+                    g.drawString(Highscores.players.get(i).getFormattedTime(), 290, 280 + i * 30);
+                    g.drawString(Integer.toString(Highscores.players.get(i).getDifficulty()), 395, 280 + i * 30);
                 }
             }
         return PAGE_EXISTS;

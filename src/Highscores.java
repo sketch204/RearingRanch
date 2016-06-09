@@ -1,9 +1,4 @@
-package root;
-
-import java.awt.*;
-import java.awt.print.*;
 import java.util.ArrayList;
-import root.dataclass.Player;
 import java.io.*;
 
 /**
@@ -18,7 +13,7 @@ import java.io.*;
  *       Tamir: 3:00
  *       Inal: -
  */
-public class Highscores  extends HighscoresPanel{
+public class Highscores {
 
     /** <b> recorded </b> Integer that stores the number of high scores recorded.*/
     static private int recorded;

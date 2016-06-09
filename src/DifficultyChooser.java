@@ -1,10 +1,6 @@
-package root;
-
-import root.game.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import static root.MainMenu.*;
 
 /**
  * DifficultyChooser class will display the user with three difficulty levels: easy, medium, and hard, that they must choose
@@ -87,8 +83,8 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
     @Override
     protected void paintComponent (Graphics g) {
         super.paintComponent(g);
-        g.drawImage(getBG(), 0, 0, null);
-        g.drawImage(getImage("GameLogo"), 380, 0, null);
+        g.drawImage(MainMenu.getBG(), 0, 0, null);
+        g.drawImage(MainMenu.getImage("GameLogo"), 380, 0, null);
         revalidate();
         repaint();
     }
