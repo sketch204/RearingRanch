@@ -1,9 +1,5 @@
-import sun.applet.Main;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /** Instructions class creates a new panel that will replace main menu. The panel includes three labels that display instructions and
  * explanations of how to use the program and play the game. To return to Main Menu, user must press the return button.
@@ -13,7 +9,7 @@ import java.awt.event.KeyListener;
  *
  * Last Edited: 2016-06-05
  * Hours since 2016-05-14:
- *       Tamir: 3:30
+ *       Tamir: 3:50
  *       Inal: 0:10
  *
  */
@@ -95,7 +91,6 @@ public class Instructions extends JPanel{
 //        goBack.setBackground(new Color (191, 184, 108, 220));
         add(goBack);
 
-        mainMenu.grabFocus();
         mainMenu.setContentAreaFilled(true);
 //        mainMenu.addKeyListener(this);
         mainMenu.addActionListener(e -> RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Main Menu"));

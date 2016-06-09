@@ -17,16 +17,10 @@ import java.io.IOException;
  */
 public class MasterFrame extends JFrame implements ActionListener {
 
-    public static MainMenu m;
-    public static DifficultyChooser d;
-    public static Instructions i;
-    public static HighscoresPanel h;
-//    private static JPanel [] instances = {m, d, i, h};
-//    private static JPanel [] panels = {new MainMenu(), new DifficultyChooser(), new Instructions(), new HighscoresPanel(1)};
-//    private static MainMenu m = new MainMenu();
-//    private static DifficultyChooser d = new DifficultyChooser();
-//    private static Instructions i = new Instructions();
-//    private static HighscoresPanel h = new HighscoresPanel(1);
+    private static MainMenu m;
+    private static DifficultyChooser d;
+    private static Instructions i;
+    private static HighscoresPanel h;
 
     private static Container current = new Panel();
 
@@ -38,21 +32,14 @@ public class MasterFrame extends JFrame implements ActionListener {
         setSize(1280, 764);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setJMenuBar(createMenuBar());
-
+//        setFocusable(true);
         current = getM();
+        this.addKeyListener((KeyListener) current);
         add(current);
         setVisible(true);
         revalidate();
         repaint();
     }
-
-//    static void create (int index) {
-//        instances [index] = panels [index];
-//    }
-//
-//    static JPanel getPanels (int index) {
-//        return panels[index];
-//    }
 
     static void initiateGoodbye () {
         current.removeAll();
@@ -93,7 +80,7 @@ public class MasterFrame extends JFrame implements ActionListener {
             JButton references = new JButton ("Graphics References");
             references.setPreferredSize(new Dimension(100, 200));
             references.addActionListener(e1 -> JOptionPane.showMessageDialog(null, "REFERENCES!!!!!!", "Graphics", JOptionPane.INFORMATION_MESSAGE));
-            references.setPreferredSize(new Dimension (100, 20));
+            references.setPreferredSize(new Dimension (20, 20));
             pressOkay.addActionListener(e1 -> about.dispose());
             about.setLocationRelativeTo(current);
             about.setResizable(false);
@@ -115,7 +102,8 @@ public class MasterFrame extends JFrame implements ActionListener {
         helpItem.addActionListener(e -> {
             try
             {
-                Runtime.getRuntime().exec("help/help.chm");
+                Runtime.getRuntime().exec("hh.exe help.chm");
+                System.out.print("loaded");
             }
             catch (IOException ie)
             {

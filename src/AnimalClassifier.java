@@ -83,7 +83,7 @@ public class AnimalClassifier extends GameStage {
             if (!animals.contains(animalColors[animalsChosen[h]][0])) // If such an animal has not been recorded yet, then record it
                 animals.add(animalColors[animalsChosen[h]][0]);
         }
-        gameObjective = "Name each animal that can see on screen.";
+        gameObjective = "Name each animal on screen.";
     }
 
     @Override

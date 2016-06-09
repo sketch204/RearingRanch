@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.print.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * The HighscoresPanel class displays the top 10 entries of an ArrayList of Player
@@ -29,6 +30,8 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
     /** <b> index </b>  Stores the current index of the button in focus. */
     private int index = 0;
 
+    private static ArrayList<Player> displayList;
+
     /** HighscoresPanel constructor creates a window that is 720p standard and sets the layout to SpringLayout, invokes
      * prepareGUI and display methods to load information and componennts onto the screen. If the highscores file does not
      * exist, it is created. */
@@ -48,7 +51,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         System.out.print("created file"); }
 
         prepareGUI();
-        display(1);
+        display(1, false);
     }
 
     /** Method prepareGUI adds all JComponents onto the screen and sets their appearance preferences, event listeners, and
@@ -153,18 +156,18 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         g.setFont(new Font ("Times New Roman", Font.BOLD, 15));
         g.drawString("You are currently viewing the leaderboard for:", 70, 300);
         g.setFont(new Font ("Times New Roman", Font.ITALIC, 15));
-        g.drawString (difficulty, 140, 320);
+        g.drawString (difficulty, 150, 320);
 
         g.setFont(new Font ("Times New Roman", Font.BOLD, 20));
         g.drawString("Name", 425, 255);
         g.drawString("Score", 615, 255);
         if (display) {
             for (int i = 0; i < 10; i++) {
-                if (i < Highscores.players.size()) {
+                if (i < displayList.size()) {
                     g.drawString("" + (i + 1) + ". ", 390, 280 + i * 30);
-                    g.drawString(Highscores.players.get(i).getName(), 425, 280 + i * 30);
-                    g.drawString(Highscores.players.get(i).getFormattedTime(), 615, 280 + i * 30);
-                    g.drawString(Integer.toString(Highscores.players.get(i).getDifficulty()), 815, 280 + i * 30);
+                    g.drawString(displayList.get(i).getName(), 425, 280 + i * 30);
+                    g.drawString(displayList.get(i).getFormattedTime(), 615, 280 + i * 30);
+                    g.drawString(Integer.toString(displayList.get(i).getDifficulty()), 815, 280 + i * 30);
                 }
             }
         }
@@ -172,25 +175,27 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         repaint();
     }
 
-    /**
-     * Set this panel as the main panel, and display highscores, for the given difficulty.
+    /** Method display loads
      * @param difficulty The difficulty of the scoreboard to display.
      */
-    public static void display (int difficulty) {
-        Highscores.load(difficulty);
+    public static void display (int difficulty, boolean start) {
+        if (start)
+            Highscores.write();
+        Highscores.load();
+        displayList = Highscores.view(difficulty);
         display = true;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(levelChoices[0])) {
-            display(1);
+            display(1, false);
             levelChoices[0].requestFocusInWindow();
         } else if (e.getSource().equals(levelChoices[1])) {
-            display(2);
+            display(2, false);
             levelChoices[1].requestFocusInWindow();
         } else if (e.getSource().equals(levelChoices[2])) {
-            display(3);
+            display(3, false);
             levelChoices[2].requestFocusInWindow();
         } else if (e.getSource().equals(options[0])) {
             Highscores.delete();
@@ -199,6 +204,8 @@ public class HighscoresPanel extends JPanel implements ActionListener, KeyListen
         } else if (e.getSource().equals(options[2])) {
             printDialog();
         }
+        repaint();
+        revalidate();
     }
 
     @Override

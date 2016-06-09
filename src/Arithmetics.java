@@ -1,3 +1,5 @@
+import com.sun.codemodel.internal.JOp;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -46,7 +48,12 @@ public class Arithmetics extends GameStage {
             for (int h = 0; h < stock.length; h ++)
                 if (stock[h].getType().equals(priority))
                     counter ++;
-            gameObjective = "How many " + priority.toLowerCase() + " can you see right now?";
+            if (priority.equals("goose")) {
+                String temp = "geese";
+                gameObjective = "How many " + temp.toLowerCase() + " can you see right now?";
+            } else {
+                gameObjective = "How many " + priority.toLowerCase() + " can you see right now?";
+            }
             return counter;
         } else if (difficulty == 3) {
             int objective = (int) (Math.random() * 3) + 1;
@@ -149,12 +156,20 @@ public class Arithmetics extends GameStage {
 
         JLabel label = new JLabel ("<html>You've completed the game in just " + timer.toString() + "<br> Please enter your name to proceed.");
         JTextField name = new JTextField(20);
+        name.requestFocusInWindow();
 
         JButton nextButton = new JButton("Submit");
 
         nextButton.addActionListener(e -> {
-            closeStage(name.getText());
-            winScreen.dispose();
+            String playerName = name.getText().trim();
+            if (playerName.length() > 0 && !playerName.equals(" ")) {
+                closeStage(name.getText());
+                winScreen.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter a valid name! No empty spaces", "ErrorMsg", JOptionPane.WARNING_MESSAGE);
+                name.setText(null);
+                name.requestFocusInWindow();
+            }
         });
 
         winScreen.addWindowListener(new WindowAdapter() {

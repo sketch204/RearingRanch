@@ -70,13 +70,6 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(mainMenu);
 
-//        winScreen.setSize(100, 30);
-//        winScreen.setLayout(new FlowLayout());
-//        winScreen.setResizable(false);
-//        JLabel label = new JLabel ("You've completed this stage!");
-//        winScreen.add(label);
-//        JButton nextButton = new JButton("Next Stage!");
-//        nextButton.addActionListener(e -> );
     }
 
     /** Draws the background, as well as the company logo. */
@@ -120,8 +113,8 @@ public class DifficultyChooser extends JPanel implements ActionListener, KeyList
                 break;
             case 3:
                 RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "High Scores");
-                new Highscores(playerName, difficulty, timeOffset);
-                HighscoresPanel.display(difficulty);
+                Highscores.newScore(playerName, difficulty, timeOffset);
+                HighscoresPanel.display(difficulty, false);
                 currentStage = -1;
                 break;
         }

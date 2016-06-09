@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.io.*;
 
@@ -10,7 +11,7 @@ import java.io.*;
  * @version 1 2016-05-15
  * Last Edited: 2016-05-15
  * Hours since 2016-05-11:
- *       Tamir: 3:00
+ *       Tamir: 4:00
  *       Inal: -
  */
 public class Highscores {
@@ -38,24 +39,20 @@ public class Highscores {
      */
     public Highscores (String name, int difficulty, long time) {
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getTime() > time) {
-                players.add(i, new Player (name, difficulty, time));
-                break;
+            if (players.get(i).getDifficulty() == difficulty) {
+                if (players.get(i).getTime() > time) {
+                    players.add(i, new Player(name, difficulty, time));
+                    break;
+                }
             }
         }
         this.recorded++;
     }
 
-    /** Method getRecorded returns the amount of recorded scores.
-     * @return int of the amount of scores recorded.
-     */
-    public int getRecorded () {
-        return recorded;
-    }
 
     // difficulty to sort the list
-    public static void load(int difficulty) {
-        if (!loadedOnce) {
+    public static void load() {
+//        if (!loadedOnce) {
             clear();
             // look for only the certain difficulty
             String line = "";
@@ -64,12 +61,16 @@ public class Highscores {
                 while (line != null && !line.equals("END" )) {
                     line = r.readLine();
                     if (line.equals("This is a Rearing Ranch highscores file." )) {
-                        int size = Integer.parseInt(r.readLine());
+                        recorded = Integer.parseInt(r.readLine());
                         line = r.readLine(); // divider line
                         System.out.println(line);
-                        for (int i = 0; i < size; i++) {
-                            players.add(new Player(r.readLine(), Integer.parseInt(r.readLine()), Integer.parseInt(r.readLine())));
-                            r.readLine(); // divider line
+                        for (int i = 0; i < recorded; i++) {
+                            try {
+                                players.add(new Player(r.readLine(), Integer.parseInt(r.readLine()), Integer.parseInt(r.readLine())));
+                                r.readLine(); // divider line
+                            } catch (IllegalArgumentException e) {
+                                JOptionPane.showMessageDialog(null, "Unable to load high scores. Fatal error!!", "ErrorMsg", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                         line = r.readLine();
                     }
@@ -83,13 +84,15 @@ public class Highscores {
             } catch (IOException e) {
             }
         }
-    }
+//    }
 
     /** Method sorted compares consequent scores to determine whether the list of scores is sorted.
      *
      * <br> <b> If Statements: </b>
      * <br> 1st: Return true if the amount of scores recorded is less than 2, since the list is sorted.
-     * <br> 2nd: Return false if the time for the first index is greater than the time of the following
+     * <br> 2nd: Return false if the difficulty for the first index is greater than the difficulty of the following
+     * index, since the list is unsorted.
+     * <br> 3rd: Return false if the time for the first index is greater than the time of the following
      * index, since the list is unsorted.
      *
      * <br> <b> For Loops: </b>
@@ -101,55 +104,69 @@ public class Highscores {
     private static boolean sorted(ArrayList<Player> tempList) {
         if (tempList.size() < 2) return true;
         for (int i = 0; i < tempList.size()-1; i++) {
-            if (tempList.get(i).getTime() > tempList.get(i+1).getTime()) {
+            if (tempList.get(i).getDifficulty() > tempList.get(i + 1).getDifficulty())
                 return false;
+            if (tempList.get(i).getDifficulty() == tempList.get(i + 1).getDifficulty()) {
+                if (tempList.get(i).getTime() > tempList.get(i + 1).getTime())
+                    return false;
             }
         }
         return true;
     }
 
+    /**
+     * @param tempList The ArrayList of players that is to be sorted.
+     */
     private static void sort(ArrayList<Player> tempList) {
-        int y;
+        int y, x;
         Player tempP;
-        for (int x = 1 ; x < tempList.size() ; x++)
-        {
+        // sort by difficulty
+        for (x = 1; x < tempList.size(); x++) {
             tempP = tempList.get(x);
-            for (y = x - 1 ; y >= 0 ; y--)
-            {
-                if (tempP.getDifficulty() >= tempList.get(y).getDifficulty())
-                {
+            for (y = x - 1; y >= 0; y--) {
+                if (tempP.getDifficulty() >= tempList.get(y).getDifficulty()) {
                     break;
                 }
-                tempList.set(y, players.get(y));
+                tempList.set(y + 1, players.get(y));
             }
-            tempList.set(y+1, tempP);
+            tempList.set(y + 1, tempP);
+        }
 
-            for (y = x - 1 ; y >= 0 ; y--) {
+        // sort by time based on difficulty
+        for (x = 1; x < tempList.size(); x++) {
+            tempP = tempList.get(x);
+            for (y = x - 1; y > 0; y--) {
                 if (tempP.getDifficulty() == tempList.get(y).getDifficulty()) {
                     if (tempP.getTime() >= tempList.get(y).getTime()) {
                         break;
                     }
-                    tempList.set(x, players.get(y));
+                    tempList.set(y + 1, players.get(y));
                 }
-                tempList.set(y, tempP);
             }
+            if (x < tempList.size()-1)
+                tempList.set(y + 1, tempP);
         }
     }
 
-    static void write () {
-        try {
 
+    static void write () throws IllegalArgumentException{
+        try {
             PrintWriter w = new PrintWriter(new FileWriter(scores));
             w.println("This is a Rearing Ranch highscores file.");
             w.println(recorded);
             w.println("---- divider ----");
 
             for (int i = 0; i < players.size(); i++) {
-                w.println(players.get(i).getName());
-                w.println(players.get(i).getDifficulty());
-                w.println(players.get(i).getTime());
-                w.println("---- divider ----");
+                try {
+                    w.println(players.get(i).getName());
+                    w.println(players.get(i).getDifficulty());
+                    w.println(players.get(i).getTime());
+                    w.println("---- divider ----" );
+                } catch (IllegalArgumentException e) {
+                    JOptionPane.showMessageDialog(null, "Unable to write to high scores. Fatal error!!", "ErrorMsg", JOptionPane.ERROR_MESSAGE);
+                }
             }
+            w.println("END");
             w.close();
         } catch (IOException e) {
         }
@@ -157,18 +174,17 @@ public class Highscores {
 
     static void create () {
         if (!scores.exists()) {
-            System.out.println("Doesnt exist.. creating..");
+            System.out.println("Doesn't exist.. creating..");
             write();
             System.out.println("created...");
         }
     }
 
+    /** Method clear creates a new, empty ArrayList of Player. */
     static private void clear () {
         players = new ArrayList<Player>();
     }
-    /**
-     *
-     */
+    /** Method delete clears the highscores file and creates a new one. */
     static void delete () {
         if (scores.exists()) {
             scores.delete();
@@ -177,6 +193,25 @@ public class Highscores {
             create();
         } else
             System.out.println("doesn't exist");
+    }
+
+    static ArrayList view (int difficulty) {
+        int x = 0;
+        ArrayList <Player> temp = new ArrayList<Player>();
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getDifficulty() == difficulty) {
+                temp.add(x, players.get(i));
+                x++;
+            }
+        }
+        return temp;
+    }
+
+    static void newScore (String name, int difficulty, long time) {
+        load();
+        new Highscores(name, difficulty, time);
+        write();
+        load();
     }
 
 }

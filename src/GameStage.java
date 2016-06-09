@@ -412,6 +412,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
         winScreen.setSize(300, 100);
         winScreen.setLayout(new FlowLayout());
         winScreen.setResizable(false);
+        winScreen.setLocationRelativeTo(this);
         winScreen.setLocation(this.getWidth()/2, this.getHeight()/2);
         winScreen.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         JLabel label = new JLabel ("You've completed this stage!");
@@ -443,7 +444,7 @@ public abstract class GameStage extends JPanel implements ActionListener {
     protected void closeStage (String playerName) {
         timer.killTimer();
         executor.shutdown();
-        MasterFrame.d.nextStage(difficulty, timer.getTime(), playerName);
+        MasterFrame.getD().nextStage(difficulty, timer.getTime(), playerName);
     }
 
     /**

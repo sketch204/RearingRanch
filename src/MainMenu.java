@@ -16,11 +16,11 @@ import javax.swing.text.DefaultEditorKit;
  *
  * Last Edited: 2016-05-30
  * Hours since 2016-05-11:
- *       Tamir: 10:00
+ *       Tamir: 12:00
  *          - x hours commenting since 10 hours total. still buggy, but to be fixed and thats more hours.
  *       Inal: 2:00
  */
-public class MainMenu extends JPanel implements ActionListener, KeyListener {
+public class MainMenu extends JPanel implements KeyListener, ActionListener {
 
     /** <b> background </b> Holds the file that will act as background through out the whole run of the program. */
     public static File background = new File("src/pictures/backgrounds/background" + ((int) (Math.random() * 4) + 1) + ".png");
@@ -46,6 +46,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
             if (ke.getKeyChar() == KeyEvent.VK_ENTER) {
                 ((JButton) ke.getComponent()).doClick();
             }
+            System.out.println("barks");
         }
     };
 
@@ -54,6 +55,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
         super();
         setLayout(layout);
         setSize(1280, 720);
+        addKeyListener(this);
 //        addBindings();
         prepareGUI();
     }
@@ -79,6 +81,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
             mainChoices[ii].setToolTipText(shortcuts[ii]);
             mainChoices[ii].setContentAreaFilled(true);
             mainChoices[ii].setBorder(BorderFactory.createEtchedBorder());
+            mainChoices[ii].setFocusable(true);
         }
 
         mainChoices[0].grabFocus();
@@ -92,7 +95,12 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
             add(mainChoices[i]);
         }
 
-        mainChoices[index].grabFocus();
+        System.out.println("barky");
+        this.requestFocus();
+        this.requestFocusInWindow();
+        this.grabFocus();
+        System.out.println(this.hasFocus());
+        System.out.println (mainChoices[index].hasFocus());
         paintComponent(this.getGraphics());
         setVisible(true);
         revalidate();
@@ -191,14 +199,6 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
-//    protected void addBindings () {
-//        InputMap map = this.getInputMap();
-//
-//        map.put(KeyStroke.getKeyStroke((char) KeyEvent.VK_UP), mainChoices[mainChoices.length-1].requestFocusInWindow());
-//        map.put(KeyStroke.getKeyStroke((char) KeyEvent.VK_DOWN), DefaultEditorKit.forwardAction);
-//        revalidate();
-//        repaint();
-//    }
     /** Overridden method keyPressed invoked when a key is pressed, used to control program flow when a key applicable
      * to this program is pressed.
      * @param e KeyEvent used to store the value of the key pressed.
@@ -213,6 +213,7 @@ public class MainMenu extends JPanel implements ActionListener, KeyListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {
+        System.out.println("Barkin");
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (index > 0) {
