@@ -7,13 +7,12 @@ import java.util.concurrent.Executors;
  * The SplashScreen class creates and adds an animated image to a panel, which is added to a frame, and plays the gif.
  * Once completed, the game is activated.
  *
- * @author Tamir Arnesty
+ * @author Tamir Arnesty, modified by Inal Gotov
  * @version 1 2016-06-02.
- *
  * Last Edited: 2016-06-02
  * Hours since 2016-06-02:
- *       Tamir: 0:45 (as of 11 am on date of created)
- *       Inal: -
+ *       Tamir: 0:45
+ *       Inal: 0:20
  */
 public class SplashScreen{
     /** <b> frame</b> JFrame that contains the JPanel. */
@@ -23,12 +22,12 @@ public class SplashScreen{
     /** <b> image</b> JLabel that contains the image gif. */
     private JLabel image;
 
-    /** SplashScreen constructor adds the image label to the panel, which gets added to the frame. The window is
+    /**
+     * SplashScreen constructor adds the image label to the panel, which gets added to the frame. The window is
      * created and activated.
-     *
-     * <br> Try/Catch:
-     * <br>     Used to ensure that the image is loaded correctly and does not produce errors.
-     *
+     * <b>Local Variables </b>
+     * <br> <b>executor </b> This handles the synchronous run of the Timer class.
+     * <br> <b>t </b> The timer class, that times the animation of the splash screen.
      * @Exception e - Exception in case error is produced.
      */
     public SplashScreen (String animation) {
@@ -77,6 +76,7 @@ public class SplashScreen{
         displaySplashScreen();
     }
 
+    /** Switches the visibility of the */
     public void displaySplashScreen() {
         frame.setVisible(!frame.isVisible());
     }
