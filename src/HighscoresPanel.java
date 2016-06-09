@@ -202,6 +202,7 @@ public class HighscoresPanel extends JPanel implements ActionListener, Printable
         } else if (e.getSource().equals(options[1])) {
             Highscores.write();
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
+            MasterFrame.current.requestFocus();
         } else if (e.getSource().equals(options[2])) {
             printDialog();
         }

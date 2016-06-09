@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * The SplashScreen class creates and adds an animated image to a panel, which is added to a frame, and plays the gif.
@@ -14,20 +16,12 @@ import java.awt.*;
  *       Inal: -
  */
 public class SplashScreen{
-
-    /** <b> animation </b> Stores the name of the animation to determine when to quit. */
-    private String animation;
-    /** <b> frame </b>JFrame that contains the JPanel. */
+    /** <b> frame</b> JFrame that contains the JPanel. */
     private JFrame frame;
-    /** <b> panel </b> JPanel that contains the image JLabel. */
+    /** <b> panel</b> JPanel that contains the image JLabel. */
     private JPanel panel;
-    /** <b> image </b> JLabel that contains the image gif. */
-    private JLabel image = new JLabel();
-    /** <b> duration </b>The duration for the gif to be displayed. */
-    private int duration = 9000;
-    /** <b> startTime </b> The system time in milliseconds when the splash screen begins playing. */
-    private long startTime = 0;
-
+    /** <b> image</b> JLabel that contains the image gif. */
+    private JLabel image;
 
     /** SplashScreen constructor adds the image label to the panel, which gets added to the frame. The window is
      * created and activated.
@@ -38,9 +32,7 @@ public class SplashScreen{
      * @Exception e - Exception in case error is produced.
      */
     public SplashScreen (String animation) {
-        this.animation = animation;
         try {
-            startTime = System.currentTimeMillis();
             panel = new JPanel();
             frame = new JFrame();
 
@@ -50,46 +42,42 @@ public class SplashScreen{
             frame.setSize(new Dimension(1280, 720));
             frame.setLocationRelativeTo(null);
 
-            panel.setSize(1280, 720);
+            panel.setSize(new Dimension(1280, 720));
 
-
-            image.setIcon(new ImageIcon("src/animations/" + animation + ".gif"));
+            image = new JLabel(new ImageIcon("src/animations/" + animation + ".gif"));
             panel.add(image);
             frame.add (panel);
-            panel.revalidate();
-            panel.repaint();
 
-            frame.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html> Splash Screen screen gif could not be found. <br> Program closing...", "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
-        doSplashScreen();
+
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Timer t = new Timer() {
+            @Override
+            protected void time () {
+                while (isAlive) {
+                    if (timing)
+                        time++;
+                    if (time >= 600) {
+                        displaySplashScreen();
+                        RearingRanchDriver.launch();
+                        killTimer();
+                        if (animation.equals("GoodByeScreen"))
+                            System.exit(0);
+                    }
+                    try { Thread.sleep(10);}catch(InterruptedException e) {}
+                }
+            }
+        };
+        executor.submit(t);
+        if (animation.equals("GoodByeScreen"))
+            RearingRanchDriver.getWindow().setVisible(false);
+        displaySplashScreen();
     }
 
-
-
-    /** doSplashScreen runs the animation for the specified duration.
-     *
-     * <br> <b> If Statements: </b>
-     * <br>     1st: Determines when the time is greater than the duration to exit the loop
-     *
-     * <br> <b> Loops: </b>
-     * <br> <b> While Loop: </b>  used to run the animation for the specified duration.
-     */
-    public void doSplashScreen()
-    {
-        while(true)
-        {
-            if(System.currentTimeMillis() - startTime >= duration)
-                break;
-            panel.repaint();
-        }
-        frame.setVisible(false);
-        if (!animation.equals("GoodByeScreen")) {
-            new RearingRanchDriver();
-        }
-        else
-            System.exit(0);
+    public void displaySplashScreen() {
+        frame.setVisible(!frame.isVisible());
     }
 }

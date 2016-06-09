@@ -36,7 +36,7 @@ class TempTest extends JFrame {
     }
 
     public TempTest () {
-        testTimer();
+        testing6();
 //        for (int h = 1; h < 70000; h ++) {
 //            testGetPositions(h);
 //            try {Thread.sleep (10);} catch (InterruptedException e) {}
@@ -369,7 +369,8 @@ class TempTest extends JFrame {
         frame.setVisible(true);
 
         while (true) {
-            if (timer.getTime() == 1000) {
+            if (timer.getTime() >= 200) {
+                frame.dispose();
                 break;
             }
         }
@@ -389,8 +390,15 @@ class TempTest extends JFrame {
 //        }
     }
 
+    public void testing6() {
+        setUpFrame();
+        frame.setVisible(true);
+        try{Thread.sleep(2000);}catch(InterruptedException e) {}
+        frame.dispose();
+    }
+
     public static void main(String[] args) {
-//        new TempTest();
+        new TempTest();
 //        System.out.println(System.currentTimeMillis());
 //        long current = System.currentTimeMillis();
 //        try {Thread.sleep(6000);} catch (InterruptedException e) {}

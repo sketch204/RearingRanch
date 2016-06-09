@@ -1,38 +1,42 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 /**
- * This is the master frame program, it will contain all the JPanels inside it
+ * The MasterFrame class takes care of all the panel handling and switching.
+ * It is also responsible for the menu bar, as well as the closing of the game.
  *
  * @author Inal Gotov, modified by Tamir Arnesty.
  * @version 1.2, 2016-05-10.
- *
- * Last Edited: 2016-05-15
+ * Last Edited: 2016-06-09
  * Hours since 2016-05-10:
  *       Tamir: 2:30
  *       Inal: 3:00
  */
 public class MasterFrame extends JFrame implements ActionListener {
-
+    /** This holds a static instance of the MainMenu class. */
     private static MainMenu m;
+    /** This holds a static instance of the DifficultyChooser class. */
     private static DifficultyChooser d;
+    /** This holds a static instance of the Instructions class. */
     private static Instructions i;
+    /** This holds a static instance of the HighscoresPanel class. */
     private static HighscoresPanel h;
-
-    private static Container current = new Panel();
+    /** This holds a static instance of the JPanel that is currently on screen.*/
+    public static Container current = new JPanel();
 
     /**
-     * Creates an instance of a JFrame starting with a SplashScreen.
+     * Creates an instance of a JFrame starting, initially displaying MainMenu.
+     * It sets up this window, assigns a JMenuBar to this window and assigns a keyListener to this window.
      */
     public MasterFrame () {
         super ("Rearing Ranch");
         setSize(1280, 764);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
         setJMenuBar(createMenuBar());
-//        setFocusable(true);
         current = getM();
         this.addKeyListener((KeyListener) current);
         add(current);
@@ -41,23 +45,33 @@ public class MasterFrame extends JFrame implements ActionListener {
         repaint();
     }
 
+    /** Initiates the program closing sequence. */
     static void initiateGoodbye () {
-        current.removeAll();
-        current.setVisible(false);
-        current.revalidate();
-        current.repaint();
         new SplashScreen("GoodByeScreen");
     }
 
+    /**
+     * Returns a new instance of the DifficultyChooser class.
+     * @return A new instance of the DifficultyChooser class.
+     */
     public static DifficultyChooser getD() {
         return d = new DifficultyChooser();
     }
 
+    /**
+     * Returns a new instance of the Instructions class.
+     * @return A new instance of the Instructions class.
+     */
     public static Instructions getI() {
         return i = new Instructions();
     }
 
-
+    /**
+     * Creates a new JMenuBar for this window. It creates a File menu with a Quit option that quits
+     * the program. It also has a Help menu with an About option which opens a JDialog with brief explanations
+     * about this program. It also has a Help option which open a .chm file designed for this program.
+     * @return The newly created JMenuBar
+     */
     private JMenuBar createMenuBar () {
         JMenuBar menu = new JMenuBar();
         JMenu file = new JMenu("File");
@@ -74,29 +88,25 @@ public class MasterFrame extends JFrame implements ActionListener {
 
         quit.addActionListener(this);
         aboutItem.addActionListener(e -> {
-            JDialog about = new JDialog();
-            JButton pressOkay = new JButton("Okay");
-            pressOkay.setPreferredSize(new Dimension(50, 10));
-            JButton references = new JButton ("Graphics References");
-            references.setPreferredSize(new Dimension(100, 200));
-            references.addActionListener(e1 -> JOptionPane.showMessageDialog(null, "REFERENCES!!!!!!", "Graphics", JOptionPane.INFORMATION_MESSAGE));
-            references.setPreferredSize(new Dimension (20, 20));
-            pressOkay.addActionListener(e1 -> about.dispose());
-            about.setLocationRelativeTo(current);
-            about.setResizable(false);
-            about.setSize(640, 480);
-
-            about.add(new JLabel ("<html> Welcome to Rearing Ranch!" +
+            JDialog dialog = new JDialog(this, "About Us");
+            JButton okayButton = new JButton ("OK");
+            JLabel readMe = new JLabel("<html> Welcome to Rearing Ranch!" +
                     "<br> This program was created by EarlyEd Inc. members Tamir Arnesty" +
                     "<br> and Inal Gotov. This program is created in partnership with Dyke Enterprises" +
                     "<br> for educational purposes amongst pre-school and kindergarten children." +
                     "<br> <br> This is version 1 of Rearing Ranch, which may have potential upgrades." +
-                    "<br> For help, select the help option in the Help menu. Make sure you are connected" +
-                    "<br> to the internet."));
-            about.setTitle("About Us");
-            about.add(pressOkay);
-            about.add(references);
-            about.setVisible(true);
+                    "<br> For help, select the help option in the Help menu. </html>");
+            dialog.setSize(540, 200);
+            dialog.setResizable(false);
+            dialog.setLayout(new FlowLayout());
+            dialog.setLocationRelativeTo(this);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            okayButton.addActionListener(e1 -> dialog.dispose());
+
+            dialog.add(readMe);
+            dialog.add(okayButton);
+
+            dialog.setVisible(true);
         });
 
         helpItem.addActionListener(e -> {
@@ -113,6 +123,11 @@ public class MasterFrame extends JFrame implements ActionListener {
         return menu;
     }
 
+    /**
+     * Sets the current panel of this window to the passed argument, also sets the title of the window to the passed argument.
+     * @param panel - The JPanel that should be set as the current panel of the window,
+     * @param title - The title that this window should have.
+     * */
     public void setPanel (JPanel panel, String title) {
         setTitle(title);
         remove(current);
@@ -121,49 +136,6 @@ public class MasterFrame extends JFrame implements ActionListener {
         revalidate();
         repaint();
     }
-
-    private Thread timer = new Thread() {
-        private long endTime;
-        private long timePausedAt;
-        private long startTime;
-        private long elapsedTime;
-
-        public long getStartTime() {
-            return startTime;
-        }
-
-        public long getEndTime() {
-            return endTime;
-        }
-
-        public long getTimePausedAt() {
-            return timePausedAt;
-        }
-
-        public long getElapsedTime() {
-            return elapsedTime;
-        }
-
-        public void startTimer() {
-            startTime = System.nanoTime();
-            countTimer();
-        }
-
-        public void countTimer () {
-            elapsedTime = System.nanoTime() - getStartTime();
-        }
-
-        public void pause() {
-            timePausedAt = System.nanoTime();
-        }
-
-        public void stopTimer () {
-            endTime = System.nanoTime();
-        }
-
-
-    };
-
 
     /**
      * Handles all the button clicks and ques each JPanel change.
@@ -186,10 +158,18 @@ public class MasterFrame extends JFrame implements ActionListener {
         repaint();
     }
 
-    static MainMenu getM() {
+    /**
+     * Returns a new instance of the MainMenu class.
+     * @return A new instance of the MainMenu class.
+     */
+    public static MainMenu getM() {
         return m = new MainMenu();
     }
 
+    /**
+     * Returns a new instance of the HighscoresPanel class.
+     * @return A new instance of the HighscoresPanel class.
+     */
     public static JPanel getH() {
         return h = new HighscoresPanel();
     }

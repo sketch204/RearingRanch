@@ -1,5 +1,3 @@
-import com.sun.codemodel.internal.JOp;
-
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -152,6 +150,7 @@ public class Arithmetics extends GameStage {
         winScreen.setTitle("Congratulations!");
         winScreen.setSize(300, 200);
         winScreen.setLayout(new FlowLayout());
+        winScreen.setLocationRelativeTo(null);
         winScreen.setResizable(false);
 
         JLabel label = new JLabel ("<html>You've completed the game in just " + timer.toString() + "<br> Please enter your name to proceed.");

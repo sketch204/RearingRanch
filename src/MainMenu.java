@@ -9,18 +9,14 @@ import javax.swing.*;
  * The MainMenu class creates the main control panel for the program, otherwise called the main menu. In here, users may choose to play the game, view instructions
  * or high scores, and also quit the game. Handling is done via GUI components such as buttons.
  *
- *
  * @author Tamir Arnesty
  * @version 2 2016-05-11.
- *
- * Last Edited: 2016-05-30
+ * Last Edited: 2016-06-09
  * Hours since 2016-05-11:
  *       Tamir: 12:00
- *          - x hours commenting since 10 hours total. still buggy, but to be fixed and thats more hours.
  *       Inal: 2:00
  */
 public class MainMenu extends JPanel implements KeyListener, ActionListener {
-
     /** <b> background </b> Holds the file that will act as background through out the whole run of the program. */
     public static File background = new File("src/pictures/backgrounds/background" + ((int) (Math.random() * 4) + 1) + ".png");
     /** <b> mainMenu </b> Instance of JButton class used to return the user to Main Menu.*/
@@ -45,29 +41,24 @@ public class MainMenu extends JPanel implements KeyListener, ActionListener {
             if (ke.getKeyChar() == KeyEvent.VK_ENTER) {
                 ((JButton) ke.getComponent()).doClick();
             }
-            System.out.println("barks");
         }
     };
 
     /** The MainMenu constructor sets the layout manager to SpringLayout, sets the size to 1280x720, and references prepareGUI method. */
-    MainMenu() {
+    public MainMenu() {
         super();
         setLayout(layout);
         setSize(1280, 720);
         addKeyListener(this);
-//        addBindings();
         prepareGUI();
     }
 
     /** prepareGUI method adds the play game, instructions, highscores and quit buttons to the panel. Window is set visible
      * and calls paintComponent to draw the images.
-     *
-     * <br> <b> For Loops: </b>
-     * <br> 1st: Adds ActionListener, KeyListener, and ToolTip text to each menu button, as well as setting a border for the button.
-     * <br> 2nd: Sets the last three buttons onto the screen relative to the first in the button array.
+     * <b>Local Variables </b>
+     * </br> <b>shortcuts </b> String array that stores text for button ToolTip that displays shortcuts for each button.
      */
     private void prepareGUI () {
-        /** <b> shortcuts </b> String array that stores text for button ToolTip that displays shortcuts for each button. */
         String [] shortcuts = {"Press p to play game.", "Press i to open the instructions.", "Press h to view highscores", "Press q to quit"};
 
         mainMenu.addActionListener(this);
@@ -93,34 +84,19 @@ public class MainMenu extends JPanel implements KeyListener, ActionListener {
             layout.putConstraint(SpringLayout.WEST, mainChoices[i], 0, SpringLayout.WEST, mainChoices[i-1]);
             add(mainChoices[i]);
         }
-
-        System.out.println("barky");
         this.requestFocus();
         this.requestFocusInWindow();
         this.grabFocus();
-        System.out.println(this.hasFocus());
-        System.out.println (mainChoices[index].hasFocus());
         paintComponent(this.getGraphics());
         setVisible(true);
         revalidate();
         repaint();
     }
 
-    /** method getMainMenu used to return the "Return to Main Menu" button.
-     * @return JButton that returns user to the Main Menu screen.
-     */
-    public JButton getMainMenuButton() {
-        return mainMenu;
-    }
-
-    /** method getGoBack used to return the label prompt for the Main Menu return button.
-     * @return JLabel that prompts user with return message.
-     */
-//    public JLabel getGoBack () {
-//        return goBack;
-//    }
-
-    /** method getBG used to return the background for each window.
+    /**
+     * Method getBG used to return the background for each window.
+     * <b>Local Variables </b>
+     * </br> <b>img </b> A temporary holder for the background to be returned.
      * @return BufferedImage that is set as the window background.
      */
     static BufferedImage getBG() {
@@ -131,8 +107,9 @@ public class MainMenu extends JPanel implements KeyListener, ActionListener {
         return img;
     }
 
-
     /** method getImage used to return the specified image through the specified file path.
+     * <b>Local Variables </b>
+     * </br> <b>img </b> A temporary holder for the image to be returned.
      * @param name the file path of the image requested.
      * @return BufferedImage that is to be displayed.
      */
@@ -148,14 +125,13 @@ public class MainMenu extends JPanel implements KeyListener, ActionListener {
     }
 
     /** Overridden method paintComponent paints all images and graphics onto the screen.
-     *
+     * <b>Local Variables </b>
+     * </br> <b>yCooord </b> Integer that holds the y coordinate used to draw the goose.
      * @param g Graphics used to hold what to paint on the screen.
      */
     @Override
     public void paintComponent (Graphics g) {
-        /** <b> yCooord </b> Integer that holds the y coordinate used to draw the goose. */
         int yCoord = 215 + 105*index;
-
         if (g != null) {
                 g.drawImage(getBG(), 0, 0, null);
             g.drawImage(getImage("GameLogo"), 380, 0, null);
@@ -165,18 +141,17 @@ public class MainMenu extends JPanel implements KeyListener, ActionListener {
 
     /** Overridden method actionPerformed determines which component experiences an action and proceeds with the action
      * respective to each component.
-     *
      * @param e ActionEvent used to store the value of the action performed.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(mainMenu))
+        if (e.getSource().equals(mainMenu)) {
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
-        else if (e.getSource().equals(mainChoices[0])) {
+        } else if (e.getSource().equals(mainChoices[0])) {
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getD(), "Difficulty Chooser");
-        } else if (e.getSource().equals((mainChoices[1])))
+        } else if (e.getSource().equals((mainChoices[1]))) {
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getI(), "Instructions");
-        else if (e.getSource().equals(mainChoices[2])) {
+        } else if (e.getSource().equals(mainChoices[2])) {
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "Highscores");
         } else if (e.getSource().equals(mainChoices[3])) {
             int choice = JOptionPane.showConfirmDialog(this, "Are you sure you wish to quit?", "Confirm", JOptionPane.YES_NO_OPTION);
@@ -189,6 +164,7 @@ public class MainMenu extends JPanel implements KeyListener, ActionListener {
                 MasterFrame.initiateGoodbye();
             }
         }
+        MasterFrame.current.requestFocus();
     }
 
     /** Overridden method keyTyped to fill the requirements of KeyListener.
@@ -204,15 +180,6 @@ public class MainMenu extends JPanel implements KeyListener, ActionListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-
-    }
-
-    /** Overridden method keyReleased to fill the requirements of KeyListener.
-     * @param e KeyEvent used to store the value of the key released.
-     */
-    @Override
-    public void keyReleased(KeyEvent e) {
-        System.out.println("Barkin");
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (index > 0) {
@@ -251,4 +218,11 @@ public class MainMenu extends JPanel implements KeyListener, ActionListener {
         revalidate();
     }
 
+    /** Overridden method keyReleased to fill the requirements of KeyListener.
+     * @param e KeyEvent used to store the value of the key released.
+     */
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

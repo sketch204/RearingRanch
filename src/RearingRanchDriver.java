@@ -20,6 +20,10 @@ public class RearingRanchDriver {
         return window;
     }
 
+    public static void launch () {
+        new RearingRanchDriver();
+    }
+
     public static void main (String [] args) {
         new SplashScreen("SplashScreen");
     }

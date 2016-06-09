@@ -13,7 +13,7 @@ import java.awt.event.*;
  *       Tamir: 2:00
  *       Inal: 1:40
  */
-public class DifficultyChooser extends JPanel implements ActionListener {
+public class DifficultyChooser extends JPanel implements ActionListener, KeyListener {
     /** Holds the current game stage. */
     private static int currentStage = -1;
     /** A size property for the level difficulty buttons. */
@@ -38,19 +38,21 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         prepareGUI();
     }
 
-    /** Setups and draws all the necessary buttons for this Panel. */
+    /**
+     * Setups and draws all the necessary buttons for this Panel.
+     * <b>Local Variables </b>
+     * <br> <b>goBack </b> Clone of a JLabel class from MainMenu that displays a prompt message to return to main menu.
+     * <br> <b>shortcuts </b> Text for button ToolTip that displays shortcuts for each button.
+     */
     private void prepareGUI () {
-        /** Text for button ToolTip that displays shortcuts for each button. */
         String [] shortcuts = {"Press e to play Easy.", "Press m to play Medium.", "Press h to play Hard."};
-        /** <br> <b> goBack </b> Clone of a JLabel class from MainMenu that displays a prompt message to return to main menu. */
         JLabel goBack = new JLabel(MainMenu.goBack.getText());
 
         for (int h = 0; h < diffButtons.length; h++) {
             diffButtons[h].addActionListener(this);
             diffButtons[h].setBorder(BorderFactory.createEtchedBorder());
             diffButtons[h].setToolTipText(shortcuts[h]);
-//            diffButtons[h].addKeyListener(this);
-            diffButtons[h].addKeyListener(enter);
+            diffButtons[h].addKeyListener(this);
             layout.putConstraint(SpringLayout.NORTH, diffButtons[h], 200, SpringLayout.NORTH, this);
             layout.putConstraint(SpringLayout.WEST, diffButtons[h], 130 + ((int)buttonSize.getWidth() + 20)*h, SpringLayout.WEST, this);
             add (diffButtons[h]);
@@ -69,7 +71,6 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         layout.putConstraint(SpringLayout.NORTH, mainMenu, 20, SpringLayout.SOUTH, goBack);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, mainMenu, 0, SpringLayout.HORIZONTAL_CENTER, this);
         add(mainMenu);
-
     }
 
     /** Draws the background, as well as the company logo. */
@@ -81,15 +82,6 @@ public class DifficultyChooser extends JPanel implements ActionListener {
         revalidate();
         repaint();
     }
-
-    private KeyListener enter = new KeyAdapter() {
-        @Override
-        public void keyTyped(KeyEvent ke) {
-            if (ke.getKeyChar() == KeyEvent.VK_ENTER) {
-                ((JButton) ke.getComponent()).doClick();
-            }
-        }
-    };
 
     /**
      * Switches the current panel of MasterFrame to the next appropriate stage, based on the currentStage property.
@@ -115,6 +107,7 @@ public class DifficultyChooser extends JPanel implements ActionListener {
                 RearingRanchDriver.getWindow().setPanel(MasterFrame.getH(), "High Scores");
                 Highscores.newScore(playerName, difficulty, timeOffset);
                 HighscoresPanel.display(difficulty);
+                MasterFrame.current.requestFocus();
                 currentStage = -1;
                 break;
         }
@@ -132,49 +125,47 @@ public class DifficultyChooser extends JPanel implements ActionListener {
             nextStage(2, 0, null);
         else if (e.getSource().equals(diffButtons[2]))
             nextStage(3, 0, null);
-        else if (e.getSource().equals(mainMenu))
+        else if (e.getSource().equals(mainMenu)) {
             RearingRanchDriver.getWindow().setPanel(MasterFrame.getM(), "Rearing Ranch");
+            MasterFrame.current.requestFocus();
+        }
     }
 
-//    @Override
-//    public void keyTyped(KeyEvent e) {
-//
-//    }
-//
-//    @Override
-//    public void keyPressed(KeyEvent e) {
-//        switch (e.getKeyCode()) {
-//            case KeyEvent.VK_RIGHT:
-//                if (index > diffButtons.length-1) {
-//                    index = 0;
-//                } else {
-//                    index++;
-//                }
-//                break;
-//            case KeyEvent.VK_LEFT:
-//                if (index > 0) {
-//                    index--;
-//                } else {
-//                    index = diffButtons.length-1;
-//                }
-//                break;
-//            case KeyEvent.VK_E:
-//                diffButtons[0].doClick();
-//                break;
-//            case KeyEvent.VK_M:
-//                diffButtons[0].doClick();
-//                break;
-//            case KeyEvent.VK_H:
-//                diffButtons[0].doClick();
-//                break;
-//        }
-//        diffButtons[index].requestFocusInWindow();
-//        revalidate();
-//        repaint();
-//    }
-//
-//    @Override
-//    public void keyReleased(KeyEvent e) {
-//
-//    }
+    /** Overridden method keyTyped to fill the requirements of KeyListener.
+     * @param e KeyEvent used to store the value of the key typed.
+     */
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    /** Overridden method keyPressed invoked when a key is pressed, used to control program flow when a key applicable
+     * to this program is pressed.
+     * @param e KeyEvent used to store the value of the key pressed.
+     */
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_E:
+                diffButtons[0].doClick(100);
+                break;
+            case KeyEvent.VK_M:
+                diffButtons[1].doClick(100);
+                break;
+            case KeyEvent.VK_H:
+                diffButtons[2].doClick(100);
+                break;
+        }
+        diffButtons[index].requestFocusInWindow();
+        revalidate();
+        repaint();
+    }
+
+    /** Overridden method keyReleased to fill the requirements of KeyListener.
+     * @param e KeyEvent used to store the value of the key released.
+     */
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }
